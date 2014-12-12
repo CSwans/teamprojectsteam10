@@ -75,12 +75,12 @@
 			<tr>
 				<td>
 					<?php 
-						//will output the whole set of module codes frm the database, module codes will change when module titles change
-						//Callan Swanson, March Intuch
+						//will output the whole set of module codes from the database, module codes will change when module titles change
+						//Callan Swanson, Inthuch Therdchanakul
 						$moduleTable = "dept_".strtolower($username);
 						echo "Module code: <select id='module_code_select' onchange='module_code_change()'>";  
 						$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username';";
-						$res =& $db->query($sql); //gtting the result from the database
+						$res =& $db->query($sql); //getting the result from the database
 						if(PEAR::isError($res)){
 							die($res->getMessage());
 						}
@@ -95,11 +95,11 @@
 				<td>
 					<?php 
 						//displays the module titles, titles will change when module codes change
-						//Callan Swanson, March Intuch
+						//Callan Swanson, Inthuch Therdchanakul
 						echo "Module title: <select id='module_title_select' onchange='module_title_change()' >"; 
-						//selects teh module title from the databse
+						//selects the module title from the databse
 						$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username';";
-						$res =& $db->query($sql); //gtting the result from the database
+						$res =& $db->query($sql); //getting the result from the database
 						if(PEAR::isError($res)){
 							die($res->getMessage());
 						}
@@ -128,7 +128,7 @@
 					Start week:
 					<?php
 						//loop to create the 1-15 weeks
-						//March Intuch
+						//Inthuch Therdchanakul
 						echo "<select id='start_week' onchange='start_week_change()'>";
 						for($i=1;$i<=15;$i++){  //loops round to make a select to for all the weeks
 							echo "<option>".$i."</option>";
@@ -142,7 +142,7 @@
 					End week:
 					<?php
 						//end week loops around to 1-15
-						//March Intuch, Callan Swanson
+						//Inthuch Therdchanakul, Callan Swanson
 						echo "<select id='end_week'>";
 						for($i=1;$i<=15;$i++){
 							if($i == 12) { //makes the default value 12
