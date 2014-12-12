@@ -79,7 +79,7 @@
 						//Callan Swanson, March Intuch
 						$moduleTable = "dept_".strtolower($username);
 						echo "Module code: <select id='module_code_select' onchange='module_code_change()'>";  
-						$sql = "SELECT module_code FROM $moduleTable;";
+						$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username';";
 						$res =& $db->query($sql); //gtting the result from the database
 						if(PEAR::isError($res)){
 							die($res->getMessage());
@@ -98,7 +98,7 @@
 						//Callan Swanson, March Intuch
 						echo "Module title: <select id='module_title_select' onchange='module_title_change()' >"; 
 						//selects teh module title from the databse
-						$sql = "SELECT module_title FROM $moduleTable;";
+						$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username';";
 						$res =& $db->query($sql); //gtting the result from the database
 						if(PEAR::isError($res)){
 							die($res->getMessage());
