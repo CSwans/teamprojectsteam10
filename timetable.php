@@ -15,7 +15,18 @@
 		<link rel="icon" href="lboro_logo_large.ico" >
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Timetable | Loughborough University</title>
+		  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+          <link rel="stylesheet" href="css/style.css">
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/jquery-ui.js"></script>	
 		<script type="text/javascript">
+			  //call this function when the page load
+			  $(function() {
+				//implement multiple selecttion to selectable jquery-ui
+				$("#week").bind("mousedown", function(e) {
+ 					e.metaKey = true;
+					}).selectable();
+ 			  });
 		
 			//when the module code dropdown changed its index, change the module title index with it
 			//Callan Swanson
@@ -30,24 +41,9 @@
 				var index = document.getElementById("module_title_select").selectedIndex;
 				document.getElementById("module_code_select").selectedIndex = index;
 			}
-		
-			//changing the end week according to the start week
-			//March Intuch, Callan Swanson
-			function start_week_change() {
-				var startWeek = document.getElementById("start_week").value;
-				$('#end_week').empty();
-				for(var i=startWeek; i<=15; i++) {
-					if(i == 12) { //if there is a week 12, then make this the default
-						$('#end_week').append("<option selected>"+i+"</option>");
-					} else {
-						$('#end_week').append("<option>"+i+"</option>");
-					}
-				}
-			}
-		
+
 		</script>
-		<script src="js/jquery-1.11.1.min.js"></script>
-			
+		
 	</head>
 
 	<body>
@@ -124,37 +120,28 @@
 				</td>
 			</tr>
 			<tr>
-				<td id="start">
-					Start week:
-					<?php
-						//loop to create the 1-15 weeks
-						//Inthuch Therdchanakul
-						echo "<select id='start_week' onchange='start_week_change()'>";
-						for($i=1;$i<=15;$i++){  //loops round to make a select to for all the weeks
-							echo "<option>".$i."</option>";
-						}
-						echo "</select>";
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td id="end">
-					End week:
-					<?php
-						//end week loops around to 1-15
-						//Inthuch Therdchanakul, Callan Swanson
-						echo "<select id='end_week'>";
-						for($i=1;$i<=15;$i++){
-							if($i == 12) { //makes the default value 12
-								echo "<option selected>".$i."</option>";
-							} else {
-								echo "<option>".$i."</option>";
-							}
-						}
-						echo "</select>";
-					?>
-				</td>
-			</tr>
+            	<td>
+                	<!--selectable for week with week 1-12 pre-selected as default-->
+                    Week:
+                    <ol id="week">
+ 						<li class="ui-state-default ui-selected">1</li>
+  						<li class="ui-state-default ui-selected">2</li>
+  						<li class="ui-state-default ui-selected">3</li>
+ 		 				<li class="ui-state-default ui-selected">4</li>
+  						<li class="ui-state-default ui-selected">5</li>
+  						<li class="ui-state-default ui-selected">6</li>
+  						<li class="ui-state-default ui-selected">7</li>
+  						<li class="ui-state-default ui-selected">8</li>
+  						<li class="ui-state-default ui-selected">9</li>
+  						<li class="ui-state-default ui-selected">10</li>
+  						<li class="ui-state-default ui-selected">11</li>
+  						<li class="ui-state-default ui-selected">12</li>
+                        <li class="ui-state-default">13</li>
+                        <li class="ui-state-default">14</li>
+                        <li class="ui-state-default">15</li>
+					</ol>
+                </td>
+            </tr>
 			<tr>
 				<td>
 					Period:
@@ -170,6 +157,7 @@
 					  ?>
 				</td>
 			</tr>
+ 
 		</table>
 	</body>
 </html>
