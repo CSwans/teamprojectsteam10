@@ -63,101 +63,133 @@
 		?>
 		
 		<table>
-			<tr>
-				<td>
-					<?php echo "Department: ".$username; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php 
-						//will output the whole set of module codes from the database, module codes will change when module titles change
-						//Callan Swanson, Inthuch Therdchanakul
-						$moduleTable = "dept_".strtolower($username);
-						echo "Module code: <select id='module_code_select' onchange='module_code_change()'>";  
-						$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username';";
-						$res =& $db->query($sql); //getting the result from the database
-						if(PEAR::isError($res)){
-							die($res->getMessage());
-						}
-						while($row = $res->fetchRow()){
-							echo "<option>".$row["module_code"]."</option>";
+			<form action="requestSubmit.php" method="post">
+				<tr>
+					<td>
+						<?php echo "Department: ".$username; ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php 
+							//will output the whole set of module codes from the database, module codes will change when module titles change
+							//Callan Swanson, Inthuch Therdchanakul
+							$moduleTable = "dept_".strtolower($username);
+							echo "Module code: <select id='module_code_select' onchange='module_code_change()'>";  
+							$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username';";
+							$res =& $db->query($sql); //getting the result from the database
+							if(PEAR::isError($res)){
+								die($res->getMessage());
+							}
+							while($row = $res->fetchRow()){
+								echo "<option>".$row["module_code"]."</option>";
 							}//outputs all the options from the database return result
-						echo "</select>";
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php 
-						//displays the module titles, titles will change when module codes change
-						//Callan Swanson, Inthuch Therdchanakul
-						echo "Module title: <select id='module_title_select' onchange='module_title_change()' >"; 
-						//selects the module title from the databse
-						$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username';";
-						$res =& $db->query($sql); //getting the result from the database
-						if(PEAR::isError($res)){
-							die($res->getMessage());
-						}
-						while($row = $res->fetchRow()){
-							echo "<option>".$row["module_title"]."</option>";
-						}//outputs all the options from the database return result
-						echo "</select>";
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Day:
-					<form>
+							echo "</select>";
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php 
+							//displays the module titles, titles will change when module codes change
+							//Callan Swanson, Inthuch Therdchanakul
+							echo "Module title: <select id='module_title_select' onchange='module_title_change()' >"; 
+							//selects the module title from the databse
+							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username';";
+							$res =& $db->query($sql); //getting the result from the database
+							if(PEAR::isError($res)){
+								die($res->getMessage());
+							}
+							while($row = $res->fetchRow()){
+								echo "<option>".$row["module_title"]."</option>";
+							}//outputs all the options from the database return result
+							echo "</select>";
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Day:
 						<!--radio buttons for the day of the week-->
-						<input type="radio" name="day">Monday
-						<input type="radio" name="day">Tuesday<br/>
-						<input type="radio" name="day">Wednesday
-						<input type="radio" name="day">Thursday<br/>
-						<input type="radio" name="day">Friday
-					</form>
-				</td>
-			</tr>
-			<tr>
-            	<td>
-                	<!--selectable for week with week 1-12 pre-selected as default-->
-                    Week:
-                    <ol id="week">
- 						<li class="ui-state-default ui-selected">1</li>
-  						<li class="ui-state-default ui-selected">2</li>
-  						<li class="ui-state-default ui-selected">3</li>
- 		 				<li class="ui-state-default ui-selected">4</li>
-  						<li class="ui-state-default ui-selected">5</li>
-  						<li class="ui-state-default ui-selected">6</li>
-  						<li class="ui-state-default ui-selected">7</li>
-  						<li class="ui-state-default ui-selected">8</li>
-  						<li class="ui-state-default ui-selected">9</li>
-  						<li class="ui-state-default ui-selected">10</li>
-  						<li class="ui-state-default ui-selected">11</li>
-  						<li class="ui-state-default ui-selected">12</li>
-                        <li class="ui-state-default">13</li>
-                        <li class="ui-state-default">14</li>
-                        <li class="ui-state-default">15</li>
-					</ol>
-                </td>
-            </tr>
-			<tr>
-				<td>
-					Period:
-					<?php
-						//dropdown for the period, includes the time in 24hr format
-						//Callan Swanson
-						echo "<select>";
-						for($i=1;$i<=9;$i++){
-							$time = $i+8;
-							echo "<option>".$i." - ".$time.":00</option>";
-						}
-						echo "</select>";
-					  ?>
-				</td>
-			</tr>
- 
+						<input type="radio" name="day" value="monday">Monday
+						<input type="radio" name="day" value="tuesday">Tuesday<br/>
+						<input type="radio" name="day" value="wednesday">Wednesday
+						<input type="radio" name="day" value="thursday">Thursday<br/>
+						<input type="radio" name="day" value="friday">Friday
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<!--selectable weeks with weeks 1-12 pre-selected as default-->
+						Week:
+						<ol id="week" name="week">
+							<li class="ui-state-default ui-selected" value="1">1</li>
+							<li class="ui-state-default ui-selected" value="1">2</li>
+							<li class="ui-state-default ui-selected" value="1">3</li>
+							<li class="ui-state-default ui-selected" value="1">4</li>
+							<li class="ui-state-default ui-selected" value="1">5</li>
+							<li class="ui-state-default ui-selected" value="1">6</li>
+							<li class="ui-state-default ui-selected" value="1">7</li>
+							<li class="ui-state-default ui-selected" value="1">8</li>
+							<li class="ui-state-default ui-selected" value="1">9</li>
+							<li class="ui-state-default ui-selected" value="1">10</li>
+							<li class="ui-state-default ui-selected" value="1">11</li>
+							<li class="ui-state-default ui-selected" value="1">12</li>
+							<li class="ui-state-default" value="1">13</li>
+							<li class="ui-state-default" value="1">14</li>
+							<li class="ui-state-default" value="1">15</li>
+						</ol>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Period:
+						<?php
+							//dropdown for the period, includes the time in 24hr format
+							//Callan Swanson
+							echo "<select name='time'>";
+							for($i=1;$i<=9;$i++){
+								$time = $i+8;
+								echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
+							}
+							echo "</select>";
+						  ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Special requirements:
+						</br>
+						<textarea name="specialReq" maxlength="1000" placeholder="Extra requirements..."></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Room code:
+						<input name="roomCode" type="text" maxlength="15" >
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input name="wheelchair" type="checkbox" value="wheelchair">wheelchair</br>
+						<input name="projector" type="checkbox" value="projector" checked="true">projector</br>
+						<input name="visualiser" type="checkbox" value="visualiser" checked="true">visualiser</br>
+						<input name="whiteboard" type="checkbox" value="whiteboard" checked="true">whiteboard</br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="submit">
+					</td>
+				</tr>
+			</form>
 		</table>
+		
+		<table id="resultsTable">
+			<?php
+				
+			?>
+		</table>
+		
 	</body>
 </html>

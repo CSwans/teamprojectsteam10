@@ -1,0 +1,66 @@
+@charset "utf-8";
+#username{
+	position:absolute;
+	left:40%;
+	top:40%;	
+	background-color: #cc0066;
+    border: 2px solid #62004A;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 15px 10px 10px;
+    text-shadow: 0 1px 2px #99165c;
+	}
+	
+#usernamepa{
+	position:absolute;
+	left:40%;
+	top:35%;
+	font-size:120%;
+	
+	}
+#passwordpa{
+	position:absolute;
+	left:40%;
+	top:45%;
+	font-size:120%;
+	}	
+	
+#password{
+	position:absolute;
+	left:40%;
+	top:50%;
+	background-color: #cc0066;
+    border: 2px solid #62004A;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 15px 10px 10px;
+    text-shadow: 0 1px 2px #99165c;
+	
+	}
+
+#lboro_logo	{
+	
+	position:absolute;
+	left:40%;
+	top:20%;
+	transform:scale(2,2);
+
+	}
+
+#login{
+	position:absolute;
+	left:40%;
+	top:57%;
+	background-color: #330066;
+    border: 2px solid #330066;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 15px 10px 10px;
+    text-shadow: 0 1px 2px #99165c;
+ 	cursor: pointer; 
+	cursor: hand; 
+	
+	}	
