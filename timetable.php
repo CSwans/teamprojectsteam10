@@ -77,8 +77,9 @@
 			//Inthuch Therchanakul
 			function change_room_code(){
 				//work in progress
-				/*var park = document.getElementById("park").value;
-				var capacity = document.getElementById("capacity").value;
+				var park = document.getElementById("park").value;
+				var capacity = parseInt(document.getElementById("capacity").value);
+				/*
 				if(document.getElementById("wheelchair_yes").checked)
 					var wheelchair = document.getElementsByName("wheelchair")[0].value;
 				else
