@@ -23,13 +23,37 @@
 		</br>
 		room code: <?php echo $_POST['roomCode']; ?>
 		</br>
-		wheelchair: <?php echo $_POST['wheelchair']; ?>
+		wheelchair: 
+		<?php 
+			if(isset($_POST['wheelchair'])&&$_POST['wheelchair']=='wheelchair')
+				echo "1";
+			else 
+				echo"0";
+		?>
 		</br>
-		projector: <?php echo $_POST['projector']; ?>
+		projector: 
+		<?php 
+			if(isset($_POST['projector'])&&$_POST['projector']=='projector')
+				echo "1";
+			else 
+				echo"0";
+		?>
 		</br>
-		visuliser: <?php echo $_POST['visualiser']; ?>
+		visuliser: 
+		<?php 
+			if(isset($_POST['visualiser'])&&$_POST['visualiser']=='visualiser')
+				echo "1";
+			else 
+				echo"0";
+		?>
 		</br>
-		whitboard: <?php echo $_POST['whiteboard']; ?>
+		whiteboard: 
+		<?php 
+			if(isset($_POST['whiteboard'])&&$_POST['whiteboard']=='whiteboard')
+				echo "1";
+			else 
+				echo"0";
+		?>
 		</br>
 	</body>
 </html>
