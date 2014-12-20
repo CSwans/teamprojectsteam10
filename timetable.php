@@ -111,11 +111,11 @@
 					<td>
 						Day:
 						<!--radio buttons for the day of the week-->
-						<input type="radio" name="day" value="monday">Monday
-						<input type="radio" name="day" value="tuesday">Tuesday<br/>
-						<input type="radio" name="day" value="wednesday">Wednesday
-						<input type="radio" name="day" value="thursday">Thursday<br/>
-						<input type="radio" name="day" value="friday">Friday
+						<input type="radio" name="day" value="1">Monday
+						<input type="radio" name="day" value="2">Tuesday<br/>
+						<input type="radio" name="day" value="3">Wednesday
+						<input type="radio" name="day" value="4">Thursday<br/>
+						<input type="radio" name="day" value="5">Friday
 					</td>
 				</tr>
 				<tr>
