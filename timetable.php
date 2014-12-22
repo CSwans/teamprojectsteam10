@@ -7,16 +7,13 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="css/style.css">
         <?php 
-	//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
-	//Inthuch Therdchanakul
-	session_start();
-	if(!isset($_SESSION['username']) || !isset($_SESSION['password']))
-	{
-		header('Location: login.html');	
-	}
-	
-		?>
-	<?php
+			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
+			//Inthuch Therdchanakul
+			session_start();
+			if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
+				header('Location: login.html');	
+			}
+
 			//connects to the database using the username and passoword
 			require_once "MDB2.php";
 			$host = "co-project.lboro.ac.uk"; 	//host name
@@ -42,40 +39,42 @@
 				}
 			$json = json_encode($value);
 		?>
+		
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.js"></script>	
 		<script type="text/javascript">
 			  
-			  <?php
-			  	//pass value array onto javascript array roomData
+			<?php
+				//pass value array onto javascript array roomData
 				echo "var roomData = ". $json . ";\n";
-			  ?>
-			  //call this function when the page load
-			  $(function() {
+			?>
+				
+			//call this function when the page loads
+			$(function() {
 				//implement multiple selecttion to selectable jquery-ui
 				$("#week").bind("mousedown", function(e) {
- 					e.metaKey = true;
-					}).selectable();
+					e.metaKey = true;
+				}).selectable();
 				insert_room_code();
- 			  });
-		
+			});
+			
 			//when the module code dropdown changed its index, change the module title index with it
 			//Callan Swanson
 			function module_code_change() {
 				var index = document.getElementById("module_code_select").selectedIndex;
 				document.getElementById("module_title_select").selectedIndex = index;
 			}
-			
+				
 			//when the module title dropdown changed its index, change the module code index with it
 			//Calan Swanson
 			function module_title_change() {
 				var index = document.getElementById("module_title_select").selectedIndex;
 				document.getElementById("module_code_select").selectedIndex = index;
 			}
-			
+				
 			//change room preference base on capacity and park
 			//Inthuch Therchanakul
-			function change_room_code(){
+			function change_room_code() {
 				//work in progress
 				var park = document.getElementById("park").value;
 				var capacity = parseInt(document.getElementById("capacity").value);
@@ -99,33 +98,34 @@
 					var whiteboard = document.getElementsByName("whiteboard")[1].value;*/
 				$("#room_list").empty();
 				$("#room_col").empty();
-				$("#room_col").html("Room code: <select id='room_list'>");
+				$("#room_col").html("Room code: <select name='room_list' id='room_list'>");
 				$("#room_list").append("<option>" + "" + "</option>");
-				if(park == "Any"){
+				if(park == "Any") {
 					for(var i=0;i<roomData.length;i++){
 						if(roomData[i].capacity >= capacity)
 							$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
-						}
 					}
-				else{
+				}
+				else {
 					for(var i=0;i<roomData.length;i++){
 						if(roomData[i].capacity >= capacity && roomData[i].park == park)
 							$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
-						}
 					}
+				}
 				
 				$("#room_list").append("</select>");
 			}
+			
 			//Initial room choice
 			//Inthuch Therdhchanakul
 			function insert_room_code(){
-					$("#room_col").html("Room code: <select id='room_list'>");
-					$("#room_list").append("<option>" + "" + "</option>");
-					for(var i=0;i<roomData.length;i++){
-						$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
-						}
-					$("#room_list").append("</select>");
+				$("#room_col").html("Room code: <select name='room_list' id='room_list'>");
+				$("#room_list").append("<option>" + "" + "</option>");
+				for(var i=0;i<roomData.length;i++){
+					$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
 				}
+				$("#room_list").append("</select>");
+			}
 		</script>
 		
 	</head>
@@ -229,7 +229,7 @@
 					<td>
 						Special requirements:
 						</br>
-						<textarea name="specialReq" maxlength="1000" placeholder="Extra requirements..."></textarea>
+						<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -266,17 +266,18 @@
 						Wheelchair </br>
                         <input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code()">Yes
 						<input name="wheelchair" type="radio" id="wheelchair_no" onchange="change_room_code()" value="0" checked="checked">No<br/>
+						
 						Projector </br>
-                      <input name="projector" type="radio" id="projector_yes" onchange="change_room_code()" value="1" checked="checked">Yes
-					  <input name="projector" type="radio" id="projector_no" onchange="change_room_code()" value="0">No<br/>
+						<input name="projector" type="radio" id="projector_yes" onchange="change_room_code()" value="1" checked="checked">Yes
+						<input name="projector" type="radio" id="projector_no" onchange="change_room_code()" value="0">No<br/>
                         
                         Visualiser </br>
-                      <input name="visualiser" type="radio" id="visualiser_yes" onchange="change_room_code()" value="1" checked="checked">Yes
-					  <input name="visualiser" type="radio" id="visualiser_no" onchange="change_room_code()" value="0">No<br/>
+						<input name="visualiser" type="radio" id="visualiser_yes" onchange="change_room_code()" value="1" checked="checked">Yes
+						<input name="visualiser" type="radio" id="visualiser_no" onchange="change_room_code()" value="0">No<br/>
                         
                         Whiteboard </br>
-                      <input name="whiteboard" type="radio" id="whiteboard_yes" onchange="change_room_code()" value="1" checked="checked">Yes
-					  <input name="whiteboard" type="radio" id="whiteboard_no" onchange="change_room_code()" value="0">No<br/>
+						<input name="whiteboard" type="radio" id="whiteboard_yes" onchange="change_room_code()" value="1" checked="checked">Yes
+						<input name="whiteboard" type="radio" id="whiteboard_no" onchange="change_room_code()" value="0">No<br/>
 					</td>
 				</tr>
 				<tr>
