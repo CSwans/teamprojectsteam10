@@ -50,13 +50,13 @@
 			?>
 				
 			//call this function when the page loads
-			$(function() {
+			/*$(function() {
 				//implement multiple selecttion to selectable jquery-ui
 				$("#week").bind("mousedown", function(e) {
 					e.metaKey = true;
 				}).selectable();
 				insert_room_code();
-			});
+			});*/
 			
 			//when the module code dropdown changed its index, change the module title index with it
 			//Callan Swanson
@@ -72,59 +72,53 @@
 				document.getElementById("module_code_select").selectedIndex = index;
 			}
 				
-			//change room preference base on capacity and park
-			//Inthuch Therchanakul
+			//change room preference Based on capacity, park and additional options
+			//Scott Marshall
 			function change_room_code() {
-				//work in progress
+				//cache user settings
 				var park = document.getElementById("park").value;
 				var capacity = parseInt(document.getElementById("capacity").value);
-				/*
-				if(document.getElementById("wheelchair_yes").checked)
-					var wheelchair = document.getElementsByName("wheelchair")[0].value;
-				else
-					var wheelchair = document.getElementsByName("wheelchair")[1].value;
-				if(document.getElementById("projector_yes").checked)
-					var projector =  document.getElementsByName("projector")[0].value;
-				else
-					var projector = document.getElementsByName("projector")[1].value;
-				if(document.getElementById("visualiser_yes").checked)
-					var visualiser = document.getElementsByName("visualiser")[0].value;
-				else
-					var visualiser = document.getElementsByName("visualiser")[1].value;
-				if(document.getElementById("whiteboard_yes").checked)
-					var whiteboard = document.getElementsByName("whiteboard")[0].value;
-					
-				else
-					var whiteboard = document.getElementsByName("whiteboard")[1].value;*/
-				$("#room_list").empty();
-				$("#room_col").empty();
-				$("#room_col").html("Room code: <select name='room_list' id='room_list'>");
-				$("#room_list").append("<option>" + "" + "</option>");
-				if(park == "Any") {
-					for(var i=0;i<roomData.length;i++){
-						if(roomData[i].capacity >= capacity)
-							$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
-					}
-				}
-				else {
-					for(var i=0;i<roomData.length;i++){
-						if(roomData[i].capacity >= capacity && roomData[i].park == park)
-							$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
-					}
-				}
+				var isWheelchair = document.getElementById("wheelchair_yes").checked;
+				var isVisualiser = document.getElementById("visualiser_yes").checked;
+				var isProjector = document.getElementById("projector_yes").checked;
+				var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 				
-				$("#room_list").append("</select>");
+				//empty the room code list
+				$("#room_list").empty();
+				$("#room_list").append("<option>" + "" + "</option>");
+
+				//search all rooms
+				for(var i=0;i<roomData.length;i++){
+					//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
+					if(roomData[i].capacity >= capacity &&
+						(park == "Any" || park == roomData[i].park) &&
+							(!isWheelchair || roomData[i].wheelchair == 1) &&
+								(!isVisualiser || roomData[i].visualiser == 1) && 
+									(!isProjector || roomData[i].projector == 1) &&
+										(!isWhiteboard || roomData[i].whiteboard == 1))
+											$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+					};
 			}
 			
 			//Initial room choice
 			//Inthuch Therdhchanakul
+			//Scott Marshall Changed to just fill the select that is element that is part of the table html. Also added a value for each option
+			// so it is entered into the form data
 			function insert_room_code(){
-				$("#room_col").html("Room code: <select name='room_list' id='room_list'>");
 				$("#room_list").append("<option>" + "" + "</option>");
 				for(var i=0;i<roomData.length;i++){
-					$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+					$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 				}
-				$("#room_list").append("</select>");
+			}
+
+			//Refill duration combo based on the period selected
+			//Scott Marshall
+			function refill_duration(){
+				$("#duration").empty();
+				var period = $('#time').val();
+				for(var i=1; i<=10-period;i++){
+					$('#duration').append("<option value=" + i + "'>" + i + "</option>");
+				}
 			}
 		</script>
 		
@@ -144,8 +138,9 @@
 						<?php 
 							//will output the whole set of module codes from the database, module codes will change when module titles change
 							//Callan Swanson, Inthuch Therdchanakul
-							echo "Module code: <select id='module_code_select' onchange='module_code_change()'>";  
-							$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username';";
+							//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
+							echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";  
+							$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
@@ -162,9 +157,10 @@
 						<?php 
 							//displays the module titles, titles will change when module codes change
 							//Callan Swanson, Inthuch Therdchanakul
-							echo "Module title: <select id='module_title_select' onchange='module_title_change()' >"; 
+							//Scott Marshall: added order by to SQL and name to the <select>. 'module_title_select' is now part of the Form Data
+							echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >"; 
 							//selects the module title from the databse
-							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username';";
+							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_title	;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
@@ -180,17 +176,23 @@
 					<td>
 						Day:
 						<!--radio buttons for the day of the week-->
-						<input type="radio" name="day" value="1">Monday
-						<input type="radio" name="day" value="2">Tuesday<br/>
-						<input type="radio" name="day" value="3">Wednesday
-						<input type="radio" name="day" value="4">Thursday<br/>
-						<input type="radio" name="day" value="5">Friday
+						<!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
+						<input type="radio" name="day" id='monday' value="1">Monday
+						<input type="radio" name="day" id='tuesday' value="2">Tuesday<br/>
+						<input type="radio" name="day" id='wednesday' value="3">Wednesday
+						<input type="radio" name="day" id='thursday' value="4">Thursday<br/>
+						<input type="radio" name="day" id='friday' value="5">Friday
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<!--selectable weeks with weeks 1-12 pre-selected as default-->
+						
+						<!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default-->
+						<!-- allowing a raneg of weeks to be chosen -->
+						<!-- Scott Marshall (Still in progress) -->
 						Week:
+						</br>
+						<!--
 						<ol id="week" name="week">
 							<li class="ui-state-default ui-selected" value="1">1</li>
 							<li class="ui-state-default ui-selected" value="1">2</li>
@@ -208,6 +210,24 @@
 							<li class="ui-state-default" value="1">14</li>
 							<li class="ui-state-default" value="1">15</li>
 						</ol>
+						-->
+						<span class="week_label"> 1 </span><input type="checkbox" name="weeks[]" id="week" value="1" checked></input>
+						<span class="week_label"> 2 </span><input type="checkbox" name="weeks[]" id="week" value="2" checked></input>
+						<span class="week_label"> 3 </span><input type="checkbox" name="weeks[]" id="week" value="3" checked></input>
+						<span class="week_label"> 4 </span><input type="checkbox" name="weeks[]" id="week" value="4" checked></input>
+						<span class="week_label"> 5 </span><input type="checkbox" name="weeks[]" id="week" value="5" checked></input>
+						<span class="week_label"> 6 </span><input type="checkbox" name="weeks[]" id="week" value="6" checked></input>
+						<span class="week_label"> 7 </span><input type="checkbox" name="weeks[]" id="week" value="7" checked></input>
+						<span class="week_label"> 8 </span><input type="checkbox" name="weeks[]" id="week" value="8" checked></input>
+						</br></br>
+						<span class="week_label"> 9 </span><input type="checkbox" name="weeks[]" id="week" value="9" checked></input>
+						<span class="week_label"> 10 </span><input type="checkbox" name="weeks[]" id="week" value="10" checked></input>
+						<span class="week_label"> 11 </span><input type="checkbox" name="weeks[]" id="week" value="11" checked></input>
+						<span class="week_label"> 12 </span><input type="checkbox" name="weeks[]" id="week" value="12" checked></input>
+						<span class="week_label"> 13 </span><input type="checkbox" name="weeks[]" id="week" value="13" ></input>
+						<span class="week_label"> 14 </span><input type="checkbox" name="weeks[]" id="week" value="14"></input>
+						<span class="week_label"> 15 </span><input type="checkbox" name="weeks[]" id="week" value="15"></input>
+						<span class="week_label"> 16 </span><input type="checkbox" name="weeks[]" id="week" value="16"></input>
 					</td>
 				</tr>
 				<tr>
@@ -216,7 +236,8 @@
 						<?php
 							//dropdown for the period, includes the time in 24hr format
 							//Callan Swanson
-							echo "<select name='time'>";
+							//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
+							echo "<select name='time' id='time' onchange='refill_duration()'>";
 							for($i=1;$i<=9;$i++){
 								$time = $i+8;
 								echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
@@ -225,6 +246,21 @@
 						  ?>
 					</td>
 				</tr>
+				<tr>
+                	<td>
+						Duration:
+                        <?php
+							//dropdown for the duration
+							//Scott Marshall
+							echo "<select name='duration' id='duration'>";
+							for($i=1;$i<=9;$i++){
+								$duration = $i+8;
+								echo "<option value='".$i."'>".$i."</option>";
+							}
+							echo "</select>";
+						  ?>
+                    </td>
+                </tr>
 				<tr>
 					<td>
 						Special requirements:
@@ -258,13 +294,15 @@
                 </tr>
                 <tr>
 					<td id="room_col">
-						<!--room preference default value is blank-->
+					<!--Scott Marshall: added in empty select so it is part of the form data -->
+						Room code: <select name='roomCode' id='room_list'>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						Wheelchair </br>
-                        <input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code()">Yes
+                        <input name="wheelchair" type="radio" id="wheelchair_yes" onchange="change_room_code()" value="1">Yes
 						<input name="wheelchair" type="radio" id="wheelchair_no" onchange="change_room_code()" value="0" checked="checked">No<br/>
 						
 						Projector </br>

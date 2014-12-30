@@ -2,15 +2,20 @@
 #feedback { 
 	font-size: 1.4em; 
 }
-#week .ui-selecting { 
+/*#week .ui-selecting { 
 	background: #FECA40; 
 }
 #week .ui-selected { 
 	background: #F39814; color: white; 
 }
+*/
+
 #week { 
 	list-style-type: none; margin: 0; padding: 0; width: 450px; 
 }
-#week li { 
+#week  { 
 	margin: 3px; padding: 1px; float: left; width: 50px; height: 40px; font-size: 1.5em; text-align: center; 
+}
+.week_label {
+	margin: 1px; padding: 1px; float: left; width: 15px; height: 40px; font-size: 1.25em; text-align: center; 
 }

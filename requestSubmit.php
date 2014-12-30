@@ -22,7 +22,18 @@
 			}
 		?>
 		</br>
-		weeks: <?php echo $_POST['week']; ?>
+		<!-- Echos the value set in HTML form for each checked checkbox, echoing the weeks that were picked -->
+		<!-- Scott Marshall -->
+		weeks: 
+		<?php
+			if(!empty($_POST['weeks'])){
+				foreach($_POST['weeks'] as $weeks){
+					echo ($weeks);
+					echo (", ");
+				}
+			}
+			
+		?>
 		</br>
 		time: <?php echo $_POST['time']; ?>
 		</br>
@@ -31,11 +42,11 @@
 		room code: 
 		<?php 
 			if(isset($_POST['roomCode'])) {
-				//if($_POST['room_list'])!="" {
+				if($_POST['roomCode']!="") {
 					echo $_POST['roomCode']; 
-				//} else {
+				} else {
 					echo "No room selected";
-				//}
+				}
 			} else {
 				echo "Room code not posted";
 			}
