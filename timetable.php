@@ -76,8 +76,11 @@
 			//Scott Marshall
 			function change_room_code() {
 				//cache user settings
+				
+				var noOfRooms = parseInt(document.getElementById('noRooms').value);
+				
 				var park = document.getElementById("park").value;
-				var capacity = parseInt(document.getElementById("capacity").value);
+				var capacity = parseInt(document.getElementById("capacity1").value);
 				var isWheelchair = document.getElementById("wheelchair_yes").checked;
 				var isVisualiser = document.getElementById("visualiser_yes").checked;
 				var isProjector = document.getElementById("projector_yes").checked;
@@ -86,9 +89,10 @@
 				//empty the room code list
 				$("#room_list").empty();
 				$("#room_list").append("<option>" + "" + "</option>");
-
-				//search all rooms
+				$("#add_room_col").empty();
+				
 				for(var i=0;i<roomData.length;i++){
+
 					//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
 					if(roomData[i].capacity >= capacity &&
 						(park == "Any" || park == roomData[i].park) &&
@@ -97,7 +101,46 @@
 									(!isProjector || roomData[i].projector == 1) &&
 										(!isWhiteboard || roomData[i].whiteboard == 1))
 											$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-					};
+					}
+				
+				//additional stages if more than one room pref option required - needs adjusting so cant choose a room that has already been chosen
+				//Tom middleton
+				if(parseInt(document.getElementById('noRooms').value) > 1){
+				
+					for(var i=1;i<noOfRooms;i++){
+						$("#add_room_col").append("Room Pref " +(i+1)+ ": <select name='roomCode" +(i+1)+ "' id='room_list" +(i+1)+ "'></select>");
+					}	
+					
+					for(var x=1;x<noOfRooms;x++){
+					$("#room_list" +(x+1)).append("<option>" + "" + "</option>");
+					var newCapacity = parseInt(document.getElementById("capacity" +(x+1)).value);	
+						for(var i=0;i<roomData.length;i++){
+						if(roomData[i].capacity >= newCapacity &&
+						(park == "Any" || park == roomData[i].park) &&
+							(!isWheelchair || roomData[i].wheelchair == 1) &&
+								(!isVisualiser || roomData[i].visualiser == 1) && 
+									(!isProjector || roomData[i].projector == 1) &&
+										(!isWhiteboard || roomData[i].whiteboard == 1))
+											$("#room_list" +(x+1)).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+						}
+					}
+				}
+		}
+					
+			
+			
+			//change number of capacity inputs based on no of rooms
+			//Tom Middleton
+			function showCapacity(){
+			var capacityNumber = document.getElementById("noRooms").value;
+			$("#capacityCell").html("");
+			for(var i=0;i<capacityNumber;i++){
+				var capacityID = "capacity" + (i + 1);
+				if(i == 0){
+				$("#capacityCell").append('Capacity: &nbsp;&nbsp; <input type="text" onchange="change_room_code();" id=' + capacityID + '><br/>');
+				}
+				else $("#capacityCell").append('Capacity ' +(i+1)+ ': <input type="text" onchange="change_room_code();" id=' + capacityID + '><br/>');
+				} 
 			}
 			
 			//Initial room choice
@@ -271,14 +314,20 @@
 				<tr>
                 	<td>
                     	Number of rooms:
-                        <input name="noRooms" type="text" />
+                        <select id="noRooms" name="noRooms" onchange="showCapacity();change_room_code();" />
+                        	<option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>5</option>
+                            <option>6</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
-                	<td>
+                	<td id="capacityCell">
                     	
                         Capacity:
-                        <input name="capacity" type="text" id="capacity" onchange="change_room_code()" value="1" />
+                        <input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1" />
                     </td>
                 </tr>
                 <tr>
@@ -295,8 +344,11 @@
                 <tr>
 					<td id="room_col">
 					<!--Scott Marshall: added in empty select so it is part of the form data -->
-						Room code: <select name='roomCode' id='room_list'>
+						Room Pref: <select name='roomCode' id='room_list'>
 						</select>
+					</td>
+					<td id="add_room_col">
+					
 					</td>
 				</tr>
 				<tr>
