@@ -52,7 +52,7 @@
 			//if the username and pass is the same as in the table, then move to the timetable page
 			$row = $res->fetchRow();
 			if($row["dept_code"] == $user && $row["password"] == $pass){
-				header('Location: timetable.php');
+				header('Location: timetable.html');
 				}
 			}
 		else{
