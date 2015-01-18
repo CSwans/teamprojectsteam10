@@ -1,0 +1,323 @@
+// CSS for the main input pages of the site
+//Tom Middleton
+
+body {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+	 background-color: #ECECDB;
+	 width:99%;
+}
+
+.ui-widget-header {
+   background: #4c0068; /* Old browsers */
+background: -moz-linear-gradient(top, #4c0068 18%, #68006d 51%, #330066 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(18%,#4c0068), color-stop(51%,#68006d), color-stop(100%,#330066)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* IE10+ */
+background: linear-gradient(to bottom, #4c0068 18%,#68006d 51%,#330066 100%); /* W3C */
+
+}
+
+#input_wrap {
+    clear: both;
+    margin: 0 auto 730px;
+    min-width: 1000px;
+    width: 90%;
+}
+
+#subdiv {
+	display:block;
+	clear:both;
+	z-index:99;
+	float:right;
+}
+
+
+#result {
+    clear: both;
+    margin-top: 50px;
+    width: 100%;
+}
+
+#top_style{
+    background-color: #333;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 100%;	
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+    height: 20px;
+    padding: 6px 8px 8px;
+    text-align: right;
+    min-width:900px;
+    width:100%;
+}
+
+
+#external_links{
+	font-family: Franklin Gothic Medium,​Helvetica,Arial,sans-serif;
+    color: #666;
+    display: block;
+    float: left;
+    padding-top: 50px ;
+    padding-bottom: 50px;
+    margin-right: 28px;
+}
+
+nav > a {
+    margin-right: 25px;
+    font-size: 23px;
+    margin-right: 25px;
+    font-size: 23px;
+    color: #ccc;
+	vertical-align: baseline;
+	text-decoration:none; 
+	text-shadow:none;
+}
+
+a{
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+	text-decoration:none;
+}
+
+
+#buttons {
+    background-color: #333;
+    margin-bottom: 30px;
+    padding: 3px;
+    width: 99.5%;
+}
+
+
+#button_wrap {
+    margin: 0 auto;
+    width: 1010px;
+}
+
+#button_wrap2 {
+    margin: 0 auto;
+    width: 900px;
+}
+
+#button_wrap1 {
+    margin: 0 auto;
+    width: 940px;
+}
+
+#header_style {
+	height: 114px;
+    margin: 0;
+    padding: 6px 8px 8px;
+    min-width:1200px;
+    width:100%;
+}
+
+#title {
+    float: left;
+    margin-left: 25%;
+    margin-top: 30px;
+    width: 510px;
+}
+
+#logo{
+float:right;
+width:300px;
+margin-right:50px;
+margin-top:20px;
+}
+
+#lboro_logo {
+    float: right;
+    height: 65px;
+    padding-left: 65px ;
+    width: 270px;
+    display:inline-block;
+}
+
+button{
+    background-color: #cc0066;
+    border: 2px solid #a20054;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 15px 10px 10px;
+    text-shadow: 0 1px 2px #99165c;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+button:hover,  submit:hover {
+    background-color: #B00058;
+        border: 2px solid #860043;
+    
+}
+
+#Ad_submit{
+	position:relative;
+	left: 55%;
+    top: 75%;	
+}
+
+table{
+	font-family: Franklin Gothic Medium,​Helvetica,Arial,sans-serif;
+	text-align: center;
+	position: relative;
+	}
+
+
+th {
+    background: none repeat scroll 0 0 #cc0066;
+    border-bottom: 2px solid #330066;
+    border-right: 2px solid #cc0066;
+    border-top: 2px solid #330066;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 1px 2px #99165c;
+}
+ 
+td {
+    border-left: 1.5px dotted #cc0066;
+	 background-color: white;
+
+}
+
+select{
+	font-size:20px;
+	margin-left:auto;
+	width:100px;	
+}
+.cell2 {
+    border-left: 1.5px;
+	background-color: #f2f2e6;
+	 }
+	 
+
+
+
+.inputs {
+	position: relative;
+    left: 5%;
+    top: 63%;
+	text-align:left;
+	font-size:1.5em;
+	 
+}
+.advanceinputs {
+    font-size: 1.5em;
+    position: relative;
+    text-align: left;
+}
+
+
+#myresulttable {
+    border: 2px solid #a20054;
+    font-size: 0.6em;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    top: 100%;
+    width: 95%;
+}
+
+.input_boxes {
+	width:100%;
+}
+
+#inputs {
+    float: left;
+    margin-left: 0;
+    width: 50%;
+}
+
+#advancedinputs {
+    font-size: 1.5em;
+    left: 5%;
+    position: relative;
+    text-align: left;
+    top: 63%;
+}
+
+#advance {
+    float: left;
+    margin-left: 5%;
+    width: 400px;
+    display:none;
+}
+
+#advance2 {
+    float: left;
+    margin-left: 5%;
+    width: 400px;
+}
+
+#advance3 {
+    float: left;
+    margin-left: 5%;
+    width: 400px;
+}
+
+#advance4 {
+    float: left;
+    margin-left: 5%;
+    width: 400px;
+}
+
+#id_submit {
+    float: right;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+
+
+#newTable {
+    float: right;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+
+#save {
+    float: right;
+    margin-right: 60px;
+    margin-top: 20px;
+    z-index:99;
+}
+
+.show{
+   display:block;
+}
+
+.hide{
+   display:none;
+}
+
+#buttons2 {
+	clear:both;
+}
+
+h1 {
+font-family: Verdana,Arial,sans-serif;
+font-size: 1.5em;
+}
+
+#tabs {
+    background-color: #f2f2e6;
+    margin-left: 10%;
+    min-width: 1250px;
+    width: 80%;
+}
+
+.ui-tabs .ui-tabs-panel {
+  padding:0;
+}
+
+ul.tabs li.ui-tabs-active a, ul.tabs li.ui-tabs-selected a{ background-color:blue; }
+
+.ui-widget-content {
+    background: url("images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #ffffff;
+    border: 3px solid #aaaaaa;
+    color: #222222;
+}
