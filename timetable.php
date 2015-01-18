@@ -3,7 +3,7 @@
 	<head>
 		<link rel="icon" href="lboro_logo_large.ico" >
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Timetable | Loughborough University</title>
+		<title>Timetable - Round 1 | Loughborough University</title>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="css/style.css">
         <?php 
@@ -108,7 +108,7 @@
 				if(parseInt(document.getElementById('noRooms').value) > 1){
 				
 					for(var i=1;i<noOfRooms;i++){
-						$("#add_room_col").append("Room Pref " +(i+1)+ ": <select name='roomCode" +(i+1)+ "' id='room_list" +(i+1)+ "'></select>");
+						$("#add_room_col").append("</td> <td id='add_room_col'>Room Pref " +(i+1)+ ": <select name='roomCode" +(i+1)+ "' id='room_list" +(i+1)+ "'></select></td>");
 					}	
 					
 					for(var x=1;x<noOfRooms;x++){
@@ -168,9 +168,21 @@
 	</head>
 
 	<body>
-		<p id="test"></p>
-        <table>
-			<form action="requestSubmit.php" method="post">
+	
+		<div class="input_boxes" >
+			<div id="buttons">
+			<div id="button_wrap1">
+			    	<button id="adv_options" type="button" onclick="advToggle();"> > &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button>
+           			<button id ="All" type="button">>&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button>
+            		<button id="Load_Last_Year" type="button" >  > &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button>
+             	</div>
+			</div>
+			 
+			<div id="input_wrap">
+			<div id="inputs">
+	    <form action="requestSubmit.php" method="post">
+        <table class="inputs">
+			
 				<tr>
 					<td>
 						<?php echo "Department: ".$username; ?>
@@ -314,12 +326,11 @@
 				<tr>
                 	<td>
                     	Number of rooms:
-                        <select id="noRooms" name="noRooms" onchange="showCapacity();change_room_code();" />
+                        <select id="noRooms" name="noRooms" onchange="showCapacity();change_room_code();" >
                         	<option>1</option>
                             <option>2</option>
                             <option>3</option>
-                            <option>5</option>
-                            <option>6</option>
+                            <option>4</option>
                         </select>
                     </td>
                 </tr>
@@ -330,6 +341,10 @@
                         <input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1" />
                     </td>
                 </tr>
+            </table>
+            </div>
+            <div id="advance">
+            	<table id="advancedinputs">
                 <tr>
                 	<td>
                     	Park:
@@ -370,14 +385,20 @@
 						<input name="whiteboard" type="radio" id="whiteboard_no" onchange="change_room_code()" value="0">No<br/>
 					</td>
 				</tr>
+				</table>
+				</div>
+				<div id="subdiv">
+				<table id="subtable">
 				<tr>
 					<td>
 						<input type="submit" value="submit">
 					</td>
 				</tr>
+			</table>
 			</form>
-		</table>
-		
+		</div>
+		</div>
+		</div>
 		<table id="resultsTable">
 			<?php
 				
