@@ -331,3 +331,16 @@ ul.tabs li.ui-tabs-active a, ul.tabs li.ui-tabs-selected a{ background-color:blu
     border: 3px solid #aaaaaa;
     color: #222222;
 }
+
+
+#room_list2 {
+  display:none;
+}
+
+#room_list3 {
+  display:none;
+}
+
+#room_list4 {
+  display:none;
+}
