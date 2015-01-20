@@ -101,7 +101,11 @@ var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
-$("#add_room_col").empty();
+$("#room_list2").empty();
+$("#room_list3").empty();
+$("#room_list4").empty();
+
+
 for(var i=0;i<roomData.length;i++){
 //if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
 if(roomData[i].capacity >= capacity &&
@@ -115,9 +119,7 @@ $("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomDa
 //additional stages if more than one room pref option required - needs adjusting so cant choose a room that has already been chosen
 //Tom middleton
 if(parseInt(document.getElementById('noRooms').value) > 1){
-for(var i=1;i<noOfRooms;i++){
-$("#add_room_col").append("<td id='add_room_col'>Room Pref " +(i+1)+ ": <select name='roomCode" +(i+1)+ "' id='room_list" +(i+1)+ "'></select></td>");
-}
+
 for(var x=1;x<noOfRooms;x++){
 $("#room_list" +(x+1)).append("<option>" + "" + "</option>");
 var newCapacity = parseInt(document.getElementById("capacity" +(x+1)).value);
@@ -131,8 +133,26 @@ if(roomData[i].capacity >= newCapacity &&
 $("#room_list" +(x+1)).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
 }
+
+for(var x=1;x<4;x++){
+ document.getElementById('room_list'+ (x+1)).style.display='none';
+}
+
+noOfRooms = parseInt(document.getElementById('noRooms').value);
+if(noOfRooms>1){
+for(var x=1;x<noOfRooms;x++){
+ document.getElementById('room_list'+ (x+1)).style.display='block';
+} 
 }
 }
+else {
+for(var x=1;x<4;x++){
+ document.getElementById('room_list'+ (x+1)).style.display='none';
+}	
+}
+}
+
+
 //change number of capacity inputs based on no of rooms
 //Tom Middleton
 function showCapacity(){
@@ -141,9 +161,9 @@ $("#capacityCell").html("");
 for(var i=0;i<capacityNumber;i++){
 var capacityID = "capacity" + (i + 1);
 if(i == 0){
-$("#capacityCell").append('Capacity: &nbsp;&nbsp; <input type="text" onchange="change_room_code();" id=' + capacityID + '/><br/>');
+$("#capacityCell").append('Capacity: &nbsp;&nbsp; <input type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
 }
-else $("#capacityCell").append('Capacity ' +(i+1)+ ': <input type="text" onchange="change_room_code();" id=' + capacityID + '/><br/>');
+else $("#capacityCell").append('Capacity ' +(i+1)+ ': <input type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
 }
 }
 //Initial room choice
@@ -346,7 +366,7 @@ $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 					<tr>
 						<td>
 							Number of rooms:
-							<select id="noRooms" name="noRooms" onchange="showCapacity();change_room_code();" >
+							<select id="noRooms" name="noRooms" onchange="showCapacity(); change_room_code();" >
 								<option>1</option>
 								<option>2</option>
 								<option>3</option>
@@ -378,12 +398,20 @@ $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 					<tr>
 						<td id="room_col">
 							<!--Scott Marshall: added in empty select so it is part of the form data -->
-							Room Pref: <select name='roomCode' id='room_list'>
+							Room Pref: <select name='roomCode0' id='room_list'>
 									</select>
 						</td>
 					</tr>
 					<tr id="add_room_col">
-
+						<td>
+                    		<select name='roomCode1' id='room_list2' style="display: none;"></select>
+                    	</td>
+                    	<td>
+                    		<select name='roomCode2' id='room_list3' style="display: none;"></select>
+                    	</td>
+                    	<td>
+                    		<select name='roomCode3' id='room_list4' style="display: none;"></select>
+                    	</td>
 					</tr>
 					<tr>
 						<td>
