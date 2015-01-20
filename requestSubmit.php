@@ -11,21 +11,27 @@
 ?>
 </head>
 	<body>
-		dept: <?php echo $_SESSION['username']; ?>
-		</br>
-		day: 
-		<?php
+	
+	   <!-- modified for multiple room requests as individual requests - Tom Middleton -->
+	   
+	   <?php
+	   
+	   for ($x = 0; $x < $_POST['noRooms']; $x++) {
+	   		echo 'Dept: ';  echo $_SESSION['username'];
+	    	echo '</br>Day: '; 
+		
 			if(isset($_POST['day'])) {
 				echo $_POST['day'];
 			} else {
 				echo 'No day chosen';
 			}
-		?>
-		</br>
-		<!-- Echos the value set in HTML form for each checked checkbox, echoing the weeks that were picked -->
-		<!-- Scott Marshall -->
-		weeks: 
-		<?php
+		
+			echo '</br>Weeks: ';
+		
+		// Echos the value set in HTML form for each checked checkbox, echoing the weeks that were picked -->
+		// Scott Marshall -->
+		
+		 
 			if(!empty($_POST['weeks'])){
 				foreach($_POST['weeks'] as $weeks){
 					echo ($weeks);
@@ -33,56 +39,59 @@
 				}
 			}
 			
-		?>
-		</br>
-		time: <?php echo $_POST['time']; ?>
-		</br>
-		special requirements: <?php echo $_POST['specialReq']; ?>
-		</br>
-		room code: 
-		<?php 
-			if(isset($_POST['roomCode'])) {
-				if($_POST['roomCode']!="") {
-					echo $_POST['roomCode']; 
+			echo '</br>Time: ';
+			echo $_POST['time'];
+		    echo '</br>Special Requirements: ';
+		    echo $_POST['specialReq'];
+			
+			echo '</br>No of Rooms: ';
+		
+			//Added for multiple room request - Tom Middleton
+		 
+			echo $_POST['noRooms'];
+			echo '</br>Room Pref ' .($x+1). ': ';
+		
+			if(isset($_POST['roomCode'.$x])) {
+				if($_POST['roomCode'.$x]!="") {
+					echo $_POST['roomCode'.$x]; 
 				} else {
 					echo "No room selected";
 				}
 			} else {
 				echo "Room code not posted";
 			}
-		?>
-		</br>
-		wheelchair: 
-		<?php 
+		
+			echo '</br>Wheelchair: '; 
+	
 			if(isset($_POST['wheelchair'])&&$_POST['wheelchair']=='1')
 				echo "1";
 			else 
 				echo"0";
-		?>
-		</br>
-		projector: 
-		<?php 
+		
+			echo '</br>Projector: '; 
+	
 			if(isset($_POST['projector'])&&$_POST['projector']=='1')
 				echo "1";
 			else 
 				echo"0";
-		?>
-		</br>
-		visuliser: 
-		<?php 
+			
+			echo '</br>Visuliser: ';
+		
 			if(isset($_POST['visualiser'])&&$_POST['visualiser']=='1')
 				echo "1";
 			else 
 				echo"0";
-		?>
-		</br>
-		whiteboard: 
-		<?php 
+		
+			echo '</br>Whiteboard: ';
+		
 			if(isset($_POST['whiteboard'])&&$_POST['whiteboard']=='1')
 				echo "1";
 			else 
 				echo"0";
-		?>
-		</br>
+			
+			echo '<br/><br/><br/>';	
+		}
+	?>
+	
 	</body>
 </html>
