@@ -101,10 +101,12 @@ var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
-$("#room_list2").empty();
-$("#room_list3").empty();
-$("#room_list4").empty();
-
+$("#room_list2").find( "select" ).empty();
+$("#room_list2").find( "select" ).append("<option>" + "" + "</option>");
+$("#room_list3").find( "select" ).empty();
+$("#room_list3").find( "select" ).append("<option>" + "" + "</option>");
+$("#room_list4").find( "select" ).empty();
+$("#room_list4").find( "select" ).append("<option>" + "" + "</option>");
 
 for(var i=0;i<roomData.length;i++){
 //if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
@@ -121,7 +123,6 @@ $("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomDa
 if(parseInt(document.getElementById('noRooms').value) > 1){
 
 for(var x=1;x<noOfRooms;x++){
-$("#room_list" +(x+1)).append("<option>" + "" + "</option>");
 var newCapacity = parseInt(document.getElementById("capacity" +(x+1)).value);
 for(var i=0;i<roomData.length;i++){
 if(roomData[i].capacity >= newCapacity &&
@@ -130,7 +131,7 @@ if(roomData[i].capacity >= newCapacity &&
 (!isVisualiser || roomData[i].visualiser == 1) &&
 (!isProjector || roomData[i].projector == 1) &&
 (!isWhiteboard || roomData[i].whiteboard == 1))
-$("#room_list" +(x+1)).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+$("#room_list" +(x+1)).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
 }
 
@@ -404,13 +405,13 @@ $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 					</tr>
 					<tr id="add_room_col">
 						<td>
-                    		<select name='roomCode1' id='room_list2' style="display: none;"></select>
+                    		<span id='room_list2' style="display: none;">Room Pref 2: <select name='roomCode1'></select></span>
                     	</td>
                     	<td>
-                    		<select name='roomCode2' id='room_list3' style="display: none;"></select>
+                    		<span id='room_list3' style="display: none;">Room Pref 3: <select name='roomCode2'></select></span>
                     	</td>
                     	<td>
-                    		<select name='roomCode3' id='room_list4' style="display: none;"></select>
+                    		<span  id='room_list4' style="display: none;">Room Pref 4: <select name='roomCode3'></select></span>
                     	</td>
 					</tr>
 					<tr>
