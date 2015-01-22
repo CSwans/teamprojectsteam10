@@ -118,7 +118,7 @@ if(roomData[i].capacity >= capacity &&
 (!isWhiteboard || roomData[i].whiteboard == 1))
 $("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
-//additional stages if more than one room pref option required - needs adjusting so cant choose a room that has already been chosen
+//additional stages if more than one room pref option required
 //Tom middleton
 if(parseInt(document.getElementById('noRooms').value) > 1){
 
@@ -185,6 +185,91 @@ var period = $('#time').val();
 for(var i=1; i<=10-period;i++){
 $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 }
+}
+
+
+// preventing choosing two room preferences that are the same
+//Tom Middleton
+function refill_codes() {
+	var noOfRooms = parseInt(document.getElementById('noRooms').value);
+	var park = document.getElementById("park").value;
+	var capacity = parseInt(document.getElementById("capacity1").value);
+	var isWheelchair = document.getElementById("wheelchair_yes").checked;
+	var isVisualiser = document.getElementById("visualiser_yes").checked;
+	var isProjector = document.getElementById("projector_yes").checked;
+	var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+		
+	var activeLists = [];
+	var currentSelections = [];
+	
+	var cap1=document.getElementById('capacity1').value;
+	if(noOfRooms >=2)var cap2=document.getElementById('capacity2').value; 
+	if(noOfRooms >=3) var cap3=document.getElementById('capacity3').value; 
+	if(noOfRooms >=4) var cap4=document.getElementById('capacity4').value; 
+	
+	var sel1 = document.getElementById('room_list').value;
+    var sel2= document.getElementById('room_list2').children[0].value;
+    var sel3 = document.getElementById('room_list3').children[0].value
+    var sel4 = document.getElementById('room_list4').children[0].value
+    
+	if(cap1 != null && cap1 != ''){ activeLists.push(1); currentSelections.push(sel1); }
+	if(cap2 != null && cap2 != ''){ activeLists.push(2); currentSelections.push(sel2); }
+	if(cap3 != null && cap3 != ''){ activeLists.push(3); currentSelections.push(sel3); }
+	if(cap4 != null && cap4 != ''){  activeLists.push(4); currentSelections.push(sel4); }
+    
+    
+    for(var x=0;x<activeLists.length;x++){
+    	if(activeLists[x]==1){
+    		$("#room_list").empty();
+			$("#room_list").append("<option>" + "" + "</option>");
+    	}
+    	else {
+    		$("#room_list" + activeLists[x]).find( "select" ).empty();
+    		$("#room_list" + activeLists[x]).find( "select" ).append("<option>" + "" + "</option>");
+    	}
+    }
+    
+    for(var x=0;x<activeLists.length;x++){
+    	for(var i=0;i<roomData.length;i++){
+    		if(activeLists[x]==1){
+    			if(roomData[i].capacity >= capacity &&
+    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+					(park == "Any" || park == roomData[i].park) &&
+					(!isWheelchair || roomData[i].wheelchair == 1) &&
+					(!isVisualiser || roomData[i].visualiser == 1) &&
+					(!isProjector || roomData[i].projector == 1) &&
+					(!isWhiteboard || roomData[i].whiteboard == 1))
+						$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+			}
+			else {
+				if(roomData[i].capacity >= capacity &&
+    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+					(park == "Any" || park == roomData[i].park) &&
+					(!isWheelchair || roomData[i].wheelchair == 1) &&
+					(!isVisualiser || roomData[i].visualiser == 1) &&
+					(!isProjector || roomData[i].projector == 1) &&
+					(!isWhiteboard || roomData[i].whiteboard == 1))
+						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+			
+        	}
+		}	
+	}
+   
+       for(var x=0;x<activeLists.length;x++){
+        		for(var y=0;y<document.getElementById('room_list').options.length;y++){
+        			if(activeLists[x]==1){
+        				if(document.getElementById('room_list').options[y].value == currentSelections[x]){
+        					document.getElementById('room_list').options[y].selected=true;
+        				}
+        			}
+        			else {
+        				if(document.getElementById('room_list' + activeLists[x]).children[0].options[y].value == currentSelections[x]){
+        					document.getElementById('room_list' + activeLists[x]).children[0].options[y].selected=true;
+        				}
+        			}
+        		}
+        }
+        			
 }
 </script>
 </head>
@@ -399,19 +484,19 @@ $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 					<tr>
 						<td id="room_col">
 							<!--Scott Marshall: added in empty select so it is part of the form data -->
-							Room Pref: <select name='roomCode0' id='room_list'>
+							Room Pref: <select name='roomCode0' id='room_list' onchange='refill_codes();'>
 									</select>
 						</td>
 					</tr>
 					<tr id="add_room_col">
 						<td>
-                    		<span id='room_list2' style="display: none;">Room Pref 2: <select name='roomCode1'></select></span>
+                    		<span id='room_list2' style="display: none;">Room Pref 2: <select name='roomCode1' onchange='refill_codes();'></select></span>
                     	</td>
                     	<td>
-                    		<span id='room_list3' style="display: none;">Room Pref 3: <select name='roomCode2'></select></span>
+                    		<span id='room_list3' style="display: none;">Room Pref 3: <select name='roomCode2' onchange='refill_codes();'></select></span>
                     	</td>
                     	<td>
-                    		<span  id='room_list4' style="display: none;">Room Pref 4: <select name='roomCode3'></select></span>
+                    		<span  id='room_list4' style="display: none;">Room Pref 4: <select name='roomCode3' onchange='refill_codes();'></select></span>
                     	</td>
 					</tr>
 					<tr>
