@@ -24,16 +24,60 @@
 			$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
+			
+			$sql = "SELECT DISTINCT PARKS.park, ROOMS.room_code FROM ROOMS, PARKS WHERE ROOMS.building_code = PARKS.building_code";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value = array();
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value[] = $row;
+			}
+			$json = json_encode($value);
+			
+			
 		?>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.js"></script>
 		
+		<script>
+		$(function() {
+			ParkChange();
+			WeekChange();
+		});
+		</script>
+		
+		
 		<script type="text/javascript">
 		
-			//finds the park chosen Callan Swanson
+			<?php
+				echo "var roomData = ".$json.";\n";
+			?>
+			
+			//finds the park chosen Callan Swanson, March Intuch
 			function ParkChange() {
-				var parkChosen = "All";
+				var parkChosen = "Any";
 				parkChosen = document.getElementById("ParkSelect").value;
+				$("#RoomSelect").empty();
+				
+				//if any parks are chosen then all the rooms are displayed
+				if(parkChosen=="Any") {
+					for(var i=0; i<roomData.length; i++) {
+						$("#RoomSelect").append("<option> " + roomData[i].room_code + "</option>");
+					}
+				} else { //if a park is chosen teh jsut that park's rooms are displayed
+					for(var i=0; i<roomData.length; i++) {
+						if(roomData[i].park == parkChosen) {
+							$("#RoomSelect").append("<option> " + roomData[i].room_code + "</option>");
+						}
+					}
+				}
+			}
+			
+			function WeekChange() {
+				$("#weekChosen").html("Week - "+document.getElementById("Weeks").value);
 			}
 			
 		</script>
@@ -43,20 +87,54 @@
 
 	<body>
 		<div>
-			
-			<select name="ParkSelect" id="ParkSelect" onchange="">
+			<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
+			Park :-
+			<select name="ParkSelect" id="ParkSelect" onchange="ParkChange()">
 				<option value="Any">Any</option>
 				<option value="C">C</option>
 				<option value="E">E</option>
 				<option value="W">W</option>
 			</select>
+			Rooms :-
 			<select name="RoomSelect" id="RoomSelect" >
+			</select>
+			Week-
+			<select name="Weeks" id="Weeks" onchange="WeekChange()">
 				<?php
-					$sql = "SELECT DISTINCT ROOMS.room_code from ROOMS, PARKS where ParkSelect "
+					for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
+						echo "<option>".$i."</option>";
+					}
 				?>
 			</select>
 			
 		</div>
+		
+		
+		<table>
+			<tr id="time">
+				<td id="weekChosen"></td>
+				<?php
+					for($i=9;$i<18;$i++) { //stating the time for booking at the top of the table
+						echo "<td>".$i.":00</td>";
+					}
+				?>
+			</tr>
+			<tr id="monday">
+				<td>Monday</td>
+			</tr>
+			<tr id="tuesday">
+				<td>Tuesday</td>
+			</tr>
+			<tr id="wednesday">
+				<td>Wednesday</td>
+			</tr>
+			<tr id="thursday">
+				<td>Thursday</td>
+			</tr>
+			<tr id="friday">
+				<td>Friday</td>
+			</tr>
+		</table>
 		
 		
 	</body>

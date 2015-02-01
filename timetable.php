@@ -303,7 +303,7 @@ function refill_codes() {
           <form id="requestForm" action="requestSubmit.php" method="post">
             <table class="inputs">
               <tr>
-                <td><?php echo "Department: ".$username; ?></td>
+                <td><a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?></td>
               </tr>
               <tr>
                 <td><?php
