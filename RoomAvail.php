@@ -1,6 +1,8 @@
+
 <html>
 
 	<head>
+    	
 		<title>
 			Room availability
 		</title>
@@ -8,6 +10,7 @@
 		<?php
 			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
 			//Inthuch Therdchanakul
+			
 			session_start();
 			if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 				header('Location: login.html');
@@ -41,22 +44,38 @@
 		?>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.js"></script>
-		
-		<script>
-		$(function() {
-			ParkChange();
-			WeekChange();
-			alert("hello");
-		});
-		</script>
-		
-		
-		<script type="text/javascript">
-		
+		<script src="js/jquery.serializejson.min.js"></script>
+	</head>
+	<script type="text/javascript">
+			
+			$(function() {
+				
+				ParkChange();
+				WeekChange();
+				ajaxFunction();
+			});
+			
 			<?php
 				echo "var roomData = ".$json.";\n";
 			?>
-			
+			function ajaxFunction() {
+			  	var MyForm = $("#options").serializeJSON();
+				console.log(MyForm);
+				
+				$.ajax( {
+					url : "RoomAvailAJAX.php",
+					type : "POST", 
+					data : {valArray:MyForm},
+					success : function (data){
+							data = JSON.parse(data);
+							console.log(data);
+							alert(data.length);
+							alert(data[0].week + "," + data[0].day);
+						},
+					error : function(jqXHR, textStatus, errorThrown) {
+					}
+				});
+					}
 			//finds the park chosen Callan Swanson, March Intuch
 			function ParkChange() {
 				var parkChosen = "Any";
@@ -81,35 +100,14 @@
 				$("#weekChosen").html("Week - "+document.getElementById("Weeks").value);
 			}
 			
-			function ajaxFunction() {
-				var MyForm = $('#options').sterilizeJSON();
-				console.log(MyForm);
-				
-				$.ajax( {
-					url : "RoomAvailAJAX.php",
-					type : "POST", 
-					data : {valArray:MyForm},
-					success : fucntion(data) {}
-						///////////////////////put sresult here
-						data = JSON.parse(data);
-						alert(data[0].week);
-					},
-					error : function(jqXHR, textStatus, errorThrown) {
-					}
-					
-				});
-				//e.preventDefault();
-			}
+			
 			
 			
 		</script>
 		
-		
-	</head>
-
 	<body>
 		<div>
-			<form name="options" id="options" method="post">
+			<form name="options" id="options" method="POST">
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 				Park :-
 				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange()">
@@ -119,10 +117,10 @@
 					<option value="W">W</option>
 				</select>
 				Rooms :-
-				<select name="RoomSelect" id="RoomSelect" >
+				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction()" >
 				</select>
 				Week-
-				<select name="Weeks" id="Weeks" onChange="WeekChange()">
+				<select name="Weeks" id="Weeks" onChange="WeekChange();ajaxFunction();">
 					<?php
 						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
 							echo "<option>".$i."</option>";

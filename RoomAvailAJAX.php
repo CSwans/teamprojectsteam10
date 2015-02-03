@@ -1,7 +1,7 @@
-<html>
-	<head>
-	
+
 		<?php
+			//This makes JSON work!
+			header("Content-Type: text/javascript; charset=utf-8");
 			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
 			//Inthuch Therdchanakul
 			session_start();
@@ -30,7 +30,7 @@
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
 			
-			$sql = "SELECT week, day, period, duration FROM REQUEST_WEEKS, BOOKING, REQUEST WHERE REQUEST_WEEKS.request_id=BOOKING.request_id AND REQUEST.request_id=BOOKING.request_id AND BOOKING.room_code='".$room."'";
+			$sql = "SELECT week, day, period, duration FROM REQUEST_WEEKS, BOOKING, REQUEST WHERE REQUEST_WEEKS.request_id=BOOKING.request_id AND REQUEST.request_id=BOOKING.request_id AND BOOKING.room_code='$room'";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -44,9 +44,3 @@
 			echo json_encode($results);
 			
 		?>
-	</head>
-	
-	<body>
-	
-	</body>
-</html>
