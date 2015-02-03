@@ -80,6 +80,34 @@
 				$("#weekChosen").html("Week - "+document.getElementById("Weeks").value);
 			}
 			
+			function ajaxFunction() {
+				var ajaxRequest;  // The variable that makes Ajax possible!
+								  // Base taken from http://www.tizag.com/ajaxTutorial/ajax-mysql-database.php
+				try{
+					// Opera 8.0+, Firefox, Safari
+					ajaxRequest = new XMLHttpRequest();
+				} catch (e){
+					// Internet Explorer Browsers
+					try{
+						ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+					} catch (e) {
+						try{
+							ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+						} catch (e){
+							// Something went wrong
+							alert("Your browser broke!");
+							return false;
+						}
+					}
+				}
+			
+			var week = document.getElementById("Weeks").value;
+			var room = document.getElementById("RoomSelect").value;
+			var queryString = "?Weeks="+week+"&RoomSelect="+room;
+			ajaxRequest.open("GET", "RoomAvailAJAX.php" + queryString, true);
+			ajaxRequest.send();
+			
+			
 		</script>
 		
 		
@@ -87,26 +115,27 @@
 
 	<body>
 		<div>
-			<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
-			Park :-
-			<select name="ParkSelect" id="ParkSelect" onchange="ParkChange()">
-				<option value="Any">Any</option>
-				<option value="C">C</option>
-				<option value="E">E</option>
-				<option value="W">W</option>
-			</select>
-			Rooms :-
-			<select name="RoomSelect" id="RoomSelect" >
-			</select>
-			Week-
-			<select name="Weeks" id="Weeks" onchange="WeekChange()">
-				<?php
-					for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
-						echo "<option>".$i."</option>";
-					}
-				?>
-			</select>
-			
+			<form name="options">
+				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
+				Park :-
+				<select name="ParkSelect" id="ParkSelect" onchange="ParkChange();ajaxFunction();">
+					<option value="Any">Any</option>
+					<option value="C">C</option>
+					<option value="E">E</option>
+					<option value="W">W</option>
+				</select>
+				Rooms :-
+				<select name="RoomSelect" id="RoomSelect" >
+				</select>
+				Week-
+				<select name="Weeks" id="Weeks" onchange="WeekChange();ajaxFunction();">
+					<?php
+						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
+							echo "<option>".$i."</option>";
+						}
+					?>
+				</select>
+			</form>
 		</div>
 		
 		
@@ -121,18 +150,43 @@
 			</tr>
 			<tr id="monday">
 				<td>Monday</td>
+				<?php
+					for($i=9; $i<18; $i++) { //describing the table with teh day and the time period
+						echo "<td id=monday".$i."></td>"
+					}
+				?>
 			</tr>
 			<tr id="tuesday">
 				<td>Tuesday</td>
+				<?php
+					for($i=9; $i<18; $i++) {
+						echo "<td id=tuesday".$i."></td>"
+					}
+				?>
 			</tr>
 			<tr id="wednesday">
 				<td>Wednesday</td>
+				<?php
+					for($i=9; $i<18; $i++) {
+						echo "<td id=wednesday".$i."></td>"
+					}
+				?>
 			</tr>
 			<tr id="thursday">
 				<td>Thursday</td>
+				<?php
+					for($i=9; $i<18; $i++) {
+						echo "<td id=thursday".$i."></td>"
+					}
+				?>
 			</tr>
 			<tr id="friday">
 				<td>Friday</td>
+				<?php
+					for($i=9; $i<18; $i++) {
+						echo "<td id=friday".$i."></td>"
+					}
+				?>
 			</tr>
 		</table>
 		
