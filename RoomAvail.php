@@ -46,6 +46,29 @@
 		$(function() {
 			ParkChange();
 			WeekChange();
+			$("#simplepost").click(function(e)
+ 
+	{
+		var MyForm = $("#options").serializeJSON();
+		console.log(MyForm);
+		$.ajax(
+		{
+			 url : "RoomAvailAJAX.php",
+			 type: "POST",
+			 data : {valArray:MyForm},
+			 success: function(data)
+			 {
+			 	data = JSON.parse(data);
+				alert(data[0].week);
+				
+			 },
+			 error: function(jqXHR, textStatus, errorThrown)
+			 {
+			 }
+			 });
+			 e.preventDefault(); //STOP default action
+
+		});
 		});
 		</script>
 		
@@ -111,7 +134,7 @@
 			<form name="options" id="options" method="post">
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 				Park :-
-				<select name="ParkSelect" id="ParkSelect" onchange="ParkChange();ajaxFunction();">
+				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();">
 					<option value="Any">Any</option>
 					<option value="C">C</option>
 					<option value="E">E</option>
@@ -121,13 +144,14 @@
 				<select name="RoomSelect" id="RoomSelect" >
 				</select>
 				Week-
-				<select name="Weeks" id="Weeks" onchange="WeekChange();ajaxFunction();">
+				<select name="Weeks" id="Weeks" onChange="WeekChange();">
 					<?php
 						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
 							echo "<option>".$i."</option>";
 						}
 					?>
 				</select>
+                <input type="button" id="simplepost" value="Run Code" >
 			</form>
 		</div>
 		
