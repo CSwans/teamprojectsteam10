@@ -81,24 +81,31 @@
 			}
 			
 			function ajaxFunction() {
-				var MyForm = $('#options').sterilizeJSON();
-				console.log(MyForm);
-				
-				$.ajax( {
-					url : "RoomAvailAJAX.php",
-					type : "POST", 
-					data : {valArray:MyForm},
-					success : fucntion(data) {
-						///////////////////////put sresult here
-						data = JSON.parse(data);
-						alert(data[0].week);
-					},
-					error : function(jqXHR, textStatus, errorThrown) {
+				var ajaxRequest;  // The variable that makes Ajax possible!
+								  // Base taken from http://www.tizag.com/ajaxTutorial/ajax-mysql-database.php
+				try{
+					// Opera 8.0+, Firefox, Safari
+					ajaxRequest = new XMLHttpRequest();
+				} catch (e){
+					// Internet Explorer Browsers
+					try{
+						ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+					} catch (e) {
+						try{
+							ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+						} catch (e){
+							// Something went wrong
+							alert("Your browser broke!");
+							return false;
+						}
 					}
-					
-				});
-				//e.preventDefault();
-			}
+				}
+			
+			var week = document.getElementById("Weeks").value;
+			var room = document.getElementById("RoomSelect").value;
+			var queryString = "?Weeks="+week+"&RoomSelect="+room;
+			ajaxRequest.open("GET", "RoomAvailAJAX.php" + queryString, true);
+			ajaxRequest.send();
 			
 			
 		</script>
@@ -108,7 +115,7 @@
 
 	<body>
 		<div>
-			<form name="options" id="options" method="post">
+			<form name="options">
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 				Park :-
 				<select name="ParkSelect" id="ParkSelect" onchange="ParkChange();ajaxFunction();">
