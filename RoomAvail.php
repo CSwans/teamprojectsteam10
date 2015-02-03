@@ -46,29 +46,7 @@
 		$(function() {
 			ParkChange();
 			WeekChange();
-			$("#simplepost").click(function(e)
- 
-	{
-		var MyForm = $("#options").serializeJSON();
-		console.log(MyForm);
-		$.ajax(
-		{
-			 url : "RoomAvailAJAX.php",
-			 type: "POST",
-			 data : {valArray:MyForm},
-			 success: function(data)
-			 {
-			 	data = JSON.parse(data);
-				alert(data[0].week);
-				
-			 },
-			 error: function(jqXHR, textStatus, errorThrown)
-			 {
-			 }
-			 });
-			 e.preventDefault(); //STOP default action
-
-		});
+			alert("hello");
 		});
 		</script>
 		
@@ -111,7 +89,7 @@
 					url : "RoomAvailAJAX.php",
 					type : "POST", 
 					data : {valArray:MyForm},
-					success : fucntion(data) {
+					success : fucntion(data) {}
 						///////////////////////put sresult here
 						data = JSON.parse(data);
 						alert(data[0].week);
@@ -134,7 +112,7 @@
 			<form name="options" id="options" method="post">
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 				Park :-
-				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();">
+				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange()">
 					<option value="Any">Any</option>
 					<option value="C">C</option>
 					<option value="E">E</option>
@@ -144,14 +122,13 @@
 				<select name="RoomSelect" id="RoomSelect" >
 				</select>
 				Week-
-				<select name="Weeks" id="Weeks" onChange="WeekChange();">
+				<select name="Weeks" id="Weeks" onChange="WeekChange()">
 					<?php
 						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
 							echo "<option>".$i."</option>";
 						}
 					?>
 				</select>
-                <input type="button" id="simplepost" value="Run Code" >
 			</form>
 		</div>
 		
@@ -169,7 +146,7 @@
 				<td>Monday</td>
 				<?php
 					for($i=9; $i<18; $i++) { //describing the table with teh day and the time period
-						echo "<td id=monday".$i."></td>"
+						echo "<td id=monday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -177,7 +154,7 @@
 				<td>Tuesday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=tuesday".$i."></td>"
+						echo "<td id=tuesday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -185,7 +162,7 @@
 				<td>Wednesday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=wednesday".$i."></td>"
+						echo "<td id=wednesday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -193,7 +170,7 @@
 				<td>Thursday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=thursday".$i."></td>"
+						echo "<td id=thursday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -201,7 +178,7 @@
 				<td>Friday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=friday".$i."></td>"
+						echo "<td id=friday".$i."></td>";
 					}
 				?>
 			</tr>
