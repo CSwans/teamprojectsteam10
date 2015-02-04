@@ -50,6 +50,52 @@ $json = json_encode($value);
 <script src="js/jquery-ui.js"></script>
 <script type="text/javascript">
 
+		function ext_toggle(n) {
+		    if(n==1){
+				if(document.getElementById('ad_pref1').style.display=="block"){
+					document.getElementById('expand').innerHTML="Expand ↓";
+					document.getElementById('ad_pref1').style.display="none";
+				}
+				else {
+					document.getElementById('expand').innerHTML="Hide ↑";
+					document.getElementById('ad_pref1').style.display="block";
+				}
+			}
+			
+			if(n==2){
+				if(document.getElementById('ad_pref2').style.display=="block"){
+					document.getElementById('expand2').innerHTML="Expand ↓";
+					document.getElementById('ad_pref2').style.display="none";
+				}
+				else {
+					document.getElementById('expand2').innerHTML="Hide ↑";
+					document.getElementById('ad_pref2').style.display="block";
+				}
+			}
+			
+			if(n==3){
+				if(document.getElementById('ad_pref3').style.display=="block"){
+					document.getElementById('expand3').innerHTML="Expand ↓";
+					document.getElementById('ad_pref3').style.display="none";
+				}
+				else {
+					document.getElementById('expand3').innerHTML="Hide ↑";
+					document.getElementById('ad_pref3').style.display="block";
+				}
+			}
+			
+			if(n==4){
+				if(document.getElementById('ad_pref4').style.display=="block"){
+					document.getElementById('expand4').innerHTML="Expand ↓";
+					document.getElementById('ad_pref4').style.display="none";
+				}
+				else {
+					document.getElementById('expand4').innerHTML="Hide ↑";
+					document.getElementById('ad_pref4').style.display="block";
+				}
+			}
+		}
+
   //show or hide advanced input that aren't compulsory
   //Tom Middleton
   		function advToggle() {
@@ -58,8 +104,7 @@ $json = json_encode($value);
           	e.style.display = 'none';
        	else
           	e.style.display = 'block';
-    	}
-		
+    	}	
 		
 
 <?php
@@ -86,17 +131,43 @@ function module_title_change() {
 var index = document.getElementById("module_title_select").selectedIndex;
 document.getElementById("module_code_select").selectedIndex = index;
 }
+
+
+
+
 //change room preference Based on capacity, park and additional options
 //Scott Marshall
 function change_room_code() {
 //cache user settings
 var noOfRooms = parseInt(document.getElementById('noRooms').value);
 var park = document.getElementById("park").value;
+
 var capacity = parseInt(document.getElementById("capacity1").value);
+var capacity2=""; if(noOfRooms > 1) capacity2 = document.getElementById("capacity2").value;
+var capacity3=""; if(noOfRooms > 2) capacity3 = document.getElementById("capacity3").value;
+var capacity4=""; if(noOfRooms > 3) capacity4 = document.getElementById("capacity4").value;
+
 var isWheelchair = document.getElementById("wheelchair_yes").checked;
+var isWheelchair2; if(noOfRooms > 1) isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
+var isWheelchair3; if(noOfRooms > 2) isWheelchair3 = document.getElementById("wheelchair_yes3").checked;
+var isWheelchair4; if(noOfRooms > 3) isWheelchair4 = document.getElementById("wheelchair_yes4").checked;
+
 var isVisualiser = document.getElementById("visualiser_yes").checked;
+var isVisualiser2; if(noOfRooms > 1) isVisualiser2 = document.getElementById("visualiser_yes2").checked;
+var isVisualiser3; if(noOfRooms > 2) isVisualiser3 = document.getElementById("visualiser_yes3").checked;
+var isVisualiser4; if(noOfRooms > 3) isVisualiser4 = document.getElementById("visualiser_yes4").checked;
+
 var isProjector = document.getElementById("projector_yes").checked;
+var isProjector2; if(noOfRooms > 1)  isProjector2 = document.getElementById("projector_yes2").checked;
+var isProjector3; if(noOfRooms > 2)  isProjector3 = document.getElementById("projector_yes3").checked;
+var isProjector4; if(noOfRooms > 3)  isProjector4 = document.getElementById("projector_yes4").checked;
+
 var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+var isWhiteboard2; if(noOfRooms > 1) isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
+var isWhiteboard3; if(noOfRooms > 2) isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
+var isWhiteboard4; if(noOfRooms > 3) isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
+
+
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
@@ -120,19 +191,19 @@ $("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomDa
 //additional stages if more than one room pref option required
 //Tom middleton
 if(parseInt(document.getElementById('noRooms').value) > 1){
-
-for(var x=1;x<noOfRooms;x++){
-var newCapacity = parseInt(document.getElementById("capacity" +(x+1)).value);
+	if(capacity2 != '' && capacity2 > 0){
 for(var i=0;i<roomData.length;i++){
-if(roomData[i].capacity >= newCapacity &&
+if(roomData[i].capacity >= capacity2 &&
 (park == "Any" || park == roomData[i].park) &&
-(!isWheelchair || roomData[i].wheelchair == 1) &&
-(!isVisualiser || roomData[i].visualiser == 1) &&
-(!isProjector || roomData[i].projector == 1) &&
-(!isWhiteboard || roomData[i].whiteboard == 1))
-$("#room_list" +(x+1)).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+(!isWheelchair2 || roomData[i].wheelchair == 1) &&
+(!isVisualiser2 || roomData[i].visualiser == 1) &&
+(!isProjector2 || roomData[i].projector == 1) &&
+(!isWhiteboard2 || roomData[i].whiteboard == 1))
+$("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
 }
+else {}
+
 
 for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
@@ -149,6 +220,36 @@ else {
 for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
 }	
+}
+
+if(parseInt(document.getElementById('noRooms').value) > 2){
+
+for(var i=0;i<roomData.length;i++){
+if(capacity3 != '' && capacity3 > 0){
+if(roomData[i].capacity >= capacity3 &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair3 || roomData[i].wheelchair == 1) &&
+(!isVisualiser3 || roomData[i].visualiser == 1) &&
+(!isProjector3 || roomData[i].projector == 1) &&
+(!isWhiteboard3 || roomData[i].whiteboard == 1))
+$("#room_list3").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+}
+}
+}
+
+
+if(parseInt(document.getElementById('noRooms').value) > 3){
+if(capacity4 != '' && capacity4 > 0){
+for(var i=0;i<roomData.length;i++){
+if(roomData[i].capacity >= capacity4 &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair4 || roomData[i].wheelchair == 1) &&
+(!isVisualiser4 || roomData[i].visualiser == 1) &&
+(!isProjector4 || roomData[i].projector == 1) &&
+(!isWhiteboard4 || roomData[i].whiteboard == 1))
+$("#room_list4").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+}
+}
 }
 }
 
@@ -270,6 +371,7 @@ function refill_codes() {
         }
         			
 }
+
 </script>
 </head>
 <body>
@@ -313,18 +415,16 @@ function refill_codes() {
 						<?php
 							//will output the whole set of module codes from the database, module codes will change when module titles change
 							//Callan Swanson, Inthuch Therdchanakul
+							//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
 							echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
 							$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
 							}
-							
-							
 							while($row = $res->fetchRow()){
 								echo "<option>".$row["module_code"]."</option>";
-								
-							}
+								}
 							//outputs all the options from the database return result
 							echo "</select>";
 						?>
@@ -335,18 +435,17 @@ function refill_codes() {
 						<?php
 							//displays the module titles, titles will change when module codes change
 							//Callan Swanson, Inthuch Therdchanakul
+							//Scott Marshall: added order by to SQL and name to the <select>. 'module_title_select' is now part of the Form Data
 							echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
-							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
+							//selects the module title from the databse
+							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_title ;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
 							}
-							
-							
 							while($row = $res->fetchRow()){
 								echo "<option>".$row["module_title"]."</option>";
-								
-							}
+							}//outputs all the options from the database return result
 							echo "</select>";
 						?>
 					</td>
@@ -372,7 +471,28 @@ function refill_codes() {
 				<tr>
 					<td><!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
 					  <!-- allowing a raneg of weeks to be chosen --> 
+					  <!-- Scott Marshall (Still in progress) --> 
 						Week: <br/>
+					  
+					  <!--
+								<ol id="week" name="week">
+								<li class="ui-state-default ui-selected" value="1">1</li>
+								<li class="ui-state-default ui-selected" value="1">2</li>
+								<li class="ui-state-default ui-selected" value="1">3</li>
+								<li class="ui-state-default ui-selected" value="1">4</li>
+								<li class="ui-state-default ui-selected" value="1">5</li>
+								<li class="ui-state-default ui-selected" value="1">6</li>
+								<li class="ui-state-default ui-selected" value="1">7</li>
+								<li class="ui-state-default ui-selected" value="1">8</li>
+								<li class="ui-state-default ui-selected" value="1">9</li>
+								<li class="ui-state-default ui-selected" value="1">10</li>
+								<li class="ui-state-default ui-selected" value="1">11</li>
+								<li class="ui-state-default ui-selected" value="1">12</li>
+								<li class="ui-state-default" value="1">13</li>
+								<li class="ui-state-default" value="1">14</li>
+								<li class="ui-state-default" value="1">15</li>
+								</ol>
+								--> 
 						<span class="week_label"> 1 </span>
 						<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
 						<span class="week_label"> 2 </span>
@@ -473,43 +593,153 @@ function refill_codes() {
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
 						Room Pref:
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
-						</select></td>
+						</select>   <button type='button' onclick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
 					</tr>
-					<tr id="add_room_col">
-					  <td><span id='room_list2' style="display: none;">Room Pref 2:
-						  <select name='roomCode1' onchange='refill_codes();'>
-						</select>
-						</span></td>
-					  <td><span id='room_list3' style="display: none;">Room Pref 3:
-						  <select name='roomCode2' onchange='refill_codes();'>
-						</select>
-						</span></td>
-					  <td><span  id='room_list4' style="display: none;">Room Pref 4:
-						  <select name='roomCode3' onchange='refill_codes();'>
-						</select>
-						</span></td>
-					</tr>
-					<tr>
-					  <td> Wheelchair <br/>
+					<tr id="ad_pref1" style="display:block;">
+					  <td>
+					<span id="adv_block">  
+					    Wheelchair <br/>
 						<input name="wheelchair" type="radio" id="wheelchair_yes" onchange="change_room_code()" value="1"/>
 						Yes
 						<input name="wheelchair" type="radio" id="wheelchair_no" onchange="change_room_code()" value="0" checked="checked"/>
-						No<br/>
+						No
+					</span>
+					<span id="adv_block">
 						Projector <br/>
 						<input name="projector" type="radio" id="projector_yes" onchange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="projector" type="radio" id="projector_no" onchange="change_room_code()" value="0"/>
-						No<br/>
+						No
+					</span> <br>
+					<span id="adv_block">
 						Visualiser <br/>
 						<input name="visualiser" type="radio" id="visualiser_yes" onchange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="visualiser" type="radio" id="visualiser_no" onchange="change_room_code()" value="0"/>
-						No<br/>
+						No
+					</span>
+					<span id="adv_block">
 						Whiteboard <br/>
 						<input name="whiteboard" type="radio" id="whiteboard_yes" onchange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="whiteboard" type="radio" id="whiteboard_no" onchange="change_room_code()" value="0"/>
-						No<br/></td>
+						No
+					</span>
+						</td>
+					</tr>
+					<tr id="add_room_col">
+					  <td><span id='room_list2' style="display: none;">Room Pref 2:
+						  <select name='roomCode1' onchange='refill_codes();'>
+						</select> <button type='button' onclick="ext_toggle(2);" id='expand2'>Expand ↓</button>
+						</span></td>
+					</tr>
+					<tr id="ad_pref2">
+					  <td>
+					<span id="adv_block">  
+					    Wheelchair <br/>
+						<input name="wheelchair2" type="radio" id="wheelchair_yes2" onchange="change_room_code()" value="1"/>
+						Yes
+						<input name="wheelchair2" type="radio" id="wheelchair_no2" onchange="change_room_code()" value="0" checked="checked"/>
+						No
+					</span>
+					<span id="adv_block">
+						Projector <br/>
+						<input name="projector2" type="radio" id="projector_yes2" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="projector2" type="radio" id="projector_no2" onchange="change_room_code()" value="0"/>
+						No
+					</span> <br>
+					<span id="adv_block">
+						Visualiser <br/>
+						<input name="visualiser2" type="radio" id="visualiser_yes2" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="visualiser2" type="radio" id="visualiser_no2" onchange="change_room_code()" value="0"/>
+						No
+					</span>
+					<span id="adv_block">
+						Whiteboard <br/>
+						<input name="whiteboard2" type="radio" id="whiteboard_yes2" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="whiteboard2" type="radio" id="whiteboard_no2" onchange="change_room_code()" value="0"/>
+						No
+					</span>
+						</td>
+					</tr>
+					<tr>
+					  <td><span id='room_list3' style="display: none;">Room Pref 3:
+						  <select name='roomCode2' onchange='refill_codes();'>
+						</select> <button type='button' onclick="ext_toggle(3);" id='expand3'>Expand ↓</button>
+						</span></td>
+					</tr>
+					<tr id="ad_pref3">
+					  <td>
+					<span id="adv_block">  
+					    Wheelchair <br/>
+						<input name="wheelchair3" type="radio" id="wheelchair_yes3" onchange="change_room_code()" value="1"/>
+						Yes
+						<input name="wheelchair3" type="radio" id="wheelchair_no3" onchange="change_room_code()" value="0" checked="checked"/>
+						No
+					</span>
+					<span id="adv_block">
+						Projector <br/>
+						<input name="projector3" type="radio" id="projector_yes3" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="projector3" type="radio" id="projector_no3" onchange="change_room_code()" value="0"/>
+						No
+					</span> <br>
+					<span id="adv_block">
+						Visualiser <br/>
+						<input name="visualiser3" type="radio" id="visualiser_yes3" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="visualiser3" type="radio" id="visualiser_no3" onchange="change_room_code()" value="0"/>
+						No
+					</span>
+					<span id="adv_block">
+						Whiteboard <br/>
+						<input name="whiteboard3" type="radio" id="whiteboard_yes3" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="whiteboard3" type="radio" id="whiteboard_no3" onchange="change_room_code()" value="0"/>
+						No
+					</span>
+						</td>
+					</tr>
+					<tr>
+					  <td><span  id='room_list4' style="display: none;">Room Pref 4:
+						  <select name='roomCode3' onchange='refill_codes();'>
+						</select> <button type='button' onclick="ext_toggle(4);" id='expand4'>Expand ↓</button>
+						</span></td>
+					</tr>
+					<tr id="ad_pref4">
+					  <td>
+					<span id="adv_block">  
+					    Wheelchair <br/>
+						<input name="wheelchair4" type="radio" id="wheelchair_yes4" onchange="change_room_code()" value="1"/>
+						Yes
+						<input name="wheelchair4" type="radio" id="wheelchair_no4" onchange="change_room_code()" value="0" checked="checked"/>
+						No
+					</span>
+					<span id="adv_block">
+						Projector <br/>
+						<input name="projector4" type="radio" id="projector_yes4" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="projector4" type="radio" id="projector_no4" onchange="change_room_code()" value="0"/>
+						No
+					</span> <br>
+					<span id="adv_block">
+						Visualiser <br/>
+						<input name="visualiser4" type="radio" id="visualiser_yes4" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="visualiser4" type="radio" id="visualiser_no4" onchange="change_room_code()" value="0"/>
+						No
+					</span>
+					<span id="adv_block">
+						Whiteboard <br/>
+						<input name="whiteboard4" type="radio" id="whiteboard_yes4" onchange="change_room_code()" value="1" checked="checked"/>
+						Yes
+						<input name="whiteboard4" type="radio" id="whiteboard_no4" onchange="change_room_code()" value="0"/>
+						No
+					</span>
+						</td>
 					</tr>
 				  </table>
 				</div>
