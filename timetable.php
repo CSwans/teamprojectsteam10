@@ -313,16 +313,18 @@ function refill_codes() {
 						<?php
 							//will output the whole set of module codes from the database, module codes will change when module titles change
 							//Callan Swanson, Inthuch Therdchanakul
-							//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
 							echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
 							$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
 							}
+							
+							
 							while($row = $res->fetchRow()){
 								echo "<option>".$row["module_code"]."</option>";
-								}
+								
+							}
 							//outputs all the options from the database return result
 							echo "</select>";
 						?>
@@ -333,17 +335,18 @@ function refill_codes() {
 						<?php
 							//displays the module titles, titles will change when module codes change
 							//Callan Swanson, Inthuch Therdchanakul
-							//Scott Marshall: added order by to SQL and name to the <select>. 'module_title_select' is now part of the Form Data
 							echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
-							//selects the module title from the databse
-							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_title ;";
+							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
 							}
+							
+							
 							while($row = $res->fetchRow()){
 								echo "<option>".$row["module_title"]."</option>";
-							}//outputs all the options from the database return result
+								
+							}
 							echo "</select>";
 						?>
 					</td>
