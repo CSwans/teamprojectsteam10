@@ -65,6 +65,9 @@
 			  	var MyForm = $("#options").serializeJSON();
 				console.log(MyForm);
 				
+				//clear the table of any booked rooms
+				refreshBooks();
+				
 				$.ajax( {
 					url : "RoomAvailAJAX.php",
 					type : "POST", 
@@ -75,16 +78,33 @@
 							for(var i=0; i<data.length; i++) { //looking throught the whole data array to find the correct weeks
 								if(document.getElementById("Weeks").value == data[i].week) { 
 									for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
-										console.log(data[i].day+data[i].period);
-										$("#"+data[i].day+data[i].period).html("THIS IS TAKEN"); //removes the Book button in teh table
+										console.log(data[i].day+(parseInt(data[i].period)+j));
+										$("#"+data[i].day+(parseInt(data[i].period)+j)).html("THIS IS TAKEN"); //removes the Book button in teh table
 									}
-									
+								} else {  //default weeks are put in as a 0 in teh relationship table 
+									if(parseInt(document.getElementById("Weeks").value) <= 12 && data[i].week == 0) {
+										for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
+											console.log(data[i].day+(parseInt(data[i].period)+j));
+											$("#"+data[i].day+(parseInt(data[i].period)+j)).html("THIS IS TAKEN"); //removes the Book button in teh table
+										}
+									}
 								}
 							}
 						},
 					error : function(jqXHR, textStatus, errorThrown) {
 					}
 				});
+			}
+			
+			//replaces all the books within teh table so no previously booked rooms are still displayed as booked
+			function refreshBooks() {
+				for(var i=1; i<10; i++) {
+					$("#Monday"+i).html("Book");
+					$("#Tuesday"+i).html("Book");
+					$("#Wednesday"+i).html("Book");
+					$("#Thursday"+i).html("Book");
+					$("#Friday"+i).html("Book");
+				}
 			}
 			
 			//finds the park chosen Callan Swanson, March Intuch
