@@ -1,6 +1,8 @@
+
 <html>
 
 	<head>
+    	
 		<title>
 			Room availability
 		</title>
@@ -8,6 +10,7 @@
 		<?php
 			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
 			//Inthuch Therdchanakul
+			
 			session_start();
 			if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 				header('Location: login.html');
@@ -41,21 +44,38 @@
 		?>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.js"></script>
-		
-		<script>
-		$(function() {
-			ParkChange();
-			WeekChange();
-		});
-		</script>
-		
-		
-		<script type="text/javascript">
-		
+		<script src="js/jquery.serializejson.min.js"></script>
+	</head>
+	<script type="text/javascript">
+			
+			$(function() {
+				
+				ParkChange();
+				WeekChange();
+				ajaxFunction();
+			});
+			
 			<?php
 				echo "var roomData = ".$json.";\n";
 			?>
-			
+			function ajaxFunction() {
+			  	var MyForm = $("#options").serializeJSON();
+				console.log(MyForm);
+				
+				$.ajax( {
+					url : "RoomAvailAJAX.php",
+					type : "POST", 
+					data : {valArray:MyForm},
+					success : function (data){
+							data = JSON.parse(data);
+							console.log(data);
+							alert(data.length);
+							alert(data[0].week + "," + data[0].day);
+						},
+					error : function(jqXHR, textStatus, errorThrown) {
+					}
+				});
+					}
 			//finds the park chosen Callan Swanson, March Intuch
 			function ParkChange() {
 				var parkChosen = "Any";
@@ -80,55 +100,27 @@
 				$("#weekChosen").html("Week - "+document.getElementById("Weeks").value);
 			}
 			
-			function ajaxFunction() {
-				var ajaxRequest;  // The variable that makes Ajax possible!
-								  // Base taken from http://www.tizag.com/ajaxTutorial/ajax-mysql-database.php
-				try{
-					// Opera 8.0+, Firefox, Safari
-					ajaxRequest = new XMLHttpRequest();
-				} catch (e){
-					// Internet Explorer Browsers
-					try{
-						ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-					} catch (e) {
-						try{
-							ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-						} catch (e){
-							// Something went wrong
-							alert("Your browser broke!");
-							return false;
-						}
-					}
-				}
 			
-			var week = document.getElementById("Weeks").value;
-			var room = document.getElementById("RoomSelect").value;
-			var queryString = "?Weeks="+week+"&RoomSelect="+room;
-			ajaxRequest.open("GET", "RoomAvailAJAX.php" + queryString, true);
-			ajaxRequest.send();
 			
 			
 		</script>
 		
-		
-	</head>
-
 	<body>
 		<div>
-			<form name="options">
+			<form name="options" id="options" method="POST">
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 				Park :-
-				<select name="ParkSelect" id="ParkSelect" onchange="ParkChange();ajaxFunction();">
+				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange()">
 					<option value="Any">Any</option>
 					<option value="C">C</option>
 					<option value="E">E</option>
 					<option value="W">W</option>
 				</select>
 				Rooms :-
-				<select name="RoomSelect" id="RoomSelect" >
+				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction()" >
 				</select>
 				Week-
-				<select name="Weeks" id="Weeks" onchange="WeekChange();ajaxFunction();">
+				<select name="Weeks" id="Weeks" onChange="WeekChange();ajaxFunction();">
 					<?php
 						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
 							echo "<option>".$i."</option>";
@@ -152,7 +144,7 @@
 				<td>Monday</td>
 				<?php
 					for($i=9; $i<18; $i++) { //describing the table with teh day and the time period
-						echo "<td id=monday".$i."></td>"
+						echo "<td id=monday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -160,7 +152,7 @@
 				<td>Tuesday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=tuesday".$i."></td>"
+						echo "<td id=tuesday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -168,7 +160,7 @@
 				<td>Wednesday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=wednesday".$i."></td>"
+						echo "<td id=wednesday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -176,7 +168,7 @@
 				<td>Thursday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=thursday".$i."></td>"
+						echo "<td id=thursday".$i."></td>";
 					}
 				?>
 			</tr>
@@ -184,7 +176,7 @@
 				<td>Friday</td>
 				<?php
 					for($i=9; $i<18; $i++) {
-						echo "<td id=friday".$i."></td>"
+						echo "<td id=friday".$i."></td>";
 					}
 				?>
 			</tr>
