@@ -82,13 +82,13 @@
 								if(document.getElementById("Weeks").value == data[i].week) { 
 									for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
 										console.log(data[i].day+(parseInt(data[i].period)+j));
-										$("#"+data[i].day+(parseInt(data[i].period)+j)).html("THIS IS TAKEN"); //removes the Book button in teh table
+										$("#"+data[i].day+(parseInt(data[i].period)+j)).html("Booked"); //removes the Book button in teh table
 									}
 								} else {  //default weeks are put in as a 0 in teh relationship table 
 									if(parseInt(document.getElementById("Weeks").value) <= 12 && data[i].week == 0) {
 										for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
 											console.log(data[i].day+(parseInt(data[i].period)+j));
-											$("#"+data[i].day+(parseInt(data[i].period)+j)).html("THIS IS TAKEN"); //removes the Book button in teh table
+											$("#"+data[i].day+(parseInt(data[i].period)+j)).html("Booked"); //removes the Book button in teh table
 										}
 									}
 								}
@@ -308,7 +308,7 @@
 					
 					<tr>
 						<td id="capacityCell"> Capacity:
-							<input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1" />
+							<input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="" />
 						</td>
 					</tr>
 				
