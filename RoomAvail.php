@@ -75,7 +75,8 @@
 					error : function(jqXHR, textStatus, errorThrown) {
 					}
 				});
-					}
+			}
+			
 			//finds the park chosen Callan Swanson, March Intuch
 			function ParkChange() {
 				var parkChosen = "Any";
