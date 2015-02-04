@@ -21,7 +21,7 @@ session_start();
 if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 header('Location: login.html');
 }
-//connects to the database using the username and passoword
+//connects to the database using the username and passoword 
 require_once "MDB2.php";
 $host = "co-project.lboro.ac.uk"; //host name
 $dbName = "team10"; //database name
