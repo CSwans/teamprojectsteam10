@@ -372,28 +372,7 @@ function refill_codes() {
 				<tr>
 					<td><!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
 					  <!-- allowing a raneg of weeks to be chosen --> 
-					  <!-- Scott Marshall (Still in progress) --> 
 						Week: <br/>
-					  
-					  <!--
-								<ol id="week" name="week">
-								<li class="ui-state-default ui-selected" value="1">1</li>
-								<li class="ui-state-default ui-selected" value="1">2</li>
-								<li class="ui-state-default ui-selected" value="1">3</li>
-								<li class="ui-state-default ui-selected" value="1">4</li>
-								<li class="ui-state-default ui-selected" value="1">5</li>
-								<li class="ui-state-default ui-selected" value="1">6</li>
-								<li class="ui-state-default ui-selected" value="1">7</li>
-								<li class="ui-state-default ui-selected" value="1">8</li>
-								<li class="ui-state-default ui-selected" value="1">9</li>
-								<li class="ui-state-default ui-selected" value="1">10</li>
-								<li class="ui-state-default ui-selected" value="1">11</li>
-								<li class="ui-state-default ui-selected" value="1">12</li>
-								<li class="ui-state-default" value="1">13</li>
-								<li class="ui-state-default" value="1">14</li>
-								<li class="ui-state-default" value="1">15</li>
-								</ol>
-								--> 
 						<span class="week_label"> 1 </span>
 						<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
 						<span class="week_label"> 2 </span>
