@@ -58,6 +58,9 @@
 			<?php
 				echo "var roomData = ".$json.";\n";
 			?>
+			
+			//ajax to remove the book buttons within the table 
+			//Callan Swanson, Inthuch Therdchanakul
 			function ajaxFunction() {
 			  	var MyForm = $("#options").serializeJSON();
 				console.log(MyForm);
@@ -68,9 +71,16 @@
 					data : {valArray:MyForm},
 					success : function (data){
 							data = JSON.parse(data);
-							console.log(data);
-							alert(data.length);
-							alert(data[0].week + "," + data[0].day);
+							console.log(data); //quick check
+							for(var i=0; i<data.length; i++) { //looking throught the whole data array to find the correct weeks
+								if(document.getElementById("Weeks").value == data[i].week) { 
+									for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
+										console.log(data[i].day+data[i].period);
+										$("#"+data[i].day+data[i].period).html("THIS IS TAKEN"); //removes the Book button in teh table
+									}
+									
+								}
+							}
 						},
 					error : function(jqXHR, textStatus, errorThrown) {
 					}
@@ -144,40 +154,40 @@
 			<tr id="monday">
 				<td>Monday</td>
 				<?php
-					for($i=9; $i<18; $i++) { //describing the table with teh day and the time period
-						echo "<td id=monday".$i."></td>";
+					for($i=1; $i<10; $i++) { //describing the table with teh day and the time period
+						echo "<td id=Monday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="tuesday">
 				<td>Tuesday</td>
 				<?php
-					for($i=9; $i<18; $i++) {
-						echo "<td id=tuesday".$i."></td>";
+					for($i=1; $i<10; $i++) {
+						echo "<td id=Tuesday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="wednesday">
 				<td>Wednesday</td>
 				<?php
-					for($i=9; $i<18; $i++) {
-						echo "<td id=wednesday".$i."></td>";
+					for($i=1; $i<10; $i++) {
+						echo "<td id=Wednesday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="thursday">
 				<td>Thursday</td>
 				<?php
-					for($i=9; $i<18; $i++) {
-						echo "<td id=thursday".$i."></td>";
+					for($i=1; $i<10; $i++) {
+						echo "<td id=Thursday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="friday">
 				<td>Friday</td>
 				<?php
-					for($i=9; $i<18; $i++) {
-						echo "<td id=friday".$i."></td>";
+					for($i=1; $i<10; $i++) {
+						echo "<td id=Friday".$i.">Book</td>";
 					}
 				?>
 			</tr>

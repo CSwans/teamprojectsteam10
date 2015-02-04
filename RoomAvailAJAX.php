@@ -30,7 +30,7 @@
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
 			
-			$sql = "SELECT week, day, period, duration FROM REQUEST_WEEKS, BOOKING, REQUEST WHERE REQUEST_WEEKS.request_id=BOOKING.request_id AND REQUEST.request_id=BOOKING.request_id AND BOOKING.room_code='$room'";
+			$sql = "SELECT week, day, period, duration FROM REQUEST_WEEKS, BOOKING, REQUEST WHERE REQUEST_WEEKS.request_id=BOOKING.request_id AND REQUEST.request_id=BOOKING.request_id AND BOOKING.room_code='".$room."'";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
