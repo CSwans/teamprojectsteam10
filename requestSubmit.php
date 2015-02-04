@@ -11,7 +11,23 @@
 ?>
 </head>
 	<body>
-	
+		<!--
+			WE NEED TO CONTAIN THESE FIELDS IN THE INSERT:
+				dept_code 			(Department code)
+				module_code			(Module code)
+				room_code				(Room code)
+				capacity				(Numeric)
+				wheelchair			(1 - Yes 0 - No)
+				projector				(1 - Yes 0 - No)
+				visualiser			(1 - Yes 0 - No)
+				whitebooard			(1 - Yes 0 - No)
+				special_requirements		(Text field)
+				priority				(1 - Yes 0 - No)
+				period				(1 - 9)
+				day					(Monday, Tuesday...)
+				duration				(1, 2...)
+				group	(can be null)	(Request id of the first room in the multiple room bookings)
+		-->
 	   <!-- modified for multiple room requests as individual requests - Tom Middleton -->
 	   
 	   <?php
