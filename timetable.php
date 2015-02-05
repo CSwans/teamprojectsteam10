@@ -418,8 +418,6 @@ function refill_codes() {
 							echo "<input type='radio' name='part_select' value='I'> I ";
 							echo "<input type='radio' name='part_select' value='C'> C ";
 							echo "<input type='radio' name='part_select' value='D'> D ";
-							echo "<input type='radio' name='part_select' value='F'> F ";
-							echo "<input type='radio' name='part_select' value='P'> P ";
 							?></td> 
               </tr>
 
