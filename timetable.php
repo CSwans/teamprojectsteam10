@@ -261,10 +261,11 @@ var capacityNumber = document.getElementById("noRooms").value;
 $("#capacityCell").html("");
 for(var i=0;i<capacityNumber;i++){
 var capacityID = "capacity" + (i + 1);
+var capacityName = "capacity" + (i);
 if(i == 0){
-$("#capacityCell").append('Capacity: &nbsp;&nbsp; <input type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
+$("#capacityCell").append('Capacity: &nbsp;&nbsp; <input name="capacity" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
 }
-else $("#capacityCell").append('Capacity ' +(i+1)+ ': <input type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
+else $("#capacityCell").append('Capacity ' +(i+1)+ ': <input name="'+ capacityName +'" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
 }
 }
 //Initial room choice
@@ -591,7 +592,7 @@ function sort_module() {
 				  </tr>
 				  <tr>
 					<td id="capacityCell"> Capacity:
-					  <input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1" aria-required="true"/></td>
+					  <input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1"/></td>
 				  </tr>
 				</table>
 				</div>
