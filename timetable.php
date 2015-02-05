@@ -1,54 +1,54 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<link rel="icon" href="lboro_logo_large.ico">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Timetable - Round 1 | Loughborough University</title>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css"/>
-<link rel="stylesheet" href="Theme.css"/>
-<script>
-$(function() {
-$( "#tabs" ).tabs();
-});
-</script>
-<?php
-//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
-//Inthuch Therdchanakul
-session_start();
-if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
-header('Location: login.html');
-}
-//connects to the database using the username and passoword 
-require_once "MDB2.php";
-$host = "co-project.lboro.ac.uk"; //host name
-$dbName = "team10"; //database name
-$dsn = "mysql://team10:abg83rew@$host/$dbName"; //login information
-$db =& MDB2::connect($dsn); //connecting to the server and connecting to the database
-if(PEAR::isError($db)){ //if we couldnt connect then end the connection
-die($db->getMessage());
-}
-$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
-//username is the uppercase dept code that was loggged in
-$username = strtoupper($_SESSION['username']);
-//retrieve rooms data from database and put them in javacript array using json
-$sql = "SELECT DISTINCT PARKS.park, ROOMS.room_code, ROOMS.building_code, ROOMS.capacity, ROOMS.wheelchair, ROOMS.projector, ROOMS.visualiser, ROOMS.whiteboard FROM ROOMS,PARKS WHERE ROOMS.building_code = PARKS.building_code";
-$res =& $db->query($sql); //getting the result from the database
-if(PEAR::isError($res)){
-die($res->getMessage());
-}
-$value = array();
-//put each rows into value array
-while($row = $res->fetchRow()){
-$value[] = $row;
-}
-$json = json_encode($value);
-?>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script type="text/javascript">
+	<head>
+		<link rel="icon" href="lboro_logo_large.ico">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Timetable - Round 1 | Loughborough University</title>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/resources/demos/style.css"/>
+		<link rel="stylesheet" href="Theme.css"/>
+		<script>
+			$(function() {
+			$( "#tabs" ).tabs();
+			});
+		</script>
+	<?php
+		//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
+		//Inthuch Therdchanakul
+		session_start();
+		if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
+		header('Location: login.html');
+		}
+		//connects to the database using the username and passoword 
+		require_once "MDB2.php";
+		$host = "co-project.lboro.ac.uk"; //host name
+		$dbName = "team10"; //database name
+		$dsn = "mysql://team10:abg83rew@$host/$dbName"; //login information
+		$db =& MDB2::connect($dsn); //connecting to the server and connecting to the database
+		if(PEAR::isError($db)){ //if we couldnt connect then end the connection
+			die($db->getMessage());
+		}
+		$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
+		//username is the uppercase dept code that was loggged in
+		$username = strtoupper($_SESSION['username']);
+		//retrieve rooms data from database and put them in javacript array using json
+		$sql = "SELECT DISTINCT PARKS.park, ROOMS.room_code, ROOMS.building_code, ROOMS.capacity, ROOMS.wheelchair, ROOMS.projector, ROOMS.visualiser, ROOMS.whiteboard FROM ROOMS,PARKS WHERE ROOMS.building_code = PARKS.building_code";
+		$res =& $db->query($sql); //getting the result from the database
+		if(PEAR::isError($res)){
+			die($res->getMessage());
+		}
+		$value = array();
+		//put each rows into value array
+		while($row = $res->fetchRow()){
+			$value[] = $row;
+		}
+		$json = json_encode($value);
+	?>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script type="text/javascript">
 
 		function ext_toggle(n) {
 		    if(n==1){

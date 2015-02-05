@@ -169,6 +169,20 @@
 				$("#PeriodSubmit").html("Period/Time: "+buttonId.substr(buttonId.length-2,1)+" / "+(8+parseInt(buttonId.substr(buttonId.length-2,1)))+":00");
 			}
 			
+			function formValidation() {
+				<?php
+					$sql = "SELECT ";
+					$res =& $db->query($sql); //getting the result from the database
+					if(PEAR::isError($res)){
+						die($res->getMessage());
+					}
+					$roomSizes = array();
+					//put each rows into value array
+					while($row = $res->fetchRow()){
+						$roomSizes[] = $row;
+					}
+				?>
+			}
 			
 		</script>
 		

@@ -28,11 +28,13 @@
 				duration				(1, 2...)
 				group	(can be null)	(Request id of the first room in the multiple room bookings)
 		-->
+		
+		
 	   <!-- modified for multiple room requests as individual requests - Tom Middleton -->
 	   
-	   <?php
+		<?php
 	   
-	   for ($x = 0; $x < $_POST['noRooms']; $x++) {
+		for ($x = 0; $x < $_POST['noRooms']; $x++) {
 	   		echo 'Dept: ';  echo $_SESSION['username'];
 	    	echo '</br>Day: '; 
 		
