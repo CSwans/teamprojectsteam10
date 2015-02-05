@@ -34,8 +34,8 @@
 	
 	$projector=$_POST['projector'];
 	$projector2; if($n > 1) $projector2=$_POST['projector2'];
-	$projector3; if($n > 2) $projector2=$_POST['projector3'];
-	$projector4; if($n > 3) $projector2=$_POST['projector4'];
+	$projector3; if($n > 2) $projector3=$_POST['projector3'];
+	$projector4; if($n > 3) $projector4=$_POST['projector4'];
 	
 	$visualiser=$_POST['visualiser'];
 	$visualiser2; if($n > 1) $visualiser2=$_POST['visualiser2'];
