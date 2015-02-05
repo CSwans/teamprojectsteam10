@@ -410,6 +410,21 @@ function refill_codes() {
 						<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
 					</td>
 				</tr>
+				                <td><?php
+							//will Sort the parts starting from part A
+							//Riccardo Mangiapelo, Nick Demosthenous
+							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
+							echo "<input type='radio' name='part_select' value='A'> A ";
+							echo "<input type='radio' name='part_select' value='B'> B ";
+							echo "<input type='radio' name='part_select' value='I'> I ";
+							echo "<input type='radio' name='part_select' value='C'> C ";
+							echo "<input type='radio' name='part_select' value='D'> D ";
+							echo "<input type='radio' name='part_select' value='F'> F ";
+							echo "<input type='radio' name='part_select' value='P'> P ";
+							?></td>
+              </tr>
+
+              <tr>
 				<tr>
 					<td>
 						<?php
