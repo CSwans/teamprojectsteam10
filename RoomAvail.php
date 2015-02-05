@@ -54,6 +54,7 @@
 				
 				ParkChange();
 				WeekChange();
+				RoomChange();
 				ajaxFunction();
 				//Populates the correct room values into the form as the page is loaded
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
@@ -156,18 +157,19 @@
 			function WeekChange() {
 				$("#weekChosen").html("Week - "+document.getElementById("Weeks").value);
 				$("#WeekSubmit").html("Week: "+document.getElementById("Weeks").value);
+				$("#WeekSubmitInput").val(document.getElementById("Weeks").value);
 			}
 			
 			//changes the relevant places rooms are located
 			//Callan Swanson, Inthuch Therdchanakul
-			function roomChange() {
+			function RoomChange() {
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
 				var roomChosen = roomIndex();
 				$("#Wheelchair").val(roomInfo[roomChosen].wheelchair);
 				$("#Projector").val(roomInfo[roomChosen].projector);
 				$("#Visualiser").val(roomInfo[roomChosen].visualiser);
 				$("#Whiteboard").val(roomInfo[roomChosen].whiteboard);
-				
+				$("#RoomSubmitInput").val(document.getElementById("RoomSelect").value);
 			}
 			
 			//when the module code dropdown changed its index, change the module title index with it
@@ -195,6 +197,10 @@
 				$("#DaySubmit").html("Day: "+buttonId.substr(0, buttonId.length-2));
 				//gets the period from the buttonId and finds the time, then places into teh bottom
 				$("#PeriodSubmit").html("Period/Time: "+buttonId.substr(buttonId.length-2,1)+" / "+(8+parseInt(buttonId.substr(buttonId.length-2,1)))+":00");
+			
+				//changes the values of the hidden input fields to correspond to the button clicked
+				$("#DaySubmitInput").val(buttonId.substr(0, buttonId.length-2));
+				$("#PeriodSubmitInput").val(buttonId.substr(buttonId.length-2,1));
 			}
 			
 			//checks the room size against the database result
@@ -202,6 +208,21 @@
 			function formValidation() {
 				console.log(document.getElementById("capacity1").value);
 				console.log(roomInfo[roomIndex()].capacity);
+				
+				var capacity = roomInfo[roomIndex()].capacity;
+				
+				//only returns true if both the capacity fits (and not empty) and the day has been chosen
+				if(document.getElementById("capacity1").value != "") {
+					if(capacity >= document.getElementById("capacity1").value) {
+						if(document.getElementById("DaySubmitInput").value != "") {
+							alert("True");
+							return true;
+						}
+					}
+				}
+				
+				alert("Please input a correct value!");
+				return false;
 			}
 			
 			//returns the index of the chosen room
@@ -299,7 +320,7 @@
 		
 		
 		<div id="inputs">
-			<form id="requestForm" action="requestSubmit.php" method="post">
+			<form id="requestForm" action="requestSubmit.php" method="post" onsubmit="return formValidation()">
 				<table class="inputs">
 					<tr>
 						<td>
@@ -353,7 +374,7 @@
 					
 					<tr>
 						<td id="capacityCell"> Capacity:
-							<input name="capacity" type="text" id="capacity1" onchange="formValidation()" value="" />
+							<input name="capacity" type="text" id="capacity1" value="" />
 						</td>
 					</tr>
 				
@@ -367,24 +388,30 @@
 						<td id="RoomSubmit">
 							
 						</td>
+						<input type="hidden" id="RoomSubmitInput" value="" name="" >
 					</tr>
 					
 					<tr>
 						<td id="WeekSubmit">
 							
 						</td>
+						<input type="hidden" id="WeekSubmitInput" value="" name="" >
 					</tr>
 					
 					<tr>
 						<td id="DaySubmit">
 							Day: 
+							
 						</td>
+						<input type="hidden" id="DaySubmitInput" value="" name="" >
 					</tr>
 					
 					<tr>
 						<td id="PeriodSubmit">
 							Period/Time: 
+							
 						</td>
+						<input type="hidden" id="PeriodSubmitInput" value="" name="" >
 					</tr>
 					
 					<input type="hidden" id="Wheelchair" value="">
