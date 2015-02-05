@@ -494,15 +494,15 @@ function sort_module() {
 					  <!--radio buttons for the day of the week--> 
 					  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
 					  
-						<input type="radio" name="day" id='monday' value="1"/>
+						<input type="radio" name="day" id='monday' value="1" required/>
 						Monday
-						<input type="radio" name="day" id='tuesday' value="2"/>
+						<input type="radio" name="day" id='tuesday' value="2" required/>
 						Tuesday<br/>
-						<input type="radio" name="day" id='wednesday' value="3"/>
+						<input type="radio" name="day" id='wednesday' value="3" required/>
 						Wednesday
-						<input type="radio" name="day" id='thursday' value="4"/>
+						<input type="radio" name="day" id='thursday' value="4" required/>
 						Thursday<br/>
-						<input type="radio" name="day" id='friday' value="5"/>
+						<input type="radio" name="day" id='friday' value="5" required/>
 						Friday 
 					</td>
 				</tr>
@@ -591,7 +591,7 @@ function sort_module() {
 				  </tr>
 				  <tr>
 					<td id="capacityCell"> Capacity:
-					  <input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1" /></td>
+					  <input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1" aria-required="true"/></td>
 				  </tr>
 				</table>
 				</div>
