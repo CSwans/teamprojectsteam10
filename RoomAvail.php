@@ -59,6 +59,7 @@
 				//Populates the correct room values into the form as the page is loaded
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
 				$("#WeekSubmit").html("Week: "+document.getElementById("Weeks").value);
+				
 			});
 			
 			<?php
@@ -203,8 +204,10 @@
 				$("#PeriodSubmitInput").val(buttonId.substr(buttonId.length-2,1));
 			}
 			
-			//checks the room size against the database result
+			//checks the room size and information against the database result
 			//uses global variable roomInfo
+			//only allows the form to be sumbitted if this function returns true
+			//Callan Swanson, Inthuch Therdchanakul
 			function formValidation() {
 				console.log(document.getElementById("capacity1").value);
 				console.log(roomInfo[roomIndex()].capacity);
@@ -213,7 +216,7 @@
 				
 				//only returns true if both the capacity fits (and not empty) and the day has been chosen
 				if(document.getElementById("capacity1").value != "") {
-					if(capacity >= document.getElementById("capacity1").value) {
+					if(capacity >= parseInt(document.getElementById("capacity1").value)) {
 						if(document.getElementById("DaySubmitInput").value != "") {
 							alert("True");
 							return true;
@@ -235,6 +238,25 @@
 				}
 				
 			}
+			
+			$("#requestForm").submit(function() {
+				var url = "insertInfo.php";
+				var MyForm = $("#requestForm").serializeJSON();
+				
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: {valArray:MyForm},
+					success: function (data) {
+						console.log("Fine");
+						console.log(data);
+					}
+				});
+				return false;	
+			}); 
+				
+			
+			
 			
 		</script>
 		
@@ -320,7 +342,7 @@
 		
 		
 		<div id="inputs">
-			<form id="requestForm" action="requestSubmit.php" method="post" onsubmit="return formValidation()">
+			<form id="requestForm" action="insertInfo.php" method="post" onsubmit="return formValidation()">
 				<table class="inputs">
 					<tr>
 						<td>
