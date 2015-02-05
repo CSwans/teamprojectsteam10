@@ -434,14 +434,14 @@
 						<td id="RoomSubmit">
 							
 						</td>
-						<input type="hidden" id="RoomSubmitInput" value="" name="" >
+						<input type="hidden" id="RoomSubmitInput" name="roomCode0" value="" name="" >
 					</tr>
 					
 					<tr>
 						<td id="WeekSubmit">
 							
 						</td>
-						<input type="hidden" id="WeekSubmitInput" value="" name="" >
+						<input type="hidden" id="WeekSubmitInput" name="weeks[]" value="" name="" >
 					</tr>
 					
 					<tr>
@@ -449,7 +449,7 @@
 							Day: 
 							
 						</td>
-						<input type="hidden" id="DaySubmitInput" value="" name="" >
+						<input type="hidden" id="DaySubmitInput" name="day" value="" name="" >
 					</tr>
 					
 					<tr>
@@ -457,41 +457,38 @@
 							Period/Time: 
 							
 						</td>
-						<input type="hidden" id="PeriodSubmitInput" value="" name="" >
+						<input type="hidden" id="PeriodSubmitInput" name="time" value="" name="" >
 					</tr>
 					
 					<tr>
 						<td id="WheelchairSubmit">
 							Wheelchair:
 						</td>
-						<input type="hidden" id="Wheelchair" value="">
+						<input type="hidden" id="Wheelchair" name="wheelchair" value="">
 					</tr>
 					
 					<tr>
 						<td id="ProjectorSubmit">
 							Projector:
 						</td>
-						<input type="hidden" id="Projector" value="">
+						<input type="hidden" id="Projector" name="projector" value="">
 					</tr>
 					
 					<tr>
 						<td id="VisualiserSubmit">
 							Visualiser:
 						</td>
-						<input type="hidden" id="Visualiser" value="">
+						<input type="hidden" id="Visualiser" name="visualiser" value="">
 					</tr>
 					
 					<tr>
 						<td id="WhiteboardSubmit">
 							Whiteboard:
 						</td>
-						<input type="hidden" id="Whiteboard" value="">
+						<input type="hidden" id="Whiteboard" name="whiteboard" value="">
 					</tr>
 					
-					
-					
-					
-					
+					<input type="hidden" name="duration" value="1">
 					
 					<tr>
 						<td>
