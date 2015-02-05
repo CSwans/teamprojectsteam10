@@ -1,115 +1,184 @@
-<html>
-	<head>
-		<?php 
-			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
-			//March Intuch
-			session_start();
-			if(!isset($_SESSION['username']) || !isset($_SESSION['password']))
-			{
-				header('Location: login.html');	
-			}
-		?>
-	</head>
-	<body>
-		<!--
-			WE NEED TO CONTAIN THESE FIELDS IN THE INSERT:
-				dept_code 			(Department code)
-				module_code			(Module code)
-				room_code				(Room code)
-				capacity				(Numeric)
-				wheelchair			(1 - Yes 0 - No)
-				projector				(1 - Yes 0 - No)
-				visualiser			(1 - Yes 0 - No)
-				whitebooard			(1 - Yes 0 - No)
-				special_requirements		(Text field)
-				priority				(1 - Yes 0 - No)
-				period				(1 - 9)
-				day					(Monday, Tuesday...)
-				duration				(1, 2...)
-				group	(can be null)	(Request id of the first room in the multiple room bookings)
-		-->
-		
-		
-	   <!-- modified for multiple room requests as individual requests - Tom Middleton -->
-	   
-		<?php
-	   
-		for ($x = 0; $x < $_POST['noRooms']; $x++) {
-	   		echo 'Dept: ';  echo $_SESSION['username'];
-	    	echo '</br>Day: '; 
-		
-			if(isset($_POST['day'])) {
-				echo $_POST['day'];
-			} else {
-				echo 'No day chosen';
-			}
-		
-			echo '</br>Weeks: ';
-		
-		// Echos the value set in HTML form for each checked checkbox, echoing the weeks that were picked -->
-		// Scott Marshall -->
-		
-		 
-			if(!empty($_POST['weeks'])){
+<?php 
+	//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
+	//March Intuch
+	session_start();
+	if(!isset($_SESSION['username']) || !isset($_SESSION['password']))
+	{
+		header('Location: login.html');	
+	}
+	
+	$requestId=3;
+	$requestId2=4;
+	$requestId3=5;
+	$requestId4=6;
+	
+	$n=$_POST['noRooms'];
+	
+	$deptCode = $_SESSION['username'];
+	
+	$moduleCode = $_POST['module_code_select'];
+	
+	$roomCode = $_POST['roomCode0'];
+	$roomCode2; if($n > 1) $roomCode2=$_POST['roomCode1'];
+	$roomCode3; if($n > 2) $roomCode3=$_POST['roomCode2'];
+	$roomCode4; if($n > 3) $roomCode4=$_POST['roomCode3'];
+	
+	$cap1=$_POST['capacity'];
+	$cap2; if($n > 1) $cap2 = $_POST['capacity1'];
+	$cap3; if($n > 2) $cap3 = $_POST['capacity2'];
+	$cap4; if($n > 3) $cap4 = $_POST['capacity3'];
+	$wheelchair=$_POST['wheelchair'];
+	$wheelchair2; if($n > 1) $wheelchair2=$_POST['wheelchair2'];
+	$wheelchair3; if($n > 2) $wheelchair3=$_POST['wheelchair3'];
+	$wheelchair4; if($n > 3) $wheelchair4=$_POST['wheelchair4'];
+	
+	$projector=$_POST['projector'];
+	$projector2; if($n > 1) $projector2=$_POST['projector2'];
+	$projector3; if($n > 2) $projector2=$_POST['projector3'];
+	$projector4; if($n > 3) $projector2=$_POST['projector4'];
+	
+	$visualiser=$_POST['visualiser'];
+	$visualiser2; if($n > 1) $visualiser2=$_POST['visualiser2'];
+	$visualiser3; if($n > 2) $visualiser3=$_POST['visualiser3'];
+	$visualiser4; if($n > 3) $visualiser4=$_POST['visualiser4'];
+	
+	$whiteboard=$_POST['whiteboard'];
+	$whiteboard2; if($n > 1) $whiteboard2=$_POST['whiteboard2'];
+	$whiteboard3; if($n > 2) $whiteboard3=$_POST['whiteboard3'];
+	$whiteboard4; if($n > 3) $whiteboard4=$_POST['whiteboard4'];
+	
+	$priority=1;
+	
+	$specialRequirements="";
+	if(isset($_POST['specialReq'])) $specialRequirements=$_POST['specialReq'];
+	
+	$period=$_POST['time'];
+	
+	$days=array("monday", "tuesday", "wednesday", "thursday", "friday" );
+	$dayNo=$_POST['day'];
+	$day=$days[$dayNo-1];
+	
+	
+	$duration=$_POST['duration'];
+	
+	$group=3;
+	
+	$weekInsert="";
+	
+	if(!empty($_POST['weeks'])){
 				foreach($_POST['weeks'] as $weeks){
-					echo ($weeks);
-					echo (", ");
+					$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
 				}
 			}
 			
-			echo '</br>Time: ';
-			echo $_POST['time'];
-		    echo '</br>Special Requirements: ';
-		    echo $_POST['specialReq'];
+					
 			
-			echo '</br>No of Rooms: ';
-		
-			//Added for multiple room request - Tom Middleton
-		 
-			echo $_POST['noRooms'];
-			echo '</br>Room Pref ' .($x+1). ': ';
-		
-			if(isset($_POST['roomCode'.$x])) {
-				if($_POST['roomCode'.$x]!="") {
-					echo $_POST['roomCode'.$x]; 
-				} else {
-					echo "No room selected";
-				}
-			} else {
-				echo "Room code not posted";
-			}
-		
-			echo '</br>Wheelchair: '; 
+			
+	$sql1= 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
+           VALUES (' . $requestId .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode .'\',\''. $cap1 .'\','. $wheelchair .','. $projector .','. $visualiser .','. $whiteboard .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
 	
-			if(isset($_POST['wheelchair'])&&$_POST['wheelchair']=='1')
-				echo "1";
-			else 
-				echo"0";
-		
-			echo '</br>Projector: '; 
 	
-			if(isset($_POST['projector'])&&$_POST['projector']=='1')
-				echo "1";
-			else 
-				echo"0";
-			
-			echo '</br>Visuliser: ';
+	//connects to the database using the username and passoword 
+		$host = "co-project.lboro.ac.uk"; //host name
+		$dbName = "team10"; //database name
+		$username = "team10";
+		$password = "abg83rew";
 		
-			if(isset($_POST['visualiser'])&&$_POST['visualiser']=='1')
-				echo "1";
-			else 
-				echo"0";
-		
-			echo '</br>Whiteboard: ';
-		
-			if(isset($_POST['whiteboard'])&&$_POST['whiteboard']=='1')
-				echo "1";
-			else 
-				echo"0";
-			
-			echo '<br/><br/><br/>';	
+		// Create connection
+		$conn = new mysqli($host, $username, $password, $dbName);
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
 		}
-	?>
+
+		if ($conn->multi_query($weekInsert) === TRUE) {
+			echo "New records created successfully";
+			} 
+		else {
+			echo "Error: " . $weekInsert . "<br>" . $conn->error;
+		}
+
+	$conn->close();	
+
+		// Create connection
+		$conn = new mysqli($host, $username, $password, $dbName);
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+
+		if ($conn->multi_query($sql1) === TRUE) {
+			echo "New records created successfully";
+			} 
+		else {
+			echo "Error: " . $sql1 . "<br>" . $conn->error;
+		}
+
+	$conn->close();
+
+	if($n > 1){
+		$sql2 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
+           VALUES (' . $requestId2 .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode2 .'\',\''. $cap2 .'\','. $wheelchair2 .','. $projector2 .','. $visualiser2 .','. $whiteboard2 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+	   
+		// Create connection
+		$conn = new mysqli($host, $username, $password, $dbName);
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+
+		if ($conn->multi_query($sql2) === TRUE) {
+			echo "New records created successfully";
+			} 
+		else {
+			echo "Error: " . $sql2 . "<br>" . $conn->error;
+		}
+	$conn->close();
+	}
 	
-	</body>
-</html>
+	
+	if($n > 2){
+	  $sql3 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
+           VALUES (' . $requestId3 .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode3 .'\',\''. $cap3 .'\','. $wheelchair3 .','. $projector3 .','. $visualiser3 .','. $whiteboard3 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+	   
+		// Create connection
+		$conn = new mysqli($host, $username, $password, $dbName);
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+
+		if ($conn->multi_query($sql3) === TRUE) {
+			echo "New records created successfully";
+			} 
+		else {
+			echo "Error: " . $sql3 . "<br>" . $conn->error;
+		}
+	$conn->close();
+	}
+	
+	if($n > 3){
+		$sql4 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
+           VALUES (' . $requestId4 .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode4 .'\',\''. $cap4 .'\','. $wheelchair4 .','. $projector4 .','. $visualiser4 .','. $whiteboard4 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+	   
+		// Create connection
+		$conn = new mysqli($host, $username, $password, $dbName);
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+
+		if ($conn->multi_query($sql4) === TRUE) {
+			echo "New records created successfully";
+			} 
+		else {
+			echo "Error: " . $sql4 . "<br>" . $conn->error;
+		}
+	$conn->close();
+	
+	}
+    	
+
+	
+	
+?>
