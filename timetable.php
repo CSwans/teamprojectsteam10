@@ -411,8 +411,7 @@ function refill_codes() {
 					</td>
 				</tr>
 				                <td><?php
-							//will Sort the parts starting from part A
-							//Riccardo Mangiapelo, Nick Demosthenous
+				                //Riccardo Mangiapelo, Nick Demosthenous 
 							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
 							echo "<input type='radio' name='part_select' value='A'> A ";
 							echo "<input type='radio' name='part_select' value='B'> B ";
@@ -421,7 +420,7 @@ function refill_codes() {
 							echo "<input type='radio' name='part_select' value='D'> D ";
 							echo "<input type='radio' name='part_select' value='F'> F ";
 							echo "<input type='radio' name='part_select' value='P'> P ";
-							?></td>
+							?></td> 
               </tr>
 
               <tr>
