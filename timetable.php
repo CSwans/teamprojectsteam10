@@ -371,6 +371,29 @@ function refill_codes() {
         }
         			
 }
+// -----------------------
+ 
+ // Riccardo Mangiapelo & Nick Demosthenous = sort module part according to the selected part (e.g. A)
+ var selected_part;
+function sort_module() {
+	var radio_value = document.getElementsByName('part_select');
+
+	for (var i = 0, length = radio_value.length; i < length; i++) {
+    if (radio_value[i].checked) {
+      selected_part= radio_value[i].value;
+       alert (selected_part);
+       //$abcs = $_GET["radio_value[i].value;"];
+        //<?php $abcs ?> = radio_value[i].value;
+
+        // break the loop so that it does not keep looking for another radio button
+        break;
+    }
+}
+	
+	
+}
+
+// -----------------------
 
 </script>
 </head>
@@ -410,15 +433,18 @@ function refill_codes() {
 						<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
 					</td>
 				</tr>
-				                <td><?php
+				                 <td><?php
 				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
 							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
-							echo "<input type='radio' name='part_select' value='A'> A ";
-							echo "<input type='radio' name='part_select' value='B'> B ";
-							echo "<input type='radio' name='part_select' value='I'> I ";
-							echo "<input type='radio' name='part_select' value='C'> C ";
-							echo "<input type='radio' name='part_select' value='D'> D ";
-							?></td> 
+							echo "<input type='radio' name='part_select' value='A' onchange='sort_module()' > A ";
+							echo "<input type='radio' name='part_select' value='B' onchange='sort_module()' > B ";
+							echo "<input type='radio' name='part_select' value='I' onchange='sort_module()' > I ";
+							echo "<input type='radio' name='part_select' value='C' onchange='sort_module()' > C ";
+							echo "<input type='radio' name='part_select' value='D' onchange='sort_module()' > D ";
+							echo "<input type='text' name='a'> ";// . $_GET['selected_part']. "<br>";
+							?>
+							
+							</td> 
               </tr>
 
               <tr>
