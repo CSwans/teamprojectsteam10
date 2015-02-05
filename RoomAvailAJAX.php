@@ -17,7 +17,7 @@
 			$results = array();
 			
 			
-			//connects to the database using the username and passoword
+			//connects to the database using the username and password
 			require_once "MDB2.php";
 			$host = "co-project.lboro.ac.uk"; //host name
 			$dbName = "team10"; //database name
@@ -30,7 +30,8 @@
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
 			
-			
+			//selects the values from the table, 0 week only offurs once per room if it is in the default weeks 
+			//callan Swanson 
 			$sql = "SELECT week, day, period, duration FROM REQUEST_WEEKS, BOOKING, REQUEST WHERE REQUEST_WEEKS.request_id=BOOKING.request_id AND REQUEST.request_id=BOOKING.request_id AND BOOKING.room_code='".$room."'";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
@@ -43,7 +44,7 @@
 			}
 			
 			//if the weeks are a default length (1-12) they wont be within the table 
-			if(sizeof($results) == 0) {
+			/* if(sizeof($results) == 0) {
 				$sql = "SELECT day, period, duration FROM BOOKING, REQUEST WHERE REQUEST.request_id=BOOKING.request_id AND BOOKING.room_code='".$room."'";
 				$res =& $db->query($sql); //getting the result from the database
 				if(PEAR::isError($res)){
@@ -54,7 +55,7 @@
 					$results[] = $row;
 				}
 			
-			}
+			} */
 			
 			echo json_encode($results);
 			

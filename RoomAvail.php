@@ -171,17 +171,19 @@
 			
 			function formValidation() {
 				<?php
-					$sql = "SELECT ";
+					$sql = "SELECT room_code, capacity FROM ROOMS";
 					$res =& $db->query($sql); //getting the result from the database
 					if(PEAR::isError($res)){
 						die($res->getMessage());
 					}
-					$roomSizes = array();
+					
 					//put each rows into value array
 					while($row = $res->fetchRow()){
-						$roomSizes[] = $row;
+						$roomSizes[] = $row[''];
 					}
+					echo "var roomSizes = ".$roomSizes.";";
 				?>
+				console.log(document.getElementById("capacity1").value);
 			}
 			
 		</script>
@@ -322,7 +324,7 @@
 					
 					<tr>
 						<td id="capacityCell"> Capacity:
-							<input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="" />
+							<input name="capacity" type="text" id="capacity1" onchange="formValidation()" value="" />
 						</td>
 					</tr>
 				
