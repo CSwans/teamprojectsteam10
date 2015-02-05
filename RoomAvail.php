@@ -152,6 +152,8 @@
 						}
 					}
 				}
+				
+				hideForm();
 			}
 			
 			//chnages teh relevant places weeks are located
@@ -159,6 +161,8 @@
 				$("#weekChosen").html("Week - "+document.getElementById("Weeks").value);
 				$("#WeekSubmit").html("Week: "+document.getElementById("Weeks").value);
 				$("#WeekSubmitInput").val(document.getElementById("Weeks").value);
+				
+				hideForm();
 			}
 			
 			//changes the relevant places rooms are located
@@ -171,6 +175,13 @@
 				$("#Visualiser").val(roomInfo[roomChosen].visualiser);
 				$("#Whiteboard").val(roomInfo[roomChosen].whiteboard);
 				$("#RoomSubmitInput").val(document.getElementById("RoomSelect").value);
+				
+				$("#WhiteboardSubmit").html("Whiteboard: "+roomInfo[roomIndex()].whiteboard);
+				$("#ProjectorSubmit").html("Projector: "+roomInfo[roomIndex()].projector);
+				$("#VisualiserSubmit").html("Visualiser: "+roomInfo[roomIndex()].visualiser);
+				$("#WheelchairSubmit").html("Wheelchair: "+roomInfo[roomIndex()].wheelchair);
+				
+				hideForm();
 			}
 			
 			//when the module code dropdown changed its index, change the module title index with it
@@ -202,6 +213,7 @@
 				//changes the values of the hidden input fields to correspond to the button clicked
 				$("#DaySubmitInput").val(buttonId.substr(0, buttonId.length-2));
 				$("#PeriodSubmitInput").val(buttonId.substr(buttonId.length-2,1));
+				showForm();
 			}
 			
 			//checks the room size and information against the database result
@@ -254,8 +266,20 @@
 				});
 				return false;	
 			}); 
-				
 			
+			
+			function showForm() {
+				var e = document.getElementById("inputs");
+				
+				e.style.display = 'block';
+				
+			}
+			
+			function hideForm() {
+				var e = document.getElementById("inputs");
+				
+				e.style.display = 'none';
+			}
 			
 			
 		</script>
@@ -272,7 +296,7 @@
 					<option value="W">W</option>
 				</select>
 				Rooms :-
-				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();roomChange()" >
+				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
 				</select>
 				Week-
 				<select name="Weeks" id="Weeks" onChange="WeekChange();ajaxFunction();">
@@ -341,7 +365,7 @@
 
 		
 		
-		<div id="inputs">
+		<div id="inputs" style="display:none;">
 			<form id="requestForm" action="insertInfo.php" method="post" onsubmit="return formValidation()">
 				<table class="inputs">
 					<tr>
@@ -436,10 +460,38 @@
 						<input type="hidden" id="PeriodSubmitInput" value="" name="" >
 					</tr>
 					
-					<input type="hidden" id="Wheelchair" value="">
-					<input type="hidden" id="Visualiser" value="">
-					<input type="hidden" id="Projector" value="">
-					<input type="hidden" id="Whiteboard" value="">
+					<tr>
+						<td id="WheelchairSubmit">
+							Wheelchair:
+						</td>
+						<input type="hidden" id="Wheelchair" value="">
+					</tr>
+					
+					<tr>
+						<td id="ProjectorSubmit">
+							Projector:
+						</td>
+						<input type="hidden" id="Projector" value="">
+					</tr>
+					
+					<tr>
+						<td id="VisualiserSubmit">
+							Visualiser:
+						</td>
+						<input type="hidden" id="Visualiser" value="">
+					</tr>
+					
+					<tr>
+						<td id="WhiteboardSubmit">
+							Whiteboard:
+						</td>
+						<input type="hidden" id="Whiteboard" value="">
+					</tr>
+					
+					
+					
+					
+					
 					
 					<tr>
 						<td>
