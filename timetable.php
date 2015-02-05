@@ -411,7 +411,7 @@ function refill_codes() {
 					</td>
 				</tr>
 				                <td><?php
-				                //Riccardo Mangiapelo, Nick Demosthenous 
+				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
 							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
 							echo "<input type='radio' name='part_select' value='A'> A ";
 							echo "<input type='radio' name='part_select' value='B'> B ";
