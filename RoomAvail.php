@@ -47,6 +47,8 @@
 		<script src="js/jquery.serializejson.min.js"></script>
 	</head>
 	<script type="text/javascript">
+	
+			
 			
 			$(function() {
 				
@@ -60,6 +62,25 @@
 			
 			<?php
 				echo "var roomData = ".$json.";\n";
+			
+				//retrieveing all the room codes with their sizes attatched
+				//Callan Swanson
+				$sql = "SELECT room_code, capacity, wheelchair, projector, visualiser, whiteboard FROM ROOMS";
+				$res =& $db->query($sql); //getting the result from the database
+				if(PEAR::isError($res)){
+					die($res->getMessage());
+				}
+				
+				$roomInfo = array();
+				
+				//put each rows into value array
+				while($row = $res->fetchRow()){
+					$roomInfo[] = $row;
+				}
+				$roomInfojson = json_encode($roomInfo);
+				//declares the roomInfo in javascript
+				echo "var roomInfo = ".$roomInfojson.";";
+				
 			?>
 			
 			//ajax to remove the book buttons within the table 
@@ -138,8 +159,15 @@
 			}
 			
 			//changes the relevant places rooms are located
+			//Callan Swanson, Inthuch Therdchanakul
 			function roomChange() {
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
+				var roomChosen = roomIndex();
+				$("#Wheelchair").val(roomInfo[roomChosen].wheelchair);
+				$("#Projector").val(roomInfo[roomChosen].projector);
+				$("#Visualiser").val(roomInfo[roomChosen].visualiser);
+				$("#Whiteboard").val(roomInfo[roomChosen].whiteboard);
+				
 			}
 			
 			//when the module code dropdown changed its index, change the module title index with it
@@ -169,21 +197,22 @@
 				$("#PeriodSubmit").html("Period/Time: "+buttonId.substr(buttonId.length-2,1)+" / "+(8+parseInt(buttonId.substr(buttonId.length-2,1)))+":00");
 			}
 			
+			//checks the room size against the database result
+			//uses global variable roomInfo
 			function formValidation() {
-				<?php
-					$sql = "SELECT room_code, capacity FROM ROOMS";
-					$res =& $db->query($sql); //getting the result from the database
-					if(PEAR::isError($res)){
-						die($res->getMessage());
-					}
-					
-					//put each rows into value array
-					while($row = $res->fetchRow()){
-						$roomSizes[] = $row[''];
-					}
-					echo "var roomSizes = ".$roomSizes.";";
-				?>
 				console.log(document.getElementById("capacity1").value);
+				console.log(roomInfo[roomIndex()].capacity);
+			}
+			
+			//returns the index of the chosen room
+			function roomIndex() {
+				//for loop finding the correct rrom capacity for the room
+				for(var i=0; i<roomInfo.length; i++) {
+					if(roomInfo[i].room_code == document.getElementById("RoomSelect").value) {
+						return i; //breaks the for loop at the correct index, leaving i
+					}
+				}
+				
 			}
 			
 		</script>
@@ -357,6 +386,11 @@
 							Period/Time: 
 						</td>
 					</tr>
+					
+					<input type="hidden" id="Wheelchair" value="">
+					<input type="hidden" id="Visualiser" value="">
+					<input type="hidden" id="Projector" value="">
+					<input type="hidden" id="Whiteboard" value="">
 					
 					<tr>
 						<td>

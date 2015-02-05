@@ -1,15 +1,15 @@
 <html>
-<head>
-<?php 
-	//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
-	//March Intuch
-	session_start();
-	if(!isset($_SESSION['username']) || !isset($_SESSION['password']))
-	{
-		header('Location: login.html');	
-	}
-?>
-</head>
+	<head>
+		<?php 
+			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
+			//March Intuch
+			session_start();
+			if(!isset($_SESSION['username']) || !isset($_SESSION['password']))
+			{
+				header('Location: login.html');	
+			}
+		?>
+	</head>
 	<body>
 		<!--
 			WE NEED TO CONTAIN THESE FIELDS IN THE INSERT:
