@@ -421,7 +421,7 @@ function sort_module() {
         <div id="buttons">
 			<div id="button_wrap1">
 				<button id="adv_options" type="button" onclick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button>
-				<button id ="All" type="button">&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button>
+				<a href="ViewRequests.php"><button id ="All" type="button" >&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button></a>
 				<button id="Load_Last_Year" type="button" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button>
 			</div>
         </div>
@@ -477,7 +477,7 @@ function sort_module() {
 							//Scott Marshall: added order by to SQL and name to the <select>. 'module_title_select' is now part of the Form Data
 							echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
 							//selects the module title from the databse
-							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_title ;";
+							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code ;";
 							$res =& $db->query($sql); //getting the result from the database
 							if(PEAR::isError($res)){
 								die($res->getMessage());
