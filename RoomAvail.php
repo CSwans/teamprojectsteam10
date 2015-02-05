@@ -434,14 +434,14 @@
 						<td id="RoomSubmit">
 							
 						</td>
-						<input type="hidden" id="RoomSubmitInput" name="roomCode0" value="" name="" >
+						<input type="hidden" id="RoomSubmitInput" name="roomCode0" value=""  >
 					</tr>
 					
 					<tr>
 						<td id="WeekSubmit">
 							
 						</td>
-						<input type="hidden" id="WeekSubmitInput" name="weeks[]" value="" name="" >
+						<input type="hidden" id="WeekSubmitInput" name="weeks[]" value=""  >
 					</tr>
 					
 					<tr>
@@ -449,7 +449,7 @@
 							Day: 
 							
 						</td>
-						<input type="hidden" id="DaySubmitInput" name="day" value="" name="" >
+						<input type="hidden" id="DaySubmitInput" name="day" value=""  >
 					</tr>
 					
 					<tr>
@@ -457,7 +457,7 @@
 							Period/Time: 
 							
 						</td>
-						<input type="hidden" id="PeriodSubmitInput" name="time" value="" name="" >
+						<input type="hidden" id="PeriodSubmitInput" name="time" value=""  >
 					</tr>
 					
 					<tr>
