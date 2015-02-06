@@ -12,6 +12,7 @@
 		<script>
 			$(function() {
 			$( "#tabs" ).tabs();
+			
 			});
 		</script>
 	<?php
@@ -45,6 +46,18 @@
 			$value[] = $row;
 		}
 		$json = json_encode($value);
+		
+		$sql = "SELECT module_code, module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$moduleInfo = array();
+			while($row = $res->fetchRow()){
+				$moduleInfo[] = $row;
+			}
+			$moduleJson = json_encode($moduleInfo);
+			//retrieveing info abou the modules and their titles
 	?>
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
@@ -110,6 +123,7 @@
 <?php
 //pass value array onto javascript array roomData
 echo "var roomData = ". $json . ";\n";
+echo "var moduleData = ". $moduleJson . ";\n";
 ?>
 //call this function when the page loads
 /*$(function() {
@@ -373,6 +387,48 @@ function refill_codes() {
         			
 }
 
+	//changes the values within the dropdown to correspond to the part chosen
+	//Callan Swanson , Inthuch Therdhchanakul
+	function partChange() {
+		//looks through all of the moduleData
+		$("#module_code_select").empty();
+		$("#module_title_select").empty();
+		console.log(moduleData[0].module_code.substr(4,1));
+		console.log(document.getElementsByName("partCode").value);
+		
+		var checkedVal;
+		if(document.getElementById("allPart").checked) {
+			checkedVal = document.getElementById("allPart").value;
+		}
+		if(document.getElementById("aPart").checked) {
+			checkedVal = document.getElementById("aPart").value;
+		}
+		if(document.getElementById("bPart").checked) {
+			checkedVal = document.getElementById("bPart").value;
+		}
+		if(document.getElementById("iPart").checked) {
+			checkedVal = document.getElementById("iPart").value;
+		}
+		if(document.getElementById("cPart").checked) {
+			checkedVal = document.getElementById("cPart").value;
+		}
+		if(document.getElementById("dPart").checked) {
+			checkedVal = document.getElementById("dPart").value;
+		}
+		
+		console.log(checkedVal);
+		
+		for(var i=0; i<moduleData.length; i++) {
+			if(moduleData[i].module_code.substr(4,1) == checkedVal) {
+				$("#module_code_select").append("<option>"+moduleData[i].module_code+"</option>");
+				$("#module_title_select").append("<option>"+moduleData[i].module_title+"</option>");
+			} else if(checkedVal == "All") {
+				$("#module_code_select").append("<option>"+moduleData[i].module_code+"</option>");
+				$("#module_title_select").append("<option>"+moduleData[i].module_title+"</option>");
+			}
+		}
+	}
+
 // -----------------------
  
  // Riccardo Mangiapelo & Nick Demosthenous = sort module part according to the selected part (e.g. A)
@@ -440,18 +496,16 @@ function sort_module() {
 									
 				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
 							//echo "<form action='' method='post'>";
-							echo "Part: <input type='radio' name='radio' checked='checked' value='All'> All ";
-							echo "<input type='radio' name='radio' value='A' > A ";
-							echo "<input type='radio' name='radio' value='B' > B ";
-							echo "<input type='radio' name='radio' value='I'> I ";
-							echo "<input type='radio' name='radio' value='C' > C ";
-							echo "<input type='radio' name='radio' value='D' > D ";
+							echo "Part: <input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All ";
+							echo "<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A ";
+							echo "<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B ";
+							echo "<input type='radio' name='partCode' id='iPart' value='I' onchange='partChange()'> I ";
+							echo "<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C ";
+							echo "<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D ";
 							//echo "<input type='submit' name='submit' value='Sort' />";
 							//echo "</form>";
 
-$selected_radio = $_GET['radio'];
 
-						echo $selected_radio; //$_GET['selected_part']. "<br>";
 
 							?>
 							
