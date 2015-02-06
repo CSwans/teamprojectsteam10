@@ -62,7 +62,6 @@
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script type="text/javascript">
-
 		function ext_toggle(n) {
 		    if(n==1){
 				if(document.getElementById('ad_pref1').style.display=="block"){
@@ -108,7 +107,6 @@
 				}
 			}
 		}
-
   //show or hide advanced input that aren't compulsory
   //Tom Middleton
   		function advToggle() {
@@ -119,7 +117,6 @@
           	e.style.display = 'block';
     	}	
 		
-
 <?php
 //pass value array onto javascript array roomData
 echo "var roomData = ". $json . ";\n";
@@ -145,43 +142,32 @@ function module_title_change() {
 var index = document.getElementById("module_title_select").selectedIndex;
 document.getElementById("module_code_select").selectedIndex = index;
 }
-
-
-
-
 //change room preference Based on capacity, park and additional options
 //Scott Marshall
 function change_room_code() {
 //cache user settings
 var noOfRooms = parseInt(document.getElementById('noRooms').value);
 var park = document.getElementById("park").value;
-
 var capacity = parseInt(document.getElementById("capacity1").value);
 var capacity2=""; if(noOfRooms > 1) capacity2 = parseInt(document.getElementById("capacity2").value);
 var capacity3=""; if(noOfRooms > 2) capacity3 = parseInt(document.getElementById("capacity3").value);
 var capacity4=""; if(noOfRooms > 3) capacity4 = parseInt(document.getElementById("capacity4").value);
-
 var isWheelchair = document.getElementById("wheelchair_yes").checked;
 var isWheelchair2; if(noOfRooms > 1) isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
 var isWheelchair3; if(noOfRooms > 2) isWheelchair3 = document.getElementById("wheelchair_yes3").checked;
 var isWheelchair4; if(noOfRooms > 3) isWheelchair4 = document.getElementById("wheelchair_yes4").checked;
-
 var isVisualiser = document.getElementById("visualiser_yes").checked;
 var isVisualiser2; if(noOfRooms > 1) isVisualiser2 = document.getElementById("visualiser_yes2").checked;
 var isVisualiser3; if(noOfRooms > 2) isVisualiser3 = document.getElementById("visualiser_yes3").checked;
 var isVisualiser4; if(noOfRooms > 3) isVisualiser4 = document.getElementById("visualiser_yes4").checked;
-
 var isProjector = document.getElementById("projector_yes").checked;
 var isProjector2; if(noOfRooms > 1)  isProjector2 = document.getElementById("projector_yes2").checked;
 var isProjector3; if(noOfRooms > 2)  isProjector3 = document.getElementById("projector_yes3").checked;
 var isProjector4; if(noOfRooms > 3)  isProjector4 = document.getElementById("projector_yes4").checked;
-
 var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 var isWhiteboard2; if(noOfRooms > 1) isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
 var isWhiteboard3; if(noOfRooms > 2) isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
 var isWhiteboard4; if(noOfRooms > 3) isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
-
-
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
@@ -191,7 +177,6 @@ $("#room_list3").find( "select" ).empty();
 $("#room_list3").find( "select" ).append("<option>" + "" + "</option>");
 $("#room_list4").find( "select" ).empty();
 $("#room_list4").find( "select" ).append("<option>" + "" + "</option>");
-
 for(var i=0;i<roomData.length;i++){
 //if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
 if(roomData[i].capacity >= capacity &&
@@ -217,12 +202,9 @@ $("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_co
 }
 }
 else {}
-
-
 for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
 }
-
 noOfRooms = parseInt(document.getElementById('noRooms').value);
 if(noOfRooms>1){
 for(var x=1;x<noOfRooms;x++){
@@ -235,9 +217,7 @@ for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
 }	
 }
-
 if(parseInt(document.getElementById('noRooms').value) > 2){
-
 for(var i=0;i<roomData.length;i++){
 if(capacity3 != '' && capacity3 > 0){
 if(roomData[i].capacity >= capacity3 &&
@@ -250,8 +230,6 @@ $("#room_list3").find( "select" ).append("<option value='" + roomData[i].room_co
 }
 }
 }
-
-
 if(parseInt(document.getElementById('noRooms').value) > 3){
 if(capacity4 != '' && capacity4 > 0){
 for(var i=0;i<roomData.length;i++){
@@ -266,8 +244,6 @@ $("#room_list4").find( "select" ).append("<option value='" + roomData[i].room_co
 }
 }
 }
-
-
 //change number of capacity inputs based on no of rooms
 //Tom Middleton
 function showCapacity(){
@@ -301,39 +277,16 @@ for(var i=1; i<=10-period;i++){
 $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 }
 }
-
-
 // preventing choosing two room preferences that are the same
 //Tom Middleton
 function refill_codes() {
 	var noOfRooms = parseInt(document.getElementById('noRooms').value);
 	var park = document.getElementById("park").value;
-	
 	var capacity = parseInt(document.getElementById("capacity1").value);
-	var capacity2;
-	var capacity3;
-	var capacity4;
-	
-	
 	var isWheelchair = document.getElementById("wheelchair_yes").checked;
-	var isWheelchair2; if(noOfRooms >=2) var isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
-	var isWheelchair3; if(noOfRooms >=3) var isWheelchair3 = document.getElementById("wheelchair_yes3").checked;
-	var isWheelchair4; if(noOfRooms >=4) var isWheelchair4 = document.getElementById("wheelchair_yes4").checked;
-	
 	var isVisualiser = document.getElementById("visualiser_yes").checked;
-	var isVisualiser2; if(noOfRooms >=2) var isVisualiser2 = document.getElementById("visualiser_yes2").checked;
-	var isVisualiser3; if(noOfRooms >=3) var isVisualiser3 = document.getElementById("visualiser_yes3").checked;
-	var isVisualiser4; if(noOfRooms >=4)  var isVisualiser4 = document.getElementById("visualiser_yes4").checked;
-	
 	var isProjector = document.getElementById("projector_yes").checked;
-	var isProjector2; if(noOfRooms >=2) var isProjector2 = document.getElementById("projector_yes2").checked;
-	var isProjector3; if(noOfRooms >=3) var isProjector3 = document.getElementById("projector_yes3").checked;
-	var isProjector4; if(noOfRooms >=4) var isProjector4 = document.getElementById("projector_yes4").checked;
-	
 	var isWhiteboard = document.getElementById("whiteboard_yes").checked;
-	var isWhiteboard2; if(noOfRooms >=2) var isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
-	var isWhiteboard3; if(noOfRooms >=3) var isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
-	var isWhiteboard4; if(noOfRooms >=4) var isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
 		
 	var activeLists = [];
 	var currentSelections = [];
@@ -345,8 +298,8 @@ function refill_codes() {
 	
 	var sel1 = document.getElementById('room_list').value;
     var sel2= document.getElementById('room_list2').children[0].value;
-    var sel3 = document.getElementById('room_list3').children[0].value;
-    var sel4 = document.getElementById('room_list4').children[0].value;
+    var sel3 = document.getElementById('room_list3').children[0].value
+    var sel4 = document.getElementById('room_list4').children[0].value
     
 	if(cap1 != null && cap1 != ''){ activeLists.push(1); currentSelections.push(sel1); }
 	if(cap2 != null && cap2 != ''){ activeLists.push(2); currentSelections.push(sel2); }
@@ -377,41 +330,17 @@ function refill_codes() {
 					(!isWhiteboard || roomData[i].whiteboard == 1))
 						$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 			}
-			if(activeLists[x]==2) {
-				if(roomData[i].capacity >= cap2 &&
+			else {
+				if(roomData[i].capacity >= capacity &&
     				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
 					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair2 || roomData[i].wheelchair == 1) &&
-					(!isVisualiser2 || roomData[i].visualiser == 1) &&
-					(!isProjector2 || roomData[i].projector == 1) &&
-					(!isWhiteboard2 || roomData[i].whiteboard == 1))
+					(!isWheelchair || roomData[i].wheelchair == 1) &&
+					(!isVisualiser || roomData[i].visualiser == 1) &&
+					(!isProjector || roomData[i].projector == 1) &&
+					(!isWhiteboard || roomData[i].whiteboard == 1))
 						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 			
-        	  	}
-			if(activeLists[x]==3){
-				if(roomData[i].capacity >= cap3 &&
-    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
-					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair3 || roomData[i].wheelchair == 1) &&
-					(!isVisualiser3 || roomData[i].visualiser == 1) &&
-					(!isProjector3|| roomData[i].projector == 1) &&
-					(!isWhiteboard3 || roomData[i].whiteboard == 1))
-						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-			}
-			
-			if(activeLists[x]==4){
-				if(roomData[i].capacity >= cap4 &&
-    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
-					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair4 || roomData[i].wheelchair == 1) &&
-					(!isVisualiser4 || roomData[i].visualiser == 1) &&
-					(!isProjector4 || roomData[i].projector == 1) &&
-					(!isWhiteboard4 || roomData[i].whiteboard == 1))
-						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-
-			}
-
-		
+        	}
 		}	
 	}
    
@@ -431,9 +360,6 @@ function refill_codes() {
         }
         			
 }
-        			
-}
-
 	//changes the values within the dropdown to correspond to the part chosen
 	//Callan Swanson , Inthuch Therdhchanakul
 	function partChange() {
@@ -471,7 +397,6 @@ function refill_codes() {
 			}
 		}
 	}
-
 </script>
 </head>
 <body>
