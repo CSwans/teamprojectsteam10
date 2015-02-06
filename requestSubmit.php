@@ -82,51 +82,48 @@
 	}
 	
 	
-	if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
-		if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0) {
-			foreach($_POST['weeks'] as $weeks){
-				$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
-			}
-		} else {
-			$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',0); ';
-		}
-	}
+	
+		$requestId = mysqli_insert_id($conn);	
 			
-			
-	$sql1= 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . $requestId .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode .'\',\''. $cap1 .'\','. $wheelchair .','. $projector .','. $visualiser .','. $whiteboard .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+	$sql1= 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration)
+           VALUES (' . $requestId .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode .'\',\''. $cap1 .'\','. $wheelchair .','. $projector .','. $visualiser .','. $whiteboard .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .');';
 	
 	
 	
-
-		if ($conn->multi_query($weekInsert) === TRUE) {
-			echo "New records created successfully";
-			} 
-		else {
-			echo "Error: " . $weekInsert . "<br>" . $conn->error;
-		}
-
-	$conn->close();	
-
-		// Create connection
-		$conn = new mysqli($host, $username, $password, $dbName);
-		// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		}
-
+		//inputs the first row of the requst as he REQUEST
 		if ($conn->multi_query($sql1) === TRUE) {
-			echo "New records created successfully";
+			echo "SQL1 created		";
 			} 
 		else {
 			echo "Error: " . $sql1 . "<br>" . $conn->error;
+		}
+
+		$requestId = mysqli_insert_id($conn);
+		
+		if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
+			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0) {
+				foreach($_POST['weeks'] as $weeks){
+					$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
+				}
+			} else {
+				$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',0); ';
+			}
+		}	
+		
+		
+		//inputs the weeks into the REQUEST_WEEKS table along with the correct requestID
+		if ($conn->multi_query($weekInsert) === TRUE) {
+			echo "Weeks created		";
+			} 
+		else {
+			echo "Error: " . $weekInsert . "<br>" . $conn->error;
 		}
 
 	$conn->close();
 
 	if($n > 1){
 		$sql2 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . $requestId2 .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode2 .'\',\''. $cap2 .'\','. $wheelchair2 .','. $projector2 .','. $visualiser2 .','. $whiteboard2 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+           VALUES (' . ($requestId+1) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode2 .'\',\''. $cap2 .'\','. $wheelchair2 .','. $projector2 .','. $visualiser2 .','. $whiteboard2 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $requestId .');';
 	   
 		// Create connection
 		$conn = new mysqli($host, $username, $password, $dbName);
@@ -136,7 +133,7 @@
 		}
 
 		if ($conn->multi_query($sql2) === TRUE) {
-			echo "New records created successfully";
+			echo "SQL2 created		";
 			} 
 		else {
 			echo "Error: " . $sql2 . "<br>" . $conn->error;
@@ -147,7 +144,7 @@
 	
 	if($n > 2){
 	  $sql3 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . $requestId3 .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode3 .'\',\''. $cap3 .'\','. $wheelchair3 .','. $projector3 .','. $visualiser3 .','. $whiteboard3 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+           VALUES (' . ($requestId+2) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode3 .'\',\''. $cap3 .'\','. $wheelchair3 .','. $projector3 .','. $visualiser3 .','. $whiteboard3 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $requestId .');';
 	   
 		// Create connection
 		$conn = new mysqli($host, $username, $password, $dbName);
@@ -157,7 +154,7 @@
 		}
 
 		if ($conn->multi_query($sql3) === TRUE) {
-			echo "New records created successfully";
+			echo "SQL3 created		";
 			} 
 		else {
 			echo "Error: " . $sql3 . "<br>" . $conn->error;
@@ -167,7 +164,7 @@
 	
 	if($n > 3){
 		$sql4 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . $requestId4 .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode4 .'\',\''. $cap4 .'\','. $wheelchair4 .','. $projector4 .','. $visualiser4 .','. $whiteboard4 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
+           VALUES (' . ($requestId+3) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode4 .'\',\''. $cap4 .'\','. $wheelchair4 .','. $projector4 .','. $visualiser4 .','. $whiteboard4 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $requestId .');';
 	   
 		// Create connection
 		$conn = new mysqli($host, $username, $password, $dbName);
@@ -177,7 +174,7 @@
 		}
 
 		if ($conn->multi_query($sql4) === TRUE) {
-			echo "New records created successfully";
+			echo "SQL4 created		";
 			} 
 		else {
 			echo "Error: " . $sql4 . "<br>" . $conn->error;
