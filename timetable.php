@@ -437,20 +437,21 @@ function sort_module() {
 				</tr>
 				                 <td><?php
 
+									
 				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
-							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
+							//echo "<form action='' method='post'>";
+							echo "Part: <input type='radio' name='radio' checked='checked' value='All'> All ";
 							echo "<input type='radio' name='radio' value='A' > A ";
 							echo "<input type='radio' name='radio' value='B' > B ";
 							echo "<input type='radio' name='radio' value='I'> I ";
 							echo "<input type='radio' name='radio' value='C' > C ";
 							echo "<input type='radio' name='radio' value='D' > D ";
-							echo "<input type='submit' name='submit' value='Sort' />";
-if (isset($_POST['submit'])) {
-if(isset($_POST['radio']))
-{
-echo "<input type='text' name='a'> You have selected :".$_POST['radio'];  //  Displaying Selected Value
-}
-						//	echo "<input type='text' name='a'> "; . $_GET['selected_part']. "<br>";
+							//echo "<input type='submit' name='submit' value='Sort' />";
+							//echo "</form>";
+
+$selected_radio = $_GET['radio'];
+
+						echo $selected_radio; //$_GET['selected_part']. "<br>";
 
 							?>
 							
