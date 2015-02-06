@@ -66,8 +66,24 @@
 	
 	$weekInsert="";
 	$defaultWeeks = array(1,2,3,4,5,6,7,8,9,10,11,12);
-	if(!empty($_POST['weeks'])){
-		if(sizeof($_POST['weeks'],$defaultWeeks) != 0) {
+	
+	
+	//connects to the database using the username and passoword 
+	$host = "co-project.lboro.ac.uk"; //host name
+	$dbName = "team10"; //database name
+	$username = "team10";
+	$password = "abg83rew";
+	
+	// Create connection
+	$conn = new mysqli($host, $username, $password, $dbName);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	
+	
+	if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
+		if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0) {
 			foreach($_POST['weeks'] as $weeks){
 				$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
 			}
@@ -81,18 +97,7 @@
            VALUES (' . $requestId .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode .'\',\''. $cap1 .'\','. $wheelchair .','. $projector .','. $visualiser .','. $whiteboard .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $group .');';
 	
 	
-	//connects to the database using the username and passoword 
-		$host = "co-project.lboro.ac.uk"; //host name
-		$dbName = "team10"; //database name
-		$username = "team10";
-		$password = "abg83rew";
-		
-		// Create connection
-		$conn = new mysqli($host, $username, $password, $dbName);
-		// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		}
+	
 
 		if ($conn->multi_query($weekInsert) === TRUE) {
 			echo "New records created successfully";
