@@ -429,30 +429,6 @@ function refill_codes() {
 		}
 	}
 
-// -----------------------
- 
- // Riccardo Mangiapelo & Nick Demosthenous = sort module part according to the selected part (e.g. A)
- /*var selected_part;
-function sort_module() {
-	var radio_value = document.getElementsByName('part_select');
-
-	for (var i = 0, length = radio_value.length; i < length; i++) {
-    if (radio_value[i].checked) {
-      selected_part= radio_value[i].value;
-       alert (selected_part);
-       //$abcs = $_GET["radio_value[i].value;"];
-        //<?php //$abcs ?> = radio_value[i].value;
-
-        // break the loop so that it does not keep looking for another radio button
-        break;
-    }
-}
-	
-	
-}*/
-
-// -----------------------
-
 </script>
 </head>
 <body>
@@ -491,23 +467,19 @@ function sort_module() {
 						<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
 					</td>
 				</tr>
-				                 <td><?php
+				                 <td>
 
 									
-				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
-							//echo "<form action='' method='post'>";
-							echo "Part: <input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All ";
-							echo "<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A ";
-							echo "<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B ";
-							echo "<input type='radio' name='partCode' id='iPart' value='I' onchange='partChange()'> I ";
-							echo "<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C ";
-							echo "<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D ";
-							//echo "<input type='submit' name='submit' value='Sort' />";
-							//echo "</form>";
-
-
-
-							?>
+				                
+							
+							Part: 
+							<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
+							<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
+							<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B 
+							<input type='radio' name='partCode' id='iPart' value='I' onchange='partChange()'> I 
+							<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C 
+							<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D 
+							
 							
 							</td> 
               </tr>
