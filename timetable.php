@@ -372,10 +372,11 @@ function refill_codes() {
         }
         			
 }
+
 // -----------------------
  
  // Riccardo Mangiapelo & Nick Demosthenous = sort module part according to the selected part (e.g. A)
- var selected_part;
+ /*var selected_part;
 function sort_module() {
 	var radio_value = document.getElementsByName('part_select');
 
@@ -384,7 +385,7 @@ function sort_module() {
       selected_part= radio_value[i].value;
        alert (selected_part);
        //$abcs = $_GET["radio_value[i].value;"];
-        //<?php $abcs ?> = radio_value[i].value;
+        //<?php //$abcs ?> = radio_value[i].value;
 
         // break the loop so that it does not keep looking for another radio button
         break;
@@ -392,7 +393,7 @@ function sort_module() {
 }
 	
 	
-}
+}*/
 
 // -----------------------
 
@@ -435,6 +436,14 @@ function sort_module() {
 					</td>
 				</tr>
 				                 <td><?php
+				                 function sort_module() { 
+   									 	//$botton_value =
+   									 	if(isset($_POST['radio']))
+{
+echo "You have selected :".$_POST['radio'];  //  Displaying Selected Value
+} 
+									} 
+				                 
 				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
 							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
 							echo "<input type='radio' name='part_select' value='A' onchange='sort_module()' > A ";
