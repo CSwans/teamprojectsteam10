@@ -157,9 +157,9 @@ var noOfRooms = parseInt(document.getElementById('noRooms').value);
 var park = document.getElementById("park").value;
 
 var capacity = parseInt(document.getElementById("capacity1").value);
-var capacity2=""; if(noOfRooms > 1) capacity2 = document.getElementById("capacity2").value;
-var capacity3=""; if(noOfRooms > 2) capacity3 = document.getElementById("capacity3").value;
-var capacity4=""; if(noOfRooms > 3) capacity4 = document.getElementById("capacity4").value;
+var capacity2=""; if(noOfRooms > 1) capacity2 = parseInt(document.getElementById("capacity2").value);
+var capacity3=""; if(noOfRooms > 2) capacity3 = parseInt(document.getElementById("capacity3").value);
+var capacity4=""; if(noOfRooms > 3) capacity4 = parseInt(document.getElementById("capacity4").value);
 
 var isWheelchair = document.getElementById("wheelchair_yes").checked;
 var isWheelchair2; if(noOfRooms > 1) isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
