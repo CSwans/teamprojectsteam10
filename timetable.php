@@ -12,7 +12,7 @@
 		<script>
 			$(function() {
 			$( "#tabs" ).tabs();
-			
+			partChange();
 			});
 		</script>
 	<?php
@@ -396,23 +396,19 @@ function refill_codes() {
 		console.log(moduleData[0].module_code.substr(4,1));
 		console.log(document.getElementsByName("partCode").value);
 		
+		//finding out which part is checked one by one
 		var checkedVal;
 		if(document.getElementById("allPart").checked) {
 			checkedVal = document.getElementById("allPart").value;
-		}
-		if(document.getElementById("aPart").checked) {
+		}else if(document.getElementById("aPart").checked) {
 			checkedVal = document.getElementById("aPart").value;
-		}
-		if(document.getElementById("bPart").checked) {
+		}else if(document.getElementById("bPart").checked) {
 			checkedVal = document.getElementById("bPart").value;
-		}
-		if(document.getElementById("iPart").checked) {
+		}else if(document.getElementById("iPart").checked) {
 			checkedVal = document.getElementById("iPart").value;
-		}
-		if(document.getElementById("cPart").checked) {
+		}else if(document.getElementById("cPart").checked) {
 			checkedVal = document.getElementById("cPart").value;
-		}
-		if(document.getElementById("dPart").checked) {
+		}else if(document.getElementById("dPart").checked) {
 			checkedVal = document.getElementById("dPart").value;
 		}
 		
@@ -467,21 +463,16 @@ function refill_codes() {
 						<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
 					</td>
 				</tr>
-				                 <td>
-
-									
-				                
-							
-							Part: 
-							<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
-							<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
-							<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B 
-							<input type='radio' name='partCode' id='iPart' value='I' onchange='partChange()'> I 
-							<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C 
-							<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D 
-							
-							
-							</td> 
+				<tr>
+					<td>
+						Part: 
+						<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
+						<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
+						<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B 
+						<input type='radio' name='partCode' id='iPart' value='I' onchange='partChange()'> I 
+						<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C 
+						<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D
+					</td> 
               </tr>
 
               <tr>
@@ -492,15 +483,7 @@ function refill_codes() {
 							//Callan Swanson, Inthuch Therdchanakul
 							//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
 							echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
-							$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
-							$res =& $db->query($sql); //getting the result from the database
-							if(PEAR::isError($res)){
-								die($res->getMessage());
-							}
-							while($row = $res->fetchRow()){
-								echo "<option>".$row["module_code"]."</option>";
-								}
-							//outputs all the options from the database return result
+							
 							echo "</select>";
 						?>
 					</td>
@@ -510,17 +493,8 @@ function refill_codes() {
 						<?php
 							//displays the module titles, titles will change when module codes change
 							//Callan Swanson, Inthuch Therdchanakul
-							//Scott Marshall: added order by to SQL and name to the <select>. 'module_title_select' is now part of the Form Data
 							echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
-							//selects the module title from the databse
-							$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code ;";
-							$res =& $db->query($sql); //getting the result from the database
-							if(PEAR::isError($res)){
-								die($res->getMessage());
-							}
-							while($row = $res->fetchRow()){
-								echo "<option>".$row["module_title"]."</option>";
-							}//outputs all the options from the database return result
+						
 							echo "</select>";
 						?>
 					</td>
