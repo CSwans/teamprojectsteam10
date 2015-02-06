@@ -308,11 +308,32 @@ $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 function refill_codes() {
 	var noOfRooms = parseInt(document.getElementById('noRooms').value);
 	var park = document.getElementById("park").value;
+	
 	var capacity = parseInt(document.getElementById("capacity1").value);
+	var capacity2;
+	var capacity3;
+	var capacity4;
+	
+	
 	var isWheelchair = document.getElementById("wheelchair_yes").checked;
+	var isWheelchair2; if(noOfRooms >=2) var isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
+	var isWheelchair3; if(noOfRooms >=3) var isWheelchair3 = document.getElementById("wheelchair_yes3").checked;
+	var isWheelchair4; if(noOfRooms >=4) var isWheelchair4 = document.getElementById("wheelchair_yes4").checked;
+	
 	var isVisualiser = document.getElementById("visualiser_yes").checked;
+	var isVisualiser2; if(noOfRooms >=2) var isVisualiser2 = document.getElementById("visualiser_yes2").checked;
+	var isVisualiser3; if(noOfRooms >=3) var isVisualiser3 = document.getElementById("visualiser_yes3").checked;
+	var isVisualiser4; if(noOfRooms >=4)  var isVisualiser4 = document.getElementById("visualiser_yes4").checked;
+	
 	var isProjector = document.getElementById("projector_yes").checked;
+	var isProjector2; if(noOfRooms >=2) var isProjector2 = document.getElementById("projector_yes2").checked;
+	var isProjector3; if(noOfRooms >=3) var isProjector3 = document.getElementById("projector_yes3").checked;
+	var isProjector4; if(noOfRooms >=4) var isProjector4 = document.getElementById("projector_yes4").checked;
+	
 	var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+	var isWhiteboard2; if(noOfRooms >=2) var isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
+	var isWhiteboard3; if(noOfRooms >=3) var isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
+	var isWhiteboard4; if(noOfRooms >=4) var isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
 		
 	var activeLists = [];
 	var currentSelections = [];
@@ -324,8 +345,8 @@ function refill_codes() {
 	
 	var sel1 = document.getElementById('room_list').value;
     var sel2= document.getElementById('room_list2').children[0].value;
-    var sel3 = document.getElementById('room_list3').children[0].value
-    var sel4 = document.getElementById('room_list4').children[0].value
+    var sel3 = document.getElementById('room_list3').children[0].value;
+    var sel4 = document.getElementById('room_list4').children[0].value;
     
 	if(cap1 != null && cap1 != ''){ activeLists.push(1); currentSelections.push(sel1); }
 	if(cap2 != null && cap2 != ''){ activeLists.push(2); currentSelections.push(sel2); }
@@ -356,17 +377,41 @@ function refill_codes() {
 					(!isWhiteboard || roomData[i].whiteboard == 1))
 						$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 			}
-			else {
-				if(roomData[i].capacity >= capacity &&
+			if(activeLists[x]==2) {
+				if(roomData[i].capacity >= cap2 &&
     				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
 					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair || roomData[i].wheelchair == 1) &&
-					(!isVisualiser || roomData[i].visualiser == 1) &&
-					(!isProjector || roomData[i].projector == 1) &&
-					(!isWhiteboard || roomData[i].whiteboard == 1))
+					(!isWheelchair2 || roomData[i].wheelchair == 1) &&
+					(!isVisualiser2 || roomData[i].visualiser == 1) &&
+					(!isProjector2 || roomData[i].projector == 1) &&
+					(!isWhiteboard2 || roomData[i].whiteboard == 1))
 						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 			
-        	}
+        	  	}
+			if(activeLists[x]==3){
+				if(roomData[i].capacity >= cap3 &&
+    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+					(park == "Any" || park == roomData[i].park) &&
+					(!isWheelchair3 || roomData[i].wheelchair == 1) &&
+					(!isVisualiser3 || roomData[i].visualiser == 1) &&
+					(!isProjector3|| roomData[i].projector == 1) &&
+					(!isWhiteboard3 || roomData[i].whiteboard == 1))
+						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+			}
+			
+			if(activeLists[x]==4){
+				if(roomData[i].capacity >= cap4 &&
+    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+					(park == "Any" || park == roomData[i].park) &&
+					(!isWheelchair4 || roomData[i].wheelchair == 1) &&
+					(!isVisualiser4 || roomData[i].visualiser == 1) &&
+					(!isProjector4 || roomData[i].projector == 1) &&
+					(!isWhiteboard4 || roomData[i].whiteboard == 1))
+						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+
+			}
+
+		
 		}	
 	}
    
@@ -384,6 +429,8 @@ function refill_codes() {
         			}
         		}
         }
+        			
+}
         			
 }
 
