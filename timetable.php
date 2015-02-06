@@ -436,22 +436,23 @@ function sort_module() {
 					</td>
 				</tr>
 				                 <td><?php
-				                 function sort_module() { 
-   									 	//$botton_value =
-   									 	if(isset($_POST['radio']))
-{
-echo "You have selected :".$_POST['radio'];  //  Displaying Selected Value
-} 
+
 									} 
-				                 
 				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
 							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
-							echo "<input type='radio' name='part_select' value='A' onchange='sort_module()' > A ";
-							echo "<input type='radio' name='part_select' value='B' onchange='sort_module()' > B ";
-							echo "<input type='radio' name='part_select' value='I' onchange='sort_module()' > I ";
-							echo "<input type='radio' name='part_select' value='C' onchange='sort_module()' > C ";
-							echo "<input type='radio' name='part_select' value='D' onchange='sort_module()' > D ";
-							echo "<input type='text' name='a'> ";// . $_GET['selected_part']. "<br>";
+							echo "<input type='radio' name='radio' value='A' > A ";
+							echo "<input type='radio' name='radio' value='B' > B ";
+							echo "<input type='radio' name='radio' value='I'> I ";
+							echo "<input type='radio' name='radio' value='C' > C ";
+							echo "<input type='radio' name='radio' value='D' > D ";
+							echo "<input type='submit' name='submit' value='Sort' />";
+if (isset($_POST['submit'])) {
+if(isset($_POST['radio']))
+{
+echo "<input type='text' name='a'> You have selected :".$_POST['radio'];  //  Displaying Selected Value
+}
+						//	echo "<input type='text' name='a'> "; . $_GET['selected_part']. "<br>";
+
 							?>
 							
 							</td> 
