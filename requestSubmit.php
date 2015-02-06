@@ -101,20 +101,26 @@
 		$requestId = mysqli_insert_id($conn);
 		
 		if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
-			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0) {
+			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0 || sizeof(array_diff($defaultWeeks,$_POST['weeks'])) != 0) {
 				foreach($_POST['weeks'] as $weeks){
 					$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
+					//$weekInsert2 .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId+1) . ',' . $weeks . '); ';
+					//$weekInsert3 .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId+2) . ',' . $weeks . '); ';
+					//$weekInsert4 .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId+3) . ',' . $weeks . '); ';
 				}
 			} else {
-				$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',0); ';
+				$weekInsert = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',0); ';
+				//$weekInsert2 = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId+1) . ',0); ';
+				//$weekInsert3 = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId+2) . ',0); ';
+				//$weekInsert4 = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId+3) . ',0); ';
 			}
 		}	
 		
 		
 		//inputs the weeks into the REQUEST_WEEKS table along with the correct requestID
 		if ($conn->multi_query($weekInsert) === TRUE) {
-			echo "Weeks created		";
-			} 
+			echo "Weeks1 created		";
+		} 
 		else {
 			echo "Error: " . $weekInsert . "<br>" . $conn->error;
 		}
@@ -138,6 +144,17 @@
 		else {
 			echo "Error: " . $sql2 . "<br>" . $conn->error;
 		}
+		
+		//inputs the weeks into the REQUEST_WEEKS table along with the correct requestID
+		if ($conn->multi_query($weekInsert) === TRUE) {
+			echo "Weeks2 created		";
+			} 
+		else {
+			echo "Error: " . $weekInsert . "<br>" . $conn->error;
+		}
+		
+
+		
 	$conn->close();
 	}
 	
@@ -159,6 +176,14 @@
 		else {
 			echo "Error: " . $sql3 . "<br>" . $conn->error;
 		}
+		
+		//inputs the weeks into the REQUEST_WEEKS table along with the correct requestID
+		if ($conn->multi_query($weekInsert) === TRUE) {
+			echo "Weeks3 created		";
+		} 
+		else {
+			echo "Error: " . $weekInsert . "<br>" . $conn->error;
+		}
 	$conn->close();
 	}
 	
@@ -178,6 +203,14 @@
 			} 
 		else {
 			echo "Error: " . $sql4 . "<br>" . $conn->error;
+		}
+		
+		//inputs the weeks into the REQUEST_WEEKS table along with the correct requestID
+		if ($conn->multi_query($weekInsert) === TRUE) {
+			echo "Weeks4 created		";
+		} 
+		else {
+			echo "Error: " . $weekInsert . "<br>" . $conn->error;
 		}
 	$conn->close();
 	
