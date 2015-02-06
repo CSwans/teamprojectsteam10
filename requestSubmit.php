@@ -27,6 +27,7 @@
 	$cap2; if($n > 1) $cap2 = $_POST['capacity1'];
 	$cap3; if($n > 2) $cap3 = $_POST['capacity2'];
 	$cap4; if($n > 3) $cap4 = $_POST['capacity3'];
+	
 	$wheelchair=$_POST['wheelchair'];
 	$wheelchair2; if($n > 1) $wheelchair2=$_POST['wheelchair2'];
 	$wheelchair3; if($n > 2) $wheelchair3=$_POST['wheelchair3'];
@@ -54,7 +55,7 @@
 	
 	$period=$_POST['time'];
 	
-	$days=array("monday", "tuesday", "wednesday", "thursday", "friday" );
+	$days=array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday" );
 	$dayNo=$_POST['day'];
 	$day=$days[$dayNo-1];
 	
@@ -64,14 +65,16 @@
 	$group=3;
 	
 	$weekInsert="";
-	
+	$defaultWeeks = array(1,2,3,4,5,6,7,8,9,10,11,12);
 	if(!empty($_POST['weeks'])){
-				foreach($_POST['weeks'] as $weeks){
-					$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
-				}
+		if(sizeof($_POST['weeks'],$defaultWeeks) != 0) {
+			foreach($_POST['weeks'] as $weeks){
+				$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
 			}
-			
-					
+		} else {
+			$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',0); ';
+		}
+	}
 			
 			
 	$sql1= 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
