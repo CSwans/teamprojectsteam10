@@ -437,7 +437,6 @@ function sort_module() {
 				</tr>
 				                 <td><?php
 
-									} 
 				                //Riccardo Mangiapelo, Nick Demosthenous : Radio buttons created
 							echo "Part: <input type='radio' name='part_select' checked='checked' value='All'> All ";
 							echo "<input type='radio' name='radio' value='A' > A ";
