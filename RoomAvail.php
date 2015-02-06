@@ -211,7 +211,10 @@
 				$("#PeriodSubmit").html("Period/Time: "+buttonId.substr(buttonId.length-2,1)+" / "+(8+parseInt(buttonId.substr(buttonId.length-2,1)))+":00");
 			
 				//changes the values of the hidden input fields to correspond to the button clicked
-				$("#DaySubmitInput").val(buttonId.substr(0, buttonId.length-2));
+				var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+				var dayNo = days.indexOf(buttonId.substr(0, buttonId.length-2));
+				$("#DaySubmitInput").val((dayNo+1));
+				
 				$("#PeriodSubmitInput").val(buttonId.substr(buttonId.length-2,1));
 				showForm();
 			}
@@ -299,7 +302,7 @@
 				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
 				</select>
 				Week-
-				<select name="Weeks" id="Weeks" onChange="WeekChange();ajaxFunction();">
+				<select name="weeks[]" id="Weeks" onChange="WeekChange();ajaxFunction();">
 					<?php
 						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
 							echo "<option>".$i."</option>";
@@ -366,7 +369,7 @@
 		
 		
 		<div id="inputs" style="display:none;">
-			<form id="requestForm" action="insertInfo.php" method="post" onsubmit="return formValidation()">
+			<form id="requestForm" action="requestSubmit.php" method="post" onsubmit="return formValidation()">
 				<table class="inputs">
 					<tr>
 						<td>
@@ -489,6 +492,7 @@
 					</tr>
 					
 					<input type="hidden" name="duration" value="1">
+					<input type="hidden" name="noRooms" value="1">
 					
 					<tr>
 						<td>
