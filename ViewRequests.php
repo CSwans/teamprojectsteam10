@@ -96,6 +96,8 @@
 				
 			</tr>
 			<?php
+				//putting in all the information about requests into the table
+				//Callan Swanson
 				for($i = 0; $i<sizeof($value);$i++) {
 					
 					echo "<tr><td>".$value[$i]['request_id']."</td>";
@@ -116,7 +118,11 @@
 					if($value[$i]['week']==0) { //default weeks
 						echo "<td>1,2,3,4,5,6,7,8,9,10,11,12</td></tr>";
 					} else {
-						echo "<td>".$value[$i]['week']."</td></tr>";
+						//sorting the list of numbers into lowest first order 
+						$sortedWeeks = explode(',', $value[$i]['week']);
+						$sortedWeeks1 = sort($sortedWeeks);
+						$sortedWeeks1 = implode(',', $sortedWeeks);
+						echo "<td>".$sortedWeeks1."</td></tr>";
 					}
 				}
 			?>
