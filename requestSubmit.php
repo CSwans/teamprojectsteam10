@@ -14,7 +14,7 @@
 	
 	$n=$_POST['noRooms'];
 	
-	$deptCode = $_SESSION['username'];
+	$deptCode = strtoupper($_SESSION['username']);
 	
 	$moduleCode = $_POST['module_code_select'];
 	
