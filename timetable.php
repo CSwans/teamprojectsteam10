@@ -11,8 +11,8 @@
 		<link rel="stylesheet" href="Theme.css"/>
 		<script>
 			$(function() {
-			
-			$( "#tabs" ).tabs({ //loads the tabs and deletes the others so we can access the variables within the other pages
+			//Callan Swanson, Inthuch Therdchanakul, Tom Middleton
+			$( "#tabs" ).tabs({ //loads the tabs and deletes the others so we can access the variables within the other pages#
 				beforeActivate: function (event, ui){
 					alert(ui.newPanel.attr('id'));
 					if(ui.newPanel.attr('id') == "tabs-2") {
@@ -26,9 +26,7 @@
 								partChange();
 							}
 						}); 
-						
-						
-						
+
 					} else if(ui.newPanel.attr('id') == "tabs-3") {
 						$("#tabs-1").empty();
 						$("#tabs-2").empty();
@@ -64,11 +62,10 @@
 								partChange();
 							}
 						});
-						
 					}
 				}
 			});
-
+			//loads the default tab (tab1)
 			$("#tabs-1").load("Round1.php");
 			partChange();
 			
