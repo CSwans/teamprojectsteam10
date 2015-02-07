@@ -397,6 +397,7 @@
 				<table id="subtable">
 					<tr>
 						<td>
+							<input type="hidden" name="priorityInput" value="1" >
 							<input id="submit" type="submit" value="Submit"/>
 						</td>
 					</tr>
