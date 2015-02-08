@@ -48,7 +48,7 @@
 	$whiteboard3; if($n > 2) $whiteboard3=$_POST['whiteboard3'];
 	$whiteboard4; if($n > 3) $whiteboard4=$_POST['whiteboard4'];
 	
-	$priority=1;
+	$priority=$_POST['priorityInput'];
 	
 	$specialRequirements="";
 	if(isset($_POST['specialReq'])) $specialRequirements=$_POST['specialReq'];
