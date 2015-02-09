@@ -21,6 +21,7 @@
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
 			
+			
 			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."'GROUP BY request_id";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
@@ -50,6 +51,36 @@
 			
 			$jsonBookings = json_encode($value2);
 			
+			
+			$sql = "SELECT REQUEST.request_id, booking_id, BOOKING.room_code, CASE WHEN BOOKING.room_code = REQUEST.room_code THEN 1 ELSE 0 END AS status FROM REQUEST, BOOKING WHERE BOOKING.request_id = REQUEST.request_id ";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value3 = array();
+			
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value3[] = $row;
+			}
+			
+			$jsonRejections = json_encode($value3);
+			
+			
+			$sql = "SELECT REQUEST.request_id, booking_id, BOOKING.room_code, CASE WHEN BOOKING.room_code = REQUEST.room_code THEN 1 ELSE 0 END AS status FROM REQUEST, BOOKING WHERE BOOKING.request_id = REQUEST.request_id ";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value4 = array();
+			
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value4[] = $row;
+			}
+			
+			$jsonPendings = json_encode($value4);
+			
 		?>
 		
 		<script src="js/jquery-1.11.1.min.js"></script>
@@ -60,6 +91,8 @@
 			<?php
 				echo "var requestData = ".$jsonRequests.";\n";
 				echo "var bookingData = ".$jsonBookings.";\n";
+				echo "var rejectedData = ".$jsonRejections.";\n";
+				echo "var pendingData = ".$jsonPendings.";\n";
 			?>
 			
 			$(function() {
