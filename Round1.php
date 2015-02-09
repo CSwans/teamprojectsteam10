@@ -76,7 +76,7 @@
 				<table class="inputs">
 					<tr>
 						<td>
-							<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
+							<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 						</td>
 					</tr>
 					<tr>
