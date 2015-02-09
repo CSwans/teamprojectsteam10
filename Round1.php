@@ -33,7 +33,10 @@
 		}
 		$json = json_encode($value);
 		
-		$sql = "SELECT module_code, module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
+		$sql = "SELECT module_code, module_title 
+				FROM MODULES 
+				WHERE dept_code='$username' 
+				ORDER BY module_code;";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -59,7 +62,8 @@
 		
 	</script>
 		
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
+		<link rel="stylesheet" 
+		href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 		<link rel="stylesheet" href="/resources/demos/style.css"/>

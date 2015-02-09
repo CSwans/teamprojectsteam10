@@ -1,10 +1,9 @@
-		<script src="js/jquery.serializejson.min.js"></script>
 <?php 
-	//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
+	//Starts the session, if there is not any sessions then it will transfer 
+	//to the login page and the user will ave to log in again
 	//March Intuch
 	session_start();
-	if(!isset($_SESSION['username']) || !isset($_SESSION['password']))
-	{
+	if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 		header('Location: login.html');	
 	}
 	
@@ -60,14 +59,10 @@
 	$dayNo=$_POST['day'];
 	$day=$days[$dayNo-1];
 	
-	
 	$duration=$_POST['duration'];
-	
-	$group=3;
 	
 	$weekInsert="";
 	$defaultWeeks = array(1,2,3,4,5,6,7,8,9,10,11,12);
-	
 	
 	//connects to the database using the username and passoword 
 	$host = "co-project.lboro.ac.uk"; //host name
@@ -81,15 +76,18 @@
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
-	
-	
-	
-		$requestId = mysqli_insert_id($conn);	
+		
+	$requestId = mysqli_insert_id($conn);	
 			
-	$sql1= 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration)
-           VALUES (' . $requestId .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode .'\',\''. $cap1 .'\','. $wheelchair .','. $projector .','. $visualiser .','. $whiteboard .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .');';
-	
-	
+	$sql1= 'INSERT INTO 
+			REQUEST(request_id, dept_code, module_code, room_code, capacity,
+			wheelchair, projector, visualiser, whiteboard,
+			special_Requirements, priority, period, day, duration)
+			VALUES(' . $requestId .',\''. $deptCode .'\',\''. $moduleCode .'\',
+			\''. $roomCode .'\',\''. $cap1 .'\','. $wheelchair .',
+			'. $projector .','. $visualiser .','. $whiteboard .',
+			\''. $specialRequirements .'\','.  $priority .','. $period .',\'
+			'. $day .'\','. $duration .');';
 	
 		//inputs the first row of the requst as he REQUEST
 		if ($conn->multi_query($sql1) === TRUE) {
@@ -115,10 +113,10 @@
 		if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
 			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0 || sizeof(array_diff($defaultWeeks,$_POST['weeks'])) != 0) {
 				foreach($_POST['weeks'] as $weeks){
-					$weekInsert .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
-					$weekInsert2 .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId2) . ',' . $weeks . '); ';
-					$weekInsert3 .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId3) . ',' . $weeks . '); ';
-					$weekInsert4 .= 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($requestId4) . ',' . $weeks . '); ';
+					$weekInsert .= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . $requestId . ',' . $weeks . '); ';
+					$weekInsert2.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($requestId2) . ',' . $weeks . '); ';
+					$weekInsert3.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($requestId3) . ',' . $weeks . '); ';
+					$weekInsert4.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($requestId4) . ',' . $weeks . '); ';
 				}
 			} else {
 				$weekInsert = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $requestId . ',0); ';
@@ -227,8 +225,5 @@
 	$conn->close();
 	
 	}
-    	
-
-	echo json_encode($group);
 	
 ?>
