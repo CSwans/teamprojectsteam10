@@ -500,10 +500,19 @@ function refill_codes() {
 </script>
 </head>
 <body>
-<div id = "top_style"  > <b><a href="login.html" style="margin-right: 140px; font-size: 12px;">Logout</a></b> </div>
+<div id = "top_style"  > <b><a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;">Logout</a></b> </div>
 <div id = "header_style" >
   <div id="title">
-    <h1>Loughborough University Timetabling</h1>
+	 <!-- Nikolaos Demosthenous	Riccardo Mangiapelo Tom Middleton Inthuch Therdchanakul-->
+	  <!--Adding the department name on the header  -->
+    <h1>Loughborough University Timetabling <br/> <?php $dept_code = strtolower($username); $sql = "SELECT dept_name FROM DEPT WHERE dept_code = '$dept_code' "; 		$res =& $db->query($sql); //getting the result from the database
+		if(PEAR::isError($res)){
+			die($res->getMessage());
+		}
+		//put each rows into value array
+		while($row = $res->fetchRow()){
+			echo $row["dept_name"];
+		}  ?>   <br/> </h1> 
   </div>
   <div id="logo"> <a href="http://www.lboro.ac.uk/?external"> <img id = "lboro_logo" src="LU-mark-rgb.png" alt="Loughborough University Logo" /> </a> </div>
 </div>
