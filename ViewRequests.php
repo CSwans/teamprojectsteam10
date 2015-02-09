@@ -219,90 +219,100 @@
 			//puts data into the table using jquery
 			//callan swanson
 			function populateTable() {
-			for(var i=0; i<requestData.length; i++) {
+				var currentStatus = document.getElementById("status").value;
+				if(currentStatus == "Rejected"){
+					statusChange(rejectedData);
+					}
+				if(currentStatus == "Booked"){
+					statusChange(bookingData);
+					}
+			}
+			function statusChange(status){
+				for(var i=0; i<status.length; i++) {
 
-					$("#dataTable tr:eq("+(i+1)+") td:eq(0)").html(requestData[i].request_id);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(0)").html(status[i].request_id);
 					
-					if(requestData[i].room_code === null) console.log("NULL");
-					$("#dataTable tr:eq("+(i+1)+") td:eq(1)").html(requestData[i].module_code);
+					if(status[i].room_code === null) console.log("NULL");
+					$("#dataTable tr:eq("+(i+1)+") td:eq(1)").html(status[i].module_code);
 					
-					$("#dataTable tr:eq("+(i+1)+") td:eq(2)").html(requestData[i].room_code);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(3)").html(requestData[i].capacity);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(4)").html(requestData[i].wheelchair);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(5)").html(requestData[i].projector);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(6)").html(requestData[i].visualiser);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(7)").html(requestData[i].whiteboard);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(8)").html(requestData[i].special_requirements);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(9)").html(requestData[i].priority);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(10)").html(requestData[i].period);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(11)").html(requestData[i].day);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(12)").html(requestData[i].duration);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(2)").html(status[i].room_code);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(3)").html(status[i].capacity);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(4)").html(status[i].wheelchair);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(5)").html(status[i].projector);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(6)").html(status[i].visualiser);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(7)").html(status[i].whiteboard);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(8)").html(status[i].special_requirements);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(9)").html(status[i].priority);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(10)").html(status[i].period);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(11)").html(status[i].day);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(12)").html(status[i].duration);
 					
 					
-					if(requestData[i].week==0) { //default weeks
+					if(status[i].week==0) { //default weeks
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1,2,3,4,5,6,7,8,9,10,11,12");
 					} else {
 						//sorting the list of numbers into lowest first order 
-						var sortedWeeks = requestData[i].week.split(",");
+						var sortedWeeks = status[i].week.split(",");
 						sortedWeeks.sort();
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
-					
-					
-					//$("#dataTable tr:eq("+(i+1)+") td:eq(0)").html(requestData[i].status); ///////////////////////\\\\\\\\\\\\\\\\\\\\\\\///////////////
-
 				}
-			}
 			
 		</script>
 	</head>
 	<body>
 		<table id="dataTable">
 			<tr>
-				Click on the headers to sort the table
-				<td id="request_id" onclick="sortHeader(this.id);">
+				Click on the headers to sort the table<br>
+                Status: 
+                <select id="status" onChange="populateTable()">
+                	<option>Rejected</option>
+                    <option>Booked</option>
+                    <option>Pending</option>
+                </select>
+				<td id="request_id" onClick="sortHeader(this.id);">
 					request_id
 				</td>
-				<td id="module_code" onclick="sortHeader(this.id);">
+				<td id="module_code" onClick="sortHeader(this.id);">
 					module_code
 				</td>
-				<td id="room_code" onclick="sortHeader(this.id)">
+				<td id="room_code" onClick="sortHeader(this.id)">
 					room_code
 				</td>
-				<td id="capacity" onclick="sortHeader(this.id)">
+				<td id="capacity" onClick="sortHeader(this.id)">
 					capacity
 				</td>
-				<td id="wheelchair" onclick="sortHeader(this.id)">
+				<td id="wheelchair" onClick="sortHeader(this.id)">
 					wheelchair
 				</td>
-				<td id="projector" onclick="sortHeader(this.id)">
+				<td id="projector" onClick="sortHeader(this.id)">
 					projector
 				</td>
-				<td id="visualiser" onclick="sortHeader(this.id)">
+				<td id="visualiser" onClick="sortHeader(this.id)">
 					visualiser
 				</td>
-				<td id="whiteboard" onclick="sortHeader(this.id)">
+				<td id="whiteboard" onClick="sortHeader(this.id)">
 					whiteboard
 				</td>
 				<td id="special_requirements">
 					special_requirements
 				</td>
-				<td id="priority" onclick="sortHeader(this.id)">
+				<td id="priority" onClick="sortHeader(this.id)">
 					priority
 				</td>
-				<td id="period" onclick="sortHeader(this.id)">
+				<td id="period" onClick="sortHeader(this.id)">
 					period
 				</td>
-				<td id="day" onclick="sortHeader(this.id)">
+				<td id="day" onClick="sortHeader(this.id)">
 					day
 				</td>
-				<td id="duration" onclick="sortHeader(this.id)">
+				<td id="duration" onClick="sortHeader(this.id)">
 					duration
 				</td>
 				<td id="week(s)">
 					week(s)
 				</td>
-				<td id="status" onclick="sortHeader(this.id)">
+				<td id="status" onClick="sortHeader(this.id)">
 					Status
 				</td>
 				
