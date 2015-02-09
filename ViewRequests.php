@@ -47,6 +47,9 @@
 				echo "var requestData = ".$json.";\n";
 			?>
 			
+			$(function() {
+				
+			});
 			
 			function request_id(a, b) {
 				return parseInt(a["request_id"]) - parseInt(b["request_id"]);
@@ -58,7 +61,14 @@
 			}
 			
 			function room_code(a, b) {
-				return a["room_code"] >  b["room_code"];
+				if (a["room_code"]===null) a["room_code"]='';
+				if (b["room_code"]===null) b["room_code"]='';
+
+				if (''+a["room_code"] < ''+b["room_code"]) return -1;
+				if (''+a["room_code"] > ''+b["room_code"]) return  1;
+				
+				return 0;
+				
 			}
 			
 			function capacity(a, b) {
@@ -117,7 +127,8 @@
 						requestData.sort(module_code);
 						break;
 					case "room_code" : 
-						requestData.sort(room_code);
+						requestData.sort(room_code);///////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\////////////////////////////////////\\\\\\\\\
+						console.log("Room Data "+requestData[0].room_code);
 						break;
 					case "capacity" : 
 						requestData.sort(capacity);
@@ -163,7 +174,10 @@
 			for(var i=0; i<requestData.length; i++) {
 
 					$("#dataTable tr:eq("+(i+1)+") td:eq(0)").html(requestData[i].request_id);
+					
+					if(requestData[i].room_code === null) console.log("NULL");
 					$("#dataTable tr:eq("+(i+1)+") td:eq(1)").html(requestData[i].module_code);
+					
 					$("#dataTable tr:eq("+(i+1)+") td:eq(2)").html(requestData[i].room_code);
 					$("#dataTable tr:eq("+(i+1)+") td:eq(3)").html(requestData[i].capacity);
 					$("#dataTable tr:eq("+(i+1)+") td:eq(4)").html(requestData[i].wheelchair);
@@ -176,14 +190,14 @@
 					$("#dataTable tr:eq("+(i+1)+") td:eq(11)").html(requestData[i].day);
 					$("#dataTable tr:eq("+(i+1)+") td:eq(12)").html(requestData[i].duration);
 					
-					console.log(requestData[i].week);
+					
 					if(requestData[i].week==0) { //default weeks
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1,2,3,4,5,6,7,8,9,10,11,12");
 					} else {
 						//sorting the list of numbers into lowest first order 
 						var sortedWeeks = requestData[i].week.split(",");
 						sortedWeeks.sort();
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks);
+						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
 					
 					
