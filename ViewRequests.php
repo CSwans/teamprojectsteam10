@@ -21,7 +21,7 @@
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
 			
-			$sql = "SELECT REQUEST.request_id, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."'GROUP BY request_id";
+			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."'GROUP BY request_id";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -34,7 +34,21 @@
 				
 			}
 			
-			$json = json_encode($value);
+			$jsonRequests = json_encode($value);
+			
+			$sql = "SELECT REQUEST.request_id, booking_id, BOOKING.room_code, CASE WHEN BOOKING.room_code = REQUEST.room_code THEN 1 ELSE 0 END AS status FROM REQUEST, BOOKING WHERE BOOKING.request_id = REQUEST.request_id ";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value2 = array();
+			
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value2[] = $row;
+			}
+			
+			$jsonBookings = json_encode($value2);
 			
 		?>
 		
@@ -44,11 +58,12 @@
 		<script type="text/javascript">
 		
 			<?php
-				echo "var requestData = ".$json.";\n";
+				echo "var requestData = ".$jsonRequests.";\n";
+				echo "var bookingData = ".$jsonBookings.";\n";
 			?>
 			
 			$(function() {
-				
+				console.log(bookingData);
 			});
 			
 			function request_id(a, b) {
