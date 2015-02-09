@@ -44,12 +44,28 @@
 			}
 			$moduleJson = json_encode($moduleInfo);
 			//retrieveing info abou the modules and their titles
+			
+		//Initialise list of bookings to take into account when populating room pref lists
+		//Tom Middleton		
+		$sql = "SELECT REQUEST.request_id, REQUEST.day, REQUEST.period, REQUEST.duration, REQUEST_WEEKS.week, BOOKING.room_code FROM REQUEST, BOOKING, REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND REQUEST.request_id = BOOKING.request_id ";
+		$res =& $db->query($sql); //getting the result from the database
+		if(PEAR::isError($res)){
+			die($res->getMessage());
+		}
+		$bookingInfo[] = array();
+		//put each rows into value array
+		while($row = $res->fetchRow()){
+			$bookingInfo[] = $row;
+		}
+		$bookingJson = json_encode($bookingInfo);
+		
 	?>
 	<script type="text/javascript">
 		<?php
 			//pass value array onto javascript array roomData
 			echo "var roomData = ". $json . ";\n";
 			echo "var moduleData = ". $moduleJson . ";\n";
+			echo "var bookingData = " .$bookingJson. ";\n";
 		?>
 	</script>
 	
@@ -124,15 +140,15 @@
 						  <!--radio buttons for the day of the week--> 
 						  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
 						  
-							<input type="radio" name="day" id='monday' value="1" required/>
+							<input onchange="change_room_code();" type="radio" name="day" id='monday' value="1" required/>
 							Monday
-							<input type="radio" name="day" id='tuesday' value="2" required/>
+							<input onchange="change_room_code();" type="radio" name="day" id='tuesday' value="2" required/>
 							Tuesday<br/>
-							<input type="radio" name="day" id='wednesday' value="3" required/>
+							<input onchange="change_room_code();" type="radio" name="day" id='wednesday' value="3" required/>
 							Wednesday
-							<input type="radio" name="day" id='thursday' value="4" required/>
+							<input onchange="change_room_code();" type="radio" name="day" id='thursday' value="4" required/>
 							Thursday<br/>
-							<input type="radio" name="day" id='friday' value="5" required/>
+							<input onchange="change_room_code();" type="radio" name="day" id='friday' value="5" required/>
 							Friday 
 						</td>
 					</tr>
@@ -142,39 +158,39 @@
 							Week: <br/>
 
 							<span class="week_label"> 1 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
 							<span class="week_label"> 2 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="2" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="2" checked="checked" /></input>
 							<span class="week_label"> 3 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="3" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="3" checked="checked" /></input>
 							<span class="week_label"> 4 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="4" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="4" checked="checked" /></input>
 							<span class="week_label"> 5 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="5" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="5" checked="checked" /></input>
 							<span class="week_label"> 6 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="6" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="6" checked="checked" /></input>
 							<span class="week_label"> 7 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
 							<span class="week_label"> 8 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
 							<br/>
 							<br/>
 							<span class="week_label"> 9 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
 							<span class="week_label"> 10 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="10" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="10" checked="checked" /></input>
 							<span class="week_label"> 11 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="11" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="11" checked="checked" /></input>
 							<span class="week_label"> 12 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="12" checked="checked" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="12" checked="checked" /></input>
 							<span class="week_label"> 13 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="13" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="13" /></input>
 							<span class="week_label"> 14 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="14" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="14" /></input>
 							<span class="week_label"> 15 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="15" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="15" /></input>
 							<span class="week_label"> 16 </span>
-							<input type="checkbox" name="weeks[]" id="week" value="16" /></input>
+							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="16" /></input>
 						</td>
 					</tr>
 					<tr>
@@ -183,7 +199,7 @@
 								//dropdown for the period, includes the time in 24hr format
 								//Callan Swanson
 								//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
-								echo "<select name='time' id='time' onchange='refill_duration()'>";
+								echo "<select name='time' id='time' onchange='refill_duration(); change_room_code();'>";
 								for($i=1;$i<=9;$i++){
 									$time = $i+8;
 									echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
@@ -197,7 +213,7 @@
 							<?php
 								//dropdown for the duration
 								//Scott Marshall
-								echo "<select name='duration' id='duration'>";
+								echo "<select name='duration' id='duration' onchange='change_room_code();'>";
 								for($i=1;$i<=9;$i++){
 									$duration = $i+8;
 									echo "<option value='".$i."'>".$i."</option>";
