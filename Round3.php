@@ -76,7 +76,7 @@
 				<table class="inputs">
 					<tr>
 						<td>
-							<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
+							<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 							Priority: 
 							<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="1"/>Yes
 							<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="0"/>No
