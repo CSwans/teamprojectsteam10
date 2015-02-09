@@ -37,7 +37,7 @@
 			
 			$jsonRequests = json_encode($value);
 			
-			$sql = "SELECT REQUEST.request_id, booking_id, BOOKING.room_code, CASE WHEN BOOKING.room_code = REQUEST.room_code THEN 1 ELSE 0 END AS status FROM REQUEST, BOOKING WHERE BOOKING.request_id = REQUEST.request_id ";
+			$sql = "SELECT REQUEST.request_id, module_code, BOOKING.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week, CASE WHEN REQUEST.room_code = BOOKING.room_code THEN 0 ELSE 1 END AS partial FROM REQUEST,REQUEST_WEEKS, BOOKING WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."' AND BOOKING.request_id = REQUEST.request_id GROUP BY request_id";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -52,7 +52,7 @@
 			$jsonBookings = json_encode($value2);
 			
 			
-			$sql = "SELECT REQUEST.request_id, booking_id, BOOKING.room_code, CASE WHEN BOOKING.room_code = REQUEST.room_code THEN 1 ELSE 0 END AS status FROM REQUEST, BOOKING WHERE BOOKING.request_id = REQUEST.request_id ";
+			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week  FROM REQUEST,REQUEST_WEEKS, REJECTION WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."' AND REJECTION.request_id = REQUEST.request_id GROUP BY request_id";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -67,20 +67,6 @@
 			$jsonRejections = json_encode($value3);
 			
 			
-			$sql = "SELECT REQUEST.request_id, booking_id, BOOKING.room_code, CASE WHEN BOOKING.room_code = REQUEST.room_code THEN 1 ELSE 0 END AS status FROM REQUEST, BOOKING WHERE BOOKING.request_id = REQUEST.request_id ";
-			$res =& $db->query($sql); //getting the result from the database
-			if(PEAR::isError($res)){
-				die($res->getMessage());
-			}
-			$value4 = array();
-			
-			//put each rows into value array
-			while($row = $res->fetchRow()){
-				$value4[] = $row;
-			}
-			
-			$jsonPendings = json_encode($value4);
-			
 		?>
 		
 		<script src="js/jquery-1.11.1.min.js"></script>
@@ -89,15 +75,48 @@
 		<script type="text/javascript">
 		
 			<?php
-				echo "var requestData = ".$jsonRequests.";\n";
+				echo "var requestData = ".$jsonRequests.";\n"; //WILL CHANGE TO HOLD THE PENDING DATA WHEN PAGE LOADS
 				echo "var bookingData = ".$jsonBookings.";\n";
 				echo "var rejectedData = ".$jsonRejections.";\n";
-				echo "var pendingData = ".$jsonPendings.";\n";
+				
 			?>
 			
+			
+			
 			$(function() {
-				console.log(bookingData);
+				//console.log(bookingData);
+				populateTable();
+				
+				findPendings();
+				console.log(pendingData);
 			});
+			
+			
+			//finds the pending data by searching through both the rejected and the booked arrays
+			//callan swanson
+			function findPendings() {
+				for(var i=0; i<requestData.length; i++) {
+					for(var j=0; j<bookingData.length; j++) {
+						if(requestData[i].request_id == bookingData[j].request_id) {
+							console.log(requestData[i]);
+							requestData.splice(i,1);
+						}
+					}
+				}
+				console.log(requestData);
+				for(var i=0; i<requestData.length; i++) {
+					for(var j=0; j<rejectedData.length; j++) {
+						if(requestData[i].request_id == rejectedData[j].request_id) {
+							console.log(requestData[i]);
+							requestData.splice(i,1);
+						}
+					}
+				}
+				console.log("REJECTED");
+				console.log(rejectedData);
+				console.log('REQUEST');
+				console.log(requestData);
+			}
 			
 			function request_id(a, b) {
 				return parseInt(a["request_id"]) - parseInt(b["request_id"]);
@@ -156,11 +175,7 @@
 			function duration(a, b) {
 				return parseInt(a["duration"]) - parseInt(b["duration"]);
 			}
-			////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////////////\\\\\\\
-			function status(a, b) {
-				var statInt = ["Booked", "Not Booked"];
-				return parseInt(a["status"]) - parseInt(b["status"]);
-			}
+			
 			
 			//sorts the data in the table according to which id has been passed (uses sort functions above)
 			//Callan Swanson
@@ -175,8 +190,7 @@
 						requestData.sort(module_code);
 						break;
 					case "room_code" : 
-						requestData.sort(room_code);///////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\////////////////////////////////////\\\\\\\\\
-						console.log("Room Data "+requestData[0].room_code);
+						requestData.sort(room_code);
 						break;
 					case "capacity" : 
 						requestData.sort(capacity);
@@ -205,10 +219,6 @@
 					case "duration" : 
 						requestData.sort(duration);
 						break;
-					/*case "status" : 
-						requestData.sort(status);
-						break;*/////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
- 
 					default : 
 						break;
 				}
@@ -222,12 +232,30 @@
 				var currentStatus = document.getElementById("status").value;
 				if(currentStatus == "Rejected"){
 					statusChange(rejectedData);
-					}
+				}
 				if(currentStatus == "Booked"){
 					statusChange(bookingData);
+					for(var i=0; i<bookingData.length; i++) {
+						if(bookingData[i].partial == 1) {
+							$("#dataTable tr:eq("+(i+1)+") td:eq(2)").html("<b>"+bookingData[i].room_code+"</b>");
+						}
 					}
+				}
+				if(currentStatus == "Pending"){
+					statusChange(requestData);
+				}
 			}
+			
+			//alters the table to contain the data they want to see
+			//callan swanson, Inthuch Therdchanakul
 			function statusChange(status){
+			
+				for(var i=1; i<=requestData.length; i++) {
+					for(var j=0; j<14; j++) {
+						$("#dataTable tr:eq("+(i+1)+") td:eq("+j+")").empty();
+					}
+				}
+			
 				for(var i=0; i<status.length; i++) {
 
 					$("#dataTable tr:eq("+(i+1)+") td:eq(0)").html(status[i].request_id);
@@ -256,7 +284,9 @@
 						sortedWeeks.sort();
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
+					
 				}
+			}
 			
 		</script>
 	</head>
