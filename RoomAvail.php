@@ -89,7 +89,7 @@
 			//Callan Swanson, Inthuch Therdchanakul
 			function ajaxFunction() {
 			  	var MyForm = $("#options").serializeJSON();
-				console.log(MyForm);
+				console.log("MyForm: "+MyForm);
 				
 				//clear the table of any booked rooms
 				refreshBooks();
@@ -100,8 +100,9 @@
 					data : {valArray:MyForm},
 					success : function (data){
 							data = JSON.parse(data);
-							console.log(data); //quick check
+							console.log("data "+data); //quick check
 							for(var i=0; i<data.length; i++) { //looking throught the whole data array to find the correct weeks
+								console.log("data[i] "+data[i]);
 								if(document.getElementById("Weeks").value == data[i].week) { 
 									for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
 										console.log(data[i].day+(parseInt(data[i].period)+j));

@@ -11,8 +11,8 @@
 			
 			//finding the values we want to find in the database
 			//Callan Swanson, Inthuch Therdchanakul
-			$val =$_POST['valArray'];
-			$week = $val['Weeks'];
+			$val = $_POST['valArray'];
+			$week = $val['weeks'];
 			$room = $val['RoomSelect'];
 			$results = array();
 			
