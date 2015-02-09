@@ -45,14 +45,20 @@
 			$moduleJson = json_encode($moduleInfo);
 			//retrieveing info abou the modules and their titles
 	?>
+
 	<script type="text/javascript">
 		<?php
 			//pass value array onto javascript array roomData
 			echo "var roomData = ". $json . ";\n";
 			echo "var moduleData = ". $moduleJson . ";\n";
 		?>
+		
+		$(function() {
+			partChange();
+		});
+		
 	</script>
-	
+		
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>

@@ -379,5 +379,6 @@
 				}
 			?>
 		</table>
+		Click on the 
 	</body>
 </html>

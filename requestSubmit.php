@@ -1,3 +1,4 @@
+		<script src="js/jquery.serializejson.min.js"></script>
 <?php 
 	//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
 	//March Intuch
@@ -228,6 +229,6 @@
 	}
     	
 
-	
+	echo json_encode($group);
 	
 ?>

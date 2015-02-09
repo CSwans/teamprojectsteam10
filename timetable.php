@@ -14,7 +14,7 @@
 			//Callan Swanson, Inthuch Therdchanakul, Tom Middleton
 			$( "#tabs" ).tabs({ //loads the tabs and deletes the others so we can access the variables within the other pages#
 				beforeActivate: function (event, ui){
-					alert(ui.newPanel.attr('id'));
+					
 					if(ui.newPanel.attr('id') == "tabs-2") {
 						$("#tabs-1").empty();
 						$("#tabs-3").empty();
@@ -68,6 +68,8 @@
 			//loads the default tab (tab1)
 			$("#tabs-1").load("Round1.php");
 			partChange();
+			
+			
 			
 			});
 		</script>
@@ -525,11 +527,7 @@ function refill_codes() {
 		<li><a href="#tabs-4">Ad-hoc Request</a></li>
     </ul>
 	
-    <div id="tabs-1"> <!--Tab for Round 1 -->
-     <?php
-		//include "Round1.php";
-	 ?>
-		
+    <div id="tabs-1"> <!--Tab for Round 1 -->		
     
 	</div>
     <!-- Tab 1 -->
@@ -549,8 +547,6 @@ function refill_codes() {
 </div>
 </body>
 </html>
-<table id="resultsTable">
-  
-</table>
-</body>
-</html>
+	<table id="resultsTable">
+	  
+	</table>
