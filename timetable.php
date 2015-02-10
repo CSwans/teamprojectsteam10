@@ -125,7 +125,7 @@
 		if(PEAR::isError($res)){
 			die($res->getMessage());
 		}
-		$bookingInfo = array();
+		$bookingInfo[] = array();
 		//put each rows into value array
 		while($row = $res->fetchRow()){
 			$bookingInfo[] = $row;
@@ -269,22 +269,24 @@ var bookedRooms=[];
 var flag=false;
 
 for(var x=0;x<weeks.length;x++){
-	if(0<weeks[x]>13) flag=true;
+	if(weeks[x]>0 && weeks[x]<13) flag=true;
 }
 
 
-
 for(var x =0;x<bookingData.length;x++){
-	for(var y=0;y<document.forms.requestForm.elements['weeks[]'].length;y++){
-		if((bookingData[x].week==weeks[y] || (bookingData.week==0 && flag)) && bookingData[x].day==day &&
+	for(var y=0;y<weeks.length;y++){
+		if((bookingData[x].week==weeks[y] || (bookingData[x].week==0 && flag==true)) && bookingData[x].day==day &&
 		(parseInt(bookingData[x].period)+parseInt(bookingData[x].duration) < period || parseInt(bookingData[x].period) >= period+duration ) ){
 	    	bookedRooms.push(bookingData[x].room_code);
+	    	alert(bookingData[x].room_code);
 	    }
 	}
 }
 
-alert('yes');
-
+for(var x =0;x<bookedRooms.length;x++){
+	alert(bookedRooms[x]);
+}
+	
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
@@ -558,6 +560,7 @@ function refill_codes() {
 			type : "POST", 
 			data : $("#requestForm").serialize(),
 			success : function (data){
+					
 					data = JSON.parse(data);
 					alert("Request submitted with request id " + data[data.length-1].request_id);
 					console.log("data "+data[0].request_id); //quick check

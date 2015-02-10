@@ -229,29 +229,21 @@
 	$conn->close();
 	
 	}
-	$conn = new mysqli($host, $username, $password, $dbName);
-		// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		}
-
-		if ($conn->multi_query($sql4) === TRUE) {
-			echo "SQL4 created		";
-			} 
-		else {
-			echo "Error: " . $sql4 . "<br>" . $conn->error;
-		}
-	$sql = "SELECT * FROM REQUEST";
-	$res =& $db->query($sql); //getting the result from the database
-	if(PEAR::isError($res)){
-		die($res->getMessage());
+	$conn = mysqli_connect($host, $username, $password, $dbName);
+	if (mysqli_connect_errno())
+	{
+		echo "Failed to connect to MySQL: " . mysqli_connect_error();	
 	}
+
+
+	$sql5 = "SELECT * FROM REQUEST";
+	$result = mysqli_query($conn,$sql5) or die(mysqli_error($conn));
 	$value = array();
 	//put each rows into value array
-	while($row = $res->fetchRow()){
+	while($row = mysqli_fetch_object($result)){
 		$value[] = $row;
 	}
 	echo json_encode($value);
-	$conn->close();
+	mysqli_close($link);
 	
 ?>
