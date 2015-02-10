@@ -92,6 +92,8 @@
 					<tr>
 						<td>
 							Part: 
+						</td>
+						<td>
 							<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
 							<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
 							<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B 
@@ -104,11 +106,14 @@
 					<!--<tr>-->
 					<tr>
 						<td>
+							Module Code:
+						</td>
+						<td>
 							<?php
 								//will output the whole set of module codes from the database, module codes will change when module titles change
 								//Callan Swanson, Inthuch Therdchanakul
 								//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
-								echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
+								echo "<select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
 								
 								echo "</select>";
 							?>
@@ -116,10 +121,13 @@
 					</tr>
 					<tr>
 						<td>
+							Module Title:
+						</td>
+						<td>
 							<?php
 								//displays the module titles, titles will change when module codes change
 								//Callan Swanson, Inthuch Therdchanakul
-								echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
+								echo "<select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
 							
 								echo "</select>";
 							?>
@@ -127,7 +135,9 @@
 					</tr>
 					<tr>
 						<td> 
-							Day: 
+							Day:
+						</td>
+						<td>
 						  <!--radio buttons for the day of the week--> 
 						  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
 						  
@@ -146,8 +156,9 @@
 					<tr>
 						<td><!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
 						  <!-- allowing a raneg of weeks to be chosen --> 
-							Week: <br/>
-
+							Week:
+						</td>
+						<td>
 							<span class="week_label"> 1 </span>
 							<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
 							<span class="week_label"> 2 </span>
@@ -186,6 +197,8 @@
 					</tr>
 					<tr>
 						<td> Period:
+						</td>
+						<td>
 							<?php
 								//dropdown for the period, includes the time in 24hr format
 								//Callan Swanson
@@ -201,6 +214,8 @@
 					</tr>
 					<tr>
 						<td> Duration:
+						</td>
+						<td>
 							<?php
 								//dropdown for the duration
 								//Scott Marshall
@@ -214,12 +229,15 @@
 						</td>
 					</tr>
 					<tr>
-						<td> Special requirements: <br/>
+						<td> Special requirements: </td>
+						<td>
 							<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
 					</tr>
 					<tr>
 						<td> Number of rooms:
+						</td>
+						<td>
 							<select id="noRooms" name="noRooms" onChange="showCapacity(); change_room_code();" >
 								<option>1</option>
 								<option>2</option>
@@ -229,7 +247,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td id="capacityCell"> Capacity:
+						<td id="labelCell">
+							Capacity:
+						</td>
+						<td id="capacityCell">
 							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
 						</td>
 					</tr>
