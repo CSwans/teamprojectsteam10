@@ -259,11 +259,31 @@ for(var x=0;x<16;x++){
 	}
 }
 
+
+   
 var period = document.getElementById('time').selectedIndex+1;
 var duration = document.getElementById('duration').selectedIndex+1;
 
+var bookedRooms=[];
+
+var flag=false;
+
+for(var x=0;x<weeks.length;x++){
+	if(0<weeks[x]>13) flag=true;
+}
 
 
+
+for(var x =0;x<bookingData.length;x++){
+	for(var y=0;y<document.forms.requestForm.elements['weeks[]'].length;y++){
+		if((bookingData[x].week==weeks[y] || (bookingData.week==0 && flag)) && bookingData[x].day==day &&
+		(parseInt(bookingData[x].period)+parseInt(bookingData[x].duration) < period || parseInt(bookingData[x].period) >= period+duration ) ){
+	    	bookedRooms.push(bookingData[x].room_code);
+	    }
+	}
+}
+
+alert('yes');
 
 //empty the room code list
 $("#room_list").empty();
@@ -276,13 +296,13 @@ $("#room_list4").find( "select" ).empty();
 $("#room_list4").find( "select" ).append("<option>" + "" + "</option>");
 for(var i=0;i<roomData.length;i++){
 //if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
-if(roomData[i].capacity >= capacity &&
-(park == "Any" || park == roomData[i].park) &&
-(!isWheelchair || roomData[i].wheelchair == 1) &&
-(!isVisualiser || roomData[i].visualiser == 1) &&
-(!isProjector || roomData[i].projector == 1) &&
-(!isWhiteboard || roomData[i].whiteboard == 1))
-$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+	if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity &&
+	(park == "Any" || park == roomData[i].park) &&
+	(!isWheelchair || roomData[i].wheelchair == 1) &&
+	(!isVisualiser || roomData[i].visualiser == 1) &&
+	(!isProjector || roomData[i].projector == 1) &&
+	(!isWhiteboard || roomData[i].whiteboard == 1))
+		$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
 //additional stages if more than one room pref option required
 //Tom middleton
