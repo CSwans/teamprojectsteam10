@@ -85,9 +85,10 @@
 		<div class="input_boxes" >
         <div id="buttons">
 			<div id="button_wrap1">
-				<button id="adv_options" type="button" onclick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button>
+				<a><button id="adv_options" type="button" onclick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button></a>
 				<a href="ViewRequests.php"><button id ="All" type="button" >&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button></a>
-				<button id="Load_Last_Year" type="button" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button>
+				<a><button type="button">&gt;&nbsp;&nbsp;&nbsp;&nbsp;CHECK AVAILABILITY</button></a>
+				<a><button id="Load_Last_Year" type="button" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button></a>
 			</div>
         </div>
 		<div id="input_wrap">
@@ -96,7 +97,6 @@
 				<table class="inputs">
 					<tr>
 						<td>
-							<a href="RoomAvail.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 							Priority: 
 							<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="1"/>Yes
 							<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="0"/>No
