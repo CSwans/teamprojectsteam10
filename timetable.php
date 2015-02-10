@@ -125,7 +125,7 @@
 		if(PEAR::isError($res)){
 			die($res->getMessage());
 		}
-		$bookingInfo[] = array();
+		$bookingInfo = array();
 		//put each rows into value array
 		while($row = $res->fetchRow()){
 			$bookingInfo[] = $row;
