@@ -18,8 +18,14 @@ background: -webkit-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); 
 background: -o-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* IE10+ */
 background: linear-gradient(to bottom, #4c0068 18%,#68006d 51%,#330066 100%); /* W3C */
-
+-webkit-border-top-left-radius: 40px;
+-webkit-border-top-right-radius: 40px;
+-moz-border-radius-topleft: 40px;
+-moz-border-radius-topright: 40px;
+border-top-left-radius: 40px;
+border-top-right-radius: 40px;
 }
+
 
 #input_wrap {
     clear: both;
@@ -84,12 +90,23 @@ a{
 	text-decoration:none;
 }
 
+#button_wrap1 > a {
+	font-size:14px;
+
+}
 
 #buttons {
     background-color: #333;
+    height: 3.05em;
     margin-bottom: 30px;
-    padding: 3px;
-    width: 99.5%;
+    padding: 0.6em 3px 3px;
+    width: 99.6%;
+	-webkit-border-bottom-right-radius: 40px;
+-webkit-border-bottom-left-radius: 40px;
+-moz-border-radius-bottomright: 40px;
+-moz-border-radius-bottomleft: 40px;
+border-bottom-right-radius: 40px;
+border-bottom-left-radius: 40px;
 }
 
 
@@ -105,7 +122,7 @@ a{
 
 #button_wrap1 {
     margin: 0 auto;
-    width: 940px;
+    width: 1060px;
 }
 
 
@@ -113,7 +130,7 @@ a{
 #header_style {
     height: 185px;
     margin: 0;
-    min-width: 1200px;
+    min-width: 1500px;
     padding-left: 1px;
     width: 100%;
 }
@@ -121,7 +138,7 @@ a{
 
 #title {
     float: left;
-    margin-left: 15%;
+    margin-left: 10%;
     margin-top: 30px;
     width: 700px;
 }
@@ -320,11 +337,35 @@ font-size: 2em;
 }
 
 #tabs {
-    background-color: #f2f2e6;
-    margin-left: 10%;
+    background-color: #ececdb;
+    height: 1100px;
+    margin-left: 0;
     min-width: 1250px;
-    width: 80%;
-	height:1100px;
+    width: 100%;
+}
+
+
+
+#tab1 {
+	margin-left:165px;
+
+}
+
+#tab1 > a {
+	font-size:1em;
+}
+
+
+#tab2 > a {
+	font-size:1em;
+}
+
+#tab3 > a {
+	font-size:1em;
+}
+
+#tab4 > a {
+	font-size:1em;
 }
 
 .ui-tabs .ui-tabs-panel {
@@ -335,8 +376,7 @@ ul.tabs li.ui-tabs-active a, ul.tabs li.ui-tabs-selected a{ background-color:blu
 
 .ui-widget-content {
     background: url("images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #ffffff;
-    border: 3px solid #aaaaaa;
-    color: #222222;
+    border: 0;
 }
 
 
