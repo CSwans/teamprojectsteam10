@@ -554,11 +554,10 @@ function refill_codes() {
 	}
 	function ajaxFunction(){
 		$.ajax( {
-			url : "test.php",
+			url : "requestSubmit.php",
 			type : "POST", 
 			data : $("#requestForm").serialize(),
 			success : function (data){
-					
 					data = JSON.parse(data);
 					alert("Request submitted with request id " + data[data.length-1].request_id);
 					console.log("data "+data[0].request_id); //quick check
