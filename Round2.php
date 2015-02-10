@@ -98,6 +98,8 @@
 					<tr>
 						<td>
 							Priority: 
+						</td>
+						<td>
 							<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="1"/>Yes
 							<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="0"/>No
 						</td>
@@ -105,6 +107,8 @@
 					<tr>
 						<td>
 							Part: 
+						</td>
+						<td>
 							<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
 							<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
 							<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B 
@@ -117,11 +121,14 @@
 					<!--<tr>-->
 					<tr>
 						<td>
+						Module Code:
+						</td>
+						<td>
 							<?php
 								//will output the whole set of module codes from the database, module codes will change when module titles change
 								//Callan Swanson, Inthuch Therdchanakul
 								//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
-								echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
+								echo "<select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
 								
 								echo "</select>";
 							?>
@@ -129,10 +136,13 @@
 					</tr>
 					<tr>
 						<td>
+						Module Title:
+						</td>
+						<td>
 							<?php
 								//displays the module titles, titles will change when module codes change
 								//Callan Swanson, Inthuch Therdchanakul
-								echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
+								echo "<select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
 							
 								echo "</select>";
 							?>
@@ -141,6 +151,8 @@
 					<tr>
 						<td> 
 							Day: 
+						</td>
+						<td>
 						  <!--radio buttons for the day of the week--> 
 						  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
 						  
@@ -159,8 +171,9 @@
 					<tr>
 						<td><!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
 						  <!-- allowing a raneg of weeks to be chosen --> 
-							Week: <br/>
-
+							Week: <
+						</td>
+						<td>
 							<span class="week_label"> 1 </span>
 							<input onchange="change_room_code();" type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
 							<span class="week_label"> 2 </span>
@@ -199,6 +212,8 @@
 					</tr>
 					<tr>
 						<td> Period:
+						</td>
+						<td>
 							<?php
 								//dropdown for the period, includes the time in 24hr format
 								//Callan Swanson
@@ -214,6 +229,8 @@
 					</tr>
 					<tr>
 						<td> Duration:
+						</td>
+						<td>
 							<?php
 								//dropdown for the duration
 								//Scott Marshall
@@ -227,12 +244,16 @@
 						</td>
 					</tr>
 					<tr>
-						<td> Special requirements: <br/>
+						<td> Special requirements:
+						</td>
+						<td>
 							<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
 					</tr>
 					<tr>
 						<td> Number of rooms:
+						</td>
+						<td>
 							<select id="noRooms" name="noRooms" onchange="showCapacity(); change_room_code();" >
 								<option>1</option>
 								<option>2</option>
@@ -242,7 +263,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td id="capacityCell"> Capacity:
+						<td id="labelCell">
+							Capacity:
+						</td>
+						<td id="capacityCell">
 							<input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1"/>
 						</td>
 					</tr>
@@ -254,6 +278,8 @@
 				  <table id="advancedinputs">
 					<tr>
 					  <td> Park:
+					  </td>
+					  <td>
 						<select id="park" name="park" onchange="change_room_code()">
 						  <option>Any</option>
 						  <option>C</option>
@@ -264,6 +290,8 @@
 					<tr>
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
 						Room Pref:
+					   </td>
+					   <td>
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
 						</select>   <button type='button' onclick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
 					</tr>
@@ -300,7 +328,10 @@
 						</td>
 					</tr>
 					<tr id="add_room_col">
-					  <td><span id='room_list2' style="display: none;">Room Pref 2:
+					<td id="roomlabel2" style="display: none;">
+							Room Pref 2:
+						</td>
+					  <td><span id='room_list2' style="display: none;">
 						  <select name='roomCode1' onchange='refill_codes();'>
 						</select> <button type='button' onclick="ext_toggle(2);" id='expand2'>Expand ↓</button>
 						</span></td>
@@ -338,7 +369,10 @@
 						</td>
 					</tr>
 					<tr>
-					  <td><span id='room_list3' style="display: none;">Room Pref 3:
+						<td id="roomlabel3" style="display: none;">
+							Room Pref 3:
+						</td>
+					  <td><span id='room_list3' style="display: none;">
 						  <select name='roomCode2' onchange='refill_codes();'>
 						</select> <button type='button' onclick="ext_toggle(3);" id='expand3'>Expand ↓</button>
 						</span></td>
@@ -376,7 +410,10 @@
 						</td>
 					</tr>
 					<tr>
-					  <td><span  id='room_list4' style="display: none;">Room Pref 4:
+					<td id="roomlabel4" style="display: none;">
+							Room Pref 4:
+						</td>
+					  <td><span  id='room_list4' style="display: none;">
 						  <select name='roomCode3' onchange='refill_codes();'>
 						</select> <button type='button' onclick="ext_toggle(4);" id='expand4'>Expand ↓</button>
 						</span></td>
