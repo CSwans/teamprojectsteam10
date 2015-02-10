@@ -197,6 +197,7 @@ echo "var roomData = ". $json . ";\n";
 echo "var moduleData = ". $moduleJson . ";\n";
 echo "var bookingData = ". $bookingJson . ";\n";
 ?>
+
 //call this function when the page loads
 /*$(function() {
 //implement multiple selecttion to selectable jquery-ui
@@ -273,19 +274,20 @@ for(var x=0;x<weeks.length;x++){
 }
 
 
-for(var x =0;x<bookingData.length;x++){
+
+for(var x=1;x<bookingData.length;x++){
 	for(var y=0;y<weeks.length;y++){
-		if((bookingData[x].week==weeks[y] || (bookingData[x].week==0 && flag==true)) && bookingData[x].day==day &&
-		(parseInt(bookingData[x].period)+parseInt(bookingData[x].duration) < period || parseInt(bookingData[x].period) >= period+duration ) ){
-	    	bookedRooms.push(bookingData[x].room_code);
+		if((parseInt(bookingData[x].week)==weeks[y] || (bookingData[x].week=="0" && flag==true)) && bookingData[x].day==day &&
+		((parseInt(bookingData[x].period)+parseInt(bookingData[x].duration)) < period || parseInt(bookingData[x].period) >= (period+duration) ) ){
+	    	bookedRooms.push(bookingData[x+1].room_code);
 	    	alert(bookingData[x].room_code);
 	    }
 	}
 }
 
-for(var x =0;x<bookedRooms.length;x++){
-	alert(bookedRooms[x]);
-}
+
+	alert(bookedRooms.length);
+
 	
 //empty the room code list
 $("#room_list").empty();

@@ -244,6 +244,6 @@
 		$value[] = $row;
 	}
 	echo json_encode($value);
-	mysqli_close($link);
+	mysqli_close($conn);
 	
 ?>
