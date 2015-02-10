@@ -262,6 +262,8 @@
 				  <table id="advancedinputs">
 					<tr>
 					  <td> Park:
+					  </td>
+					  <td>
 						<select id="park" name="park" onChange="change_room_code()">
 						  <option>Any</option>
 						  <option>C</option>
@@ -272,6 +274,8 @@
 					<tr>
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
 						Room Pref:
+					  </td>
+					  <td>
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
 						</select>   <button type='button' onClick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
 					</tr>
@@ -308,7 +312,10 @@
 						</td>
 					</tr>
 					<tr id="add_room_col">
-					  <td><span id='room_list2' style="display: none;">Room Pref 2:
+						<td id="roomlabel2" style="display: none;">
+							Room Pref 2:
+						</td>
+					  <td><span id='room_list2' style="display: none;">
 						  <select name='roomCode1' onchange='refill_codes();'>
 						</select> <button type='button' onClick="ext_toggle(2);" id='expand2'>Expand ↓</button>
 						</span></td>
@@ -346,7 +353,10 @@
 						</td>
 					</tr>
 					<tr>
-					  <td><span id='room_list3' style="display: none;">Room Pref 3:
+					<td id="roomlabel3" style="display: none;">
+							Room Pref 3:
+						</td>
+					  <td><span id='room_list3' style="display: none;">
 						  <select name='roomCode2' onchange='refill_codes();'>
 						</select> <button type='button' onClick="ext_toggle(3);" id='expand3'>Expand ↓</button>
 						</span></td>
@@ -384,7 +394,10 @@
 						</td>
 					</tr>
 					<tr>
-					  <td><span  id='room_list4' style="display: none;">Room Pref 4:
+						<td id="roomlabel4" style="display: none;">
+							Room Pref 4:
+						</td>
+					  <td><span  id='room_list4' style="display: none;">
 						  <select name='roomCode3' onchange='refill_codes();'>
 						</select> <button type='button' onClick="ext_toggle(4);" id='expand4'>Expand ↓</button>
 						</span></td>
