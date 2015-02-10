@@ -170,6 +170,9 @@ button{
     text-shadow: 0 1px 2px #99165c;
     margin-left:10px;
     margin-right:10px;
+	-webkit-border-radius: 15px;
+-moz-border-radius: 15px;
+border-radius: 15px;
 }
 
 #submit{
@@ -334,6 +337,15 @@ select{
 h1 {
 font-family: Verdana,Arial,sans-serif;
 font-size: 2em;
+text-shadow:#fff 0px 1px 0, #000 0 -1px 0;
+color:#6A6A62;
+}
+
+h2 {
+font-size:1.25em;
+font-family: Verdana,Arial,sans-serif;
+text-shadow:#fff 0px 1px 0, #000 0 -1px 0;
+color:#84847A;
 }
 
 #tabs {
