@@ -578,24 +578,24 @@ function refill_codes() {
   <div id="title">
 	 <!-- Nikolaos Demosthenous	Riccardo Mangiapelo Tom Middleton Inthuch Therdchanakul-->
 	  <!--Adding the department name on the header  -->
-    <h1>Loughborough University Timetabling <br/> <?php $dept_code = strtolower($username); $sql = "SELECT dept_name FROM DEPT WHERE dept_code = '$dept_code' "; 		$res =& $db->query($sql); //getting the result from the database
+    <h1>Loughborough University Timetabling </h1><h2> <?php $dept_code = strtolower($username); $sql = "SELECT dept_name FROM DEPT WHERE dept_code = '$dept_code' "; 		$res =& $db->query($sql); //getting the result from the database
 		if(PEAR::isError($res)){
 			die($res->getMessage());
 		}
 		//put each rows into value array
 		while($row = $res->fetchRow()){
 			echo $row["dept_name"];
-		}  ?>   <br/> </h1> 
+		}  ?>   <br/> </h2> 
   </div>
   <div id="logo"> <a href="http://www.lboro.ac.uk/?external"> <img id = "lboro_logo" src="LU-mark-rgb.png" alt="Loughborough University Logo" /> </a> </div>
 </div>
 <div id="main_wrap">
 	<div id="tabs">
     <ul >
-		<li><a href="#tabs-1">Round 1</a></li>
-		<li ><a href="#tabs-2" >Round 2</a></li>
-		<li><a href="#tabs-3">Round 3</a></li>
-		<li><a href="#tabs-4">Ad-hoc Request</a></li>
+		<li id="tab1"><a href="#tabs-1">Round 1</a></li>
+		<li id="tab2" ><a href="#tabs-2" >Round 2</a></li>
+		<li id="tab3"><a href="#tabs-3">Round 3</a></li>
+		<li id="tab4"><a href="#tabs-4">Ad-hoc Request</a></li>
     </ul>
 	
     <div id="tabs-1"> <!--Tab for Round 1 -->		
