@@ -560,7 +560,7 @@ function refill_codes() {
 	}
 	function ajaxFunction(){
 		$.ajax( {
-			url : "requestSubmit.php",
+			url : "insertInfo.php",
 			type : "POST", 
 			data : $("#requestForm").serialize(),
 			success : function (data){

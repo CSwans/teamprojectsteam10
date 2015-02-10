@@ -1,17 +1,4 @@
 <?php
-	//This makes JSON work!
-	header("Content-Type: text/javascript; charset=utf-8");
-	//Starts the session, if there is not any sessions then it will transfer to
-	//the login page and the user will ave to log in again
-	//Inthuch Therdchanakul
-	session_start();
-	if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
-		header('Location: login.html');
-	}
-	
-	//finding the values we want to find in the database
-	//Callan Swanson, Inthuch Therdchanakul
-	//$day = $_POST['day'];
 	require_once "MDB2.php";
 	$host = "co-project.lboro.ac.uk"; //host name
 	$dbName = "team10"; //database name
@@ -21,21 +8,21 @@
 		die($db->getMessage());
 	}
 	$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
-	//username is the uppercase dept code that was loggged in
-	$username = strtoupper($_SESSION['username']);
 	
-	//selects the values from the table, 0 week only offurs once per 
-	//room if it is in the default weeks 
-	//Callan Swanson 
-	$sql = "SELECT * FROM REQUEST";
+	$sql="INSERT INTO `team10`.`REQUEST` (`request_id`, `dept_code`, `module_code`, `room_code`, `capacity`, `wheelchair`, `projector`, `visualiser`, `whiteboard`, `special_requirements`, `priority`, `period`, `day`, `duration`, `req_group`) VALUES (NULL, 'CO', '14COA102', 'A.0.01', '77', '1', '1', '1', '1', 'eeeeeeeeeee', '1', '2', 'Friday', '2', NULL)";
 	$res =& $db->query($sql); //getting the result from the database
 	if(PEAR::isError($res)){
 		die($res->getMessage());
 	}
-	$value = array();
-	//put each rows into value array
-	while($row = $res->fetchRow()){
-		$value[] = $row;
+	$id1 = $db->lastInsertID('REQUEST');
+	if (PEAR::isError($id1)) {
+    	die($id1->getMessage());
 	}
-	echo json_encode($value);
+	$id2 = $id1 + 1;
+	$id3 = $id1 + 2;
+	$id4 = $id1 + 3;
+	echo $id2."\n";
+	echo $id3."\n";
+	echo $id4."\n";
+	
 ?>
