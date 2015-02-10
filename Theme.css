@@ -160,7 +160,7 @@ margin-top:20px;
     width: 340px;
 }
 
-button{
+button, #submit{
     background-color: #cc0066;
     border: 2px solid #a20054;
     color: #fff;
@@ -175,17 +175,9 @@ button{
 border-radius: 15px;
 }
 
-#submit{
-    background-color: #cc0066;
-    border: 2px solid #a20054;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px 15px 10px 10px;
-    text-shadow: 0 1px 2px #99165c;
-}
 
-button:hover,  submit:hover {
+
+button:hover,  #submit:hover {
     background-color: #B00058;
         border: 2px solid #860043;
     
@@ -201,6 +193,7 @@ table{
 	font-family: Franklin Gothic Medium,​Helvetica,Arial,sans-serif;
 	text-align: center;
 	position: relative;
+	
 	}
 
 
@@ -216,9 +209,7 @@ th {
 }
  
 td {
-    border-left: 1.5px dotted #cc0066;
 	 background-color: white;
-
 }
 
 select{
@@ -240,7 +231,7 @@ select{
     top: 63%;
 	text-align:left;
 	font-size:1em;
-	 
+	background-color: #ECECDB;
 }
 
 
