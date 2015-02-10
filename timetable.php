@@ -323,17 +323,20 @@ $("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_co
 else {}
 for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
+  document.getElementById('roomlabel'+ (x+1)).style.display='none';
 }
 noOfRooms = parseInt(document.getElementById('noRooms').value);
 if(noOfRooms>1){
 for(var x=1;x<noOfRooms;x++){
  document.getElementById('room_list'+ (x+1)).style.display='block';
+  document.getElementById('roomlabel'+ (x+1)).style.display='block';
 } 
 }
 }
 else {
 for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
+  document.getElementById('roomlabel'+ (x+1)).style.display='none';
 }	
 }
 if(parseInt(document.getElementById('noRooms').value) > 2){
