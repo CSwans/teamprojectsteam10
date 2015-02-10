@@ -116,6 +116,22 @@
 			}
 			$moduleJson = json_encode($moduleInfo);
 			//retrieveing info abou the modules and their titles
+			
+			
+	//Initialise list of bookings to take into account when populating room pref lists
+		//Tom Middleton		
+		$sql = "SELECT REQUEST.request_id, REQUEST.day, REQUEST.period, REQUEST.duration, REQUEST_WEEKS.week, BOOKING.room_code FROM REQUEST, BOOKING, REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND REQUEST.request_id = BOOKING.request_id ";
+		$res =& $db->query($sql); //getting the result from the database
+		if(PEAR::isError($res)){
+			die($res->getMessage());
+		}
+		$bookingInfo[] = array();
+		//put each rows into value array
+		while($row = $res->fetchRow()){
+			$bookingInfo[] = $row;
+		}
+		$bookingJson = json_encode($bookingInfo);		
+	
 	?>
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
@@ -179,6 +195,7 @@
 //pass value array onto javascript array roomData
 echo "var roomData = ". $json . ";\n";
 echo "var moduleData = ". $moduleJson . ";\n";
+echo "var bookingData = ". $bookingJson . ";\n";
 ?>
 //call this function when the page loads
 /*$(function() {
@@ -226,6 +243,28 @@ var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 var isWhiteboard2; if(noOfRooms > 1) isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
 var isWhiteboard3; if(noOfRooms > 2) isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
 var isWhiteboard4; if(noOfRooms > 3) isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
+
+var n = parseInt(document.forms.requestForm.elements.day.value)-1;
+var day;
+if(n>-1){
+	day = document.forms.requestForm.elements.day[n].id;
+	day = day.charAt(0).toUpperCase() + day.slice(1);
+}
+
+var weeks=[];
+
+for(var x=0;x<16;x++){
+	if(document.forms.requestForm.elements['weeks[]'][x].checked){
+		weeks.push(x+1);
+	}
+}
+
+var period = document.getElementById('time').selectedIndex+1;
+var duration = document.getElementById('duration').selectedIndex+1;
+
+
+
+
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
