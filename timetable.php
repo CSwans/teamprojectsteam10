@@ -372,9 +372,13 @@ for(var i=0;i<capacityNumber;i++){
 var capacityID = "capacity" + (i + 1);
 var capacityName = "capacity" + (i);
 if(i == 0){
-$("#capacityCell").append('Capacity: &nbsp;&nbsp; <input name="capacity" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
+//$("#labelCell").append('1:'); 
+$("#capacityCell").append(' 1) <input name="capacity" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
 }
-else $("#capacityCell").append('Capacity ' +(i+1)+ ': <input name="'+ capacityName +'" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
+else {
+//$("#labelCell").append('<br>'+(i+1)+ ':'); 
+$("#capacityCell").append( (i+1) + ') <input name="'+ capacityName +'" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
+}
 }
 }
 //Initial room choice
