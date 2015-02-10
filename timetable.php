@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-		<link rel="stylesheet" href="/resources/demos/style.css"/>
+        
 		<link rel="stylesheet" href="Theme.css"/>
 		<script>
 			$(function() {
@@ -135,7 +135,7 @@
 	?>
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
-	<script type="text/javascript">
+    <script type="text/javascript">
 		function ext_toggle(n) {
 		    if(n==1){
 				if(document.getElementById('ad_pref1').style.display=="block"){
@@ -532,12 +532,22 @@ function refill_codes() {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
+	function ajaxFunction(){
+		$.ajax( {
+			url : "test.php",
+			type : "POST", 
+			data : $("#requestForm").serialize(),
+			success : function (data){
+					
+					data = JSON.parse(data);
+					alert("Request submitted with request id " + data[data.length-1].request_id);
+					console.log("data "+data[0].request_id); //quick check
+					
+				},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+	}
 </script>
 </head>
 <body>

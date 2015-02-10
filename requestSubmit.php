@@ -135,7 +135,7 @@
 			echo "Error: " . $weekInsert . "<br>" . $conn->error;
 		}
 
-	$conn->close();
+	//$conn->close();
 
 	if($n > 1){
 		$sql2 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
@@ -165,7 +165,7 @@
 		
 
 		
-	$conn->close();
+	//$conn->close();
 	}
 	
 	
@@ -194,7 +194,7 @@
 		else {
 			echo "Error: " . $weekInsert3 . "<br>" . $conn->error;
 		}
-	$conn->close();
+	//$conn->close();
 	}
 	
 	if($n > 3){
@@ -222,8 +222,20 @@
 		else {
 			echo "Error: " . $weekInsert4 . "<br>" . $conn->error;
 		}
-	$conn->close();
+	//$conn->close();
 	
 	}
+	$sql = "SELECT * FROM REQUEST";
+	$res =& $db->query($sql); //getting the result from the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	$value = array();
+	//put each rows into value array
+	while($row = $res->fetchRow()){
+		$value[] = $row;
+	}
+	echo json_encode($value);
+	$conn->close();
 	
 ?>

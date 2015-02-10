@@ -71,11 +71,11 @@
 	
 	</head>
 	<body>
-<form id="requestForm" action="requestSubmit.php" method="post">
+<form id="requestForm" name="requestForm" action="requestSubmit.php" method="post">
 		<div class="input_boxes" >
         <div id="buttons">
 			<div id="button_wrap1">
-				<button id="adv_options" type="button" onclick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button>
+				<button id="adv_options" type="button" onClick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button>
 				<a href="ViewRequests.php"><button id ="All" type="button" >&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button></a>
 				<button id="Load_Last_Year" type="button" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button>
 			</div>
@@ -220,7 +220,7 @@
 					</tr>
 					<tr>
 						<td> Number of rooms:
-							<select id="noRooms" name="noRooms" onchange="showCapacity(); change_room_code();" >
+							<select id="noRooms" name="noRooms" onChange="showCapacity(); change_room_code();" >
 								<option>1</option>
 								<option>2</option>
 								<option>3</option>
@@ -230,7 +230,7 @@
 					</tr>
 					<tr>
 						<td id="capacityCell"> Capacity:
-							<input name="capacity" type="text" id="capacity1" onchange="change_room_code()" value="1"/>
+							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
 						</td>
 					</tr>
 				</table>
@@ -241,7 +241,7 @@
 				  <table id="advancedinputs">
 					<tr>
 					  <td> Park:
-						<select id="park" name="park" onchange="change_room_code()">
+						<select id="park" name="park" onChange="change_room_code()">
 						  <option>Any</option>
 						  <option>C</option>
 						  <option>E</option>
@@ -252,36 +252,36 @@
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
 						Room Pref:
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
-						</select>   <button type='button' onclick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
+						</select>   <button type='button' onClick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
 					</tr>
 					<tr id="ad_pref1" style="display:block;">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
-						<input name="wheelchair" type="radio" id="wheelchair_yes" onchange="change_room_code()" value="1"/>
+						<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
 						Yes
-						<input name="wheelchair" type="radio" id="wheelchair_no" onchange="change_room_code()" value="0" checked="checked"/>
+						<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
 						Projector <br/>
-						<input name="projector" type="radio" id="projector_yes" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="projector" type="radio" id="projector_no" onchange="change_room_code()" value="0"/>
+						<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
 						No
 					</span> <br>
 					<span id="adv_block">
 						Visualiser <br/>
-						<input name="visualiser" type="radio" id="visualiser_yes" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="visualiser" type="radio" id="visualiser_no" onchange="change_room_code()" value="0"/>
+						<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
 						Whiteboard <br/>
-						<input name="whiteboard" type="radio" id="whiteboard_yes" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="whiteboard" type="radio" id="whiteboard_no" onchange="change_room_code()" value="0"/>
+						<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 						</td>
@@ -289,37 +289,37 @@
 					<tr id="add_room_col">
 					  <td><span id='room_list2' style="display: none;">Room Pref 2:
 						  <select name='roomCode1' onchange='refill_codes();'>
-						</select> <button type='button' onclick="ext_toggle(2);" id='expand2'>Expand ↓</button>
+						</select> <button type='button' onClick="ext_toggle(2);" id='expand2'>Expand ↓</button>
 						</span></td>
 					</tr>
 					<tr id="ad_pref2">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
-						<input name="wheelchair2" type="radio" id="wheelchair_yes2" onchange="change_room_code()" value="1"/>
+						<input name="wheelchair2" type="radio" id="wheelchair_yes2" onChange="change_room_code()" value="1"/>
 						Yes
-						<input name="wheelchair2" type="radio" id="wheelchair_no2" onchange="change_room_code()" value="0" checked="checked"/>
+						<input name="wheelchair2" type="radio" id="wheelchair_no2" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
 						Projector <br/>
-						<input name="projector2" type="radio" id="projector_yes2" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="projector2" type="radio" id="projector_yes2" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="projector2" type="radio" id="projector_no2" onchange="change_room_code()" value="0"/>
+						<input name="projector2" type="radio" id="projector_no2" onChange="change_room_code()" value="0"/>
 						No
 					</span> <br>
 					<span id="adv_block">
 						Visualiser <br/>
-						<input name="visualiser2" type="radio" id="visualiser_yes2" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="visualiser2" type="radio" id="visualiser_yes2" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="visualiser2" type="radio" id="visualiser_no2" onchange="change_room_code()" value="0"/>
+						<input name="visualiser2" type="radio" id="visualiser_no2" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
 						Whiteboard <br/>
-						<input name="whiteboard2" type="radio" id="whiteboard_yes2" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="whiteboard2" type="radio" id="whiteboard_yes2" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="whiteboard2" type="radio" id="whiteboard_no2" onchange="change_room_code()" value="0"/>
+						<input name="whiteboard2" type="radio" id="whiteboard_no2" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 						</td>
@@ -327,37 +327,37 @@
 					<tr>
 					  <td><span id='room_list3' style="display: none;">Room Pref 3:
 						  <select name='roomCode2' onchange='refill_codes();'>
-						</select> <button type='button' onclick="ext_toggle(3);" id='expand3'>Expand ↓</button>
+						</select> <button type='button' onClick="ext_toggle(3);" id='expand3'>Expand ↓</button>
 						</span></td>
 					</tr>
 					<tr id="ad_pref3">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
-						<input name="wheelchair3" type="radio" id="wheelchair_yes3" onchange="change_room_code()" value="1"/>
+						<input name="wheelchair3" type="radio" id="wheelchair_yes3" onChange="change_room_code()" value="1"/>
 						Yes
-						<input name="wheelchair3" type="radio" id="wheelchair_no3" onchange="change_room_code()" value="0" checked="checked"/>
+						<input name="wheelchair3" type="radio" id="wheelchair_no3" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
 						Projector <br/>
-						<input name="projector3" type="radio" id="projector_yes3" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="projector3" type="radio" id="projector_yes3" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="projector3" type="radio" id="projector_no3" onchange="change_room_code()" value="0"/>
+						<input name="projector3" type="radio" id="projector_no3" onChange="change_room_code()" value="0"/>
 						No
 					</span> <br>
 					<span id="adv_block">
 						Visualiser <br/>
-						<input name="visualiser3" type="radio" id="visualiser_yes3" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="visualiser3" type="radio" id="visualiser_yes3" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="visualiser3" type="radio" id="visualiser_no3" onchange="change_room_code()" value="0"/>
+						<input name="visualiser3" type="radio" id="visualiser_no3" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
 						Whiteboard <br/>
-						<input name="whiteboard3" type="radio" id="whiteboard_yes3" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="whiteboard3" type="radio" id="whiteboard_yes3" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="whiteboard3" type="radio" id="whiteboard_no3" onchange="change_room_code()" value="0"/>
+						<input name="whiteboard3" type="radio" id="whiteboard_no3" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 						</td>
@@ -365,37 +365,37 @@
 					<tr>
 					  <td><span  id='room_list4' style="display: none;">Room Pref 4:
 						  <select name='roomCode3' onchange='refill_codes();'>
-						</select> <button type='button' onclick="ext_toggle(4);" id='expand4'>Expand ↓</button>
+						</select> <button type='button' onClick="ext_toggle(4);" id='expand4'>Expand ↓</button>
 						</span></td>
 					</tr>
 					<tr id="ad_pref4">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
-						<input name="wheelchair4" type="radio" id="wheelchair_yes4" onchange="change_room_code()" value="1"/>
+						<input name="wheelchair4" type="radio" id="wheelchair_yes4" onChange="change_room_code()" value="1"/>
 						Yes
-						<input name="wheelchair4" type="radio" id="wheelchair_no4" onchange="change_room_code()" value="0" checked="checked"/>
+						<input name="wheelchair4" type="radio" id="wheelchair_no4" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
 						Projector <br/>
-						<input name="projector4" type="radio" id="projector_yes4" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="projector4" type="radio" id="projector_yes4" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="projector4" type="radio" id="projector_no4" onchange="change_room_code()" value="0"/>
+						<input name="projector4" type="radio" id="projector_no4" onChange="change_room_code()" value="0"/>
 						No
 					</span> <br>
 					<span id="adv_block">
 						Visualiser <br/>
-						<input name="visualiser4" type="radio" id="visualiser_yes4" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="visualiser4" type="radio" id="visualiser_yes4" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="visualiser4" type="radio" id="visualiser_no4" onchange="change_room_code()" value="0"/>
+						<input name="visualiser4" type="radio" id="visualiser_no4" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
 						Whiteboard <br/>
-						<input name="whiteboard4" type="radio" id="whiteboard_yes4" onchange="change_room_code()" value="1" checked="checked"/>
+						<input name="whiteboard4" type="radio" id="whiteboard_yes4" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
-						<input name="whiteboard4" type="radio" id="whiteboard_no4" onchange="change_room_code()" value="0"/>
+						<input name="whiteboard4" type="radio" id="whiteboard_no4" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 						</td>
@@ -409,6 +409,7 @@
 						<td>
 							<input type="hidden" name="priorityInput" value="1" >
 							<input id="submit" type="submit" value="Submit"/>
+                            <input type="button" onClick="ajaxFunction()" value="ajax">
 						</td>
 					</tr>
 				</table>
