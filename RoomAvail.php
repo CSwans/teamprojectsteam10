@@ -421,6 +421,24 @@
 		<div>
 			<form name="options" id="options" method="POST">
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
+				
+				<!-- functionality selection-->
+				Wheelchair
+				<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" > Yes
+				<input type="radio" name="wheelchair" id="wheelchair_no" value="0" >No
+				</br>
+				Projector
+				<input type="radio" name="projector" id="projector_yes" value="1" > Yes
+				<input type="radio" name="projector" id="projector_no" value="0" > No
+				</br>
+				Visualiser
+				<input type="radio" name="visualiser" id="visualiser_yes" value="1" > Yes
+				<input type="radio" name="visualisier" id="visualiser_no" value="0" > No
+				</br>
+				Whiteboard
+				<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" > Yes
+				<input type="radio" name="whiteboard" id="whiteboard_no" value="0" > No
+				
 				Park :-
 				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange()">
 					<option value="Any">Any</option>
