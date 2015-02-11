@@ -490,29 +490,28 @@ textarea {
 #table_header {
 	clear:both;
 	z-index:99;
-	width:100%;
+	width:1400px;
 	background-color: #ececdb;
 }
 
 #page_wrap {
 	margin: 0 auto;
-    width: 70%;
-    min-width: 1400px;
+    width: 1400px;
 }
 
 #dataTable {
 	width:100%;
-	table-layout:fixed;
-	white-space: nowrap;
-		overflow-x:hidden;
+
 }
 
 #dataTable td {
-	width:6.66%;
+	width:93.333px;
+	max-width:93.333px;
 	font-size:1em;
 }
 
 #scrollTable td {
-	width:6.66%;
+	width:93.333px;
+	max-width:93.333px;
 	font-size:1em;
 }
