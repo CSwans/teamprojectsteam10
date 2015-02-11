@@ -88,16 +88,13 @@
 	if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
 			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0 || sizeof(array_diff($defaultWeeks,$_POST['weeks'])) != 0) {
 				foreach($_POST['weeks'] as $weeks){
-					$weekInsert = 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . $id1 . ',' . $weeks . '); ';
+					$weekInsert .= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . $id1 . ',' . $weeks . '); ';
 					
-					$res =& $db->query($weekInsert); 
-					if(PEAR::isError($res)){
-						die($res->getMessage());
-					}
 					
-					/* $weekInsert2.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id2) . ',' . $weeks . '); ';
+					
+					$weekInsert2.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id2) . ',' . $weeks . '); ';
 					$weekInsert3.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id3) . ',' . $weeks . '); ';
-					$weekInsert4.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id4) . ',' . $weeks . '); '; */
+					$weekInsert4.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id4) . ',' . $weeks . '); '; 
 				}
 			} else {
 				$weekInsert = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $id1 . ',0); ';
@@ -107,10 +104,10 @@
 			}
 	}
 		
-	/* $res =& $db->query($weekInsert); 
+	$res =& $db->query($weekInsert); 
 	if(PEAR::isError($res)){
 		die($res->getMessage());
-	} */
+	} 
 	if($n > 1){
 		$sql2 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
            VALUES (' . ($id2) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode2 .'\',\''. $cap2 .'\','. $wheelchair2 .','. $projector2 .','. $visualiser2 .','. $whiteboard2 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $id1 .');';

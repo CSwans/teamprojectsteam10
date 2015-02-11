@@ -566,11 +566,10 @@ function refill_codes() {
 			url : "insertInfo.php",
 			type : "POST", 
 			data : $("#requestForm").serialize(),
-			success : function (data){
-					
-					data = JSON.parse(data);
-					alert("Request submitted with request id " + data[data.length-1].request_id);
-					console.log("data "+data[0].request_id); //quick check
+			success : function (data){					
+					//data = JSON.parse(data);
+					alert("Request submitted with request id " + data);
+					console.log("data "+data); //quick check
 					
 				},
 			error : function(jqXHR, textStatus, errorThrown) {
