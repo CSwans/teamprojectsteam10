@@ -279,22 +279,24 @@
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
 						</select>   <button type='button' onClick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
 					</tr>
-					<tr id="ad_pref1" style="display:block;">
+					<tr id="ad_pref1" style="display:">
 					  <td>
-					<span id="adv_block">  
-					    Wheelchair <br/>
-						<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
-						Yes
-						<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
-						No
-					</span>
-					<span id="adv_block">
-						Projector <br/>
-						<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
-						Yes
-						<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
-						No
-					</span> <br>
+						<span id="adv_block">  
+					    	Wheelchair <br/>
+							<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
+							Yes
+							<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
+							No
+						</span>
+						<span id="adv_block">
+							Projector <br/>
+							<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
+							Yes
+							<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
+							No
+						</span>
+					  </td>
+					<td>
 					<span id="adv_block">
 						Visualiser <br/>
 						<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
@@ -320,7 +322,7 @@
 						</select> <button type='button' onClick="ext_toggle(2);" id='expand2'>Expand ↓</button>
 						</span></td>
 					</tr>
-					<tr id="ad_pref2">
+					<tr id="ad_pref2" style="display: none;">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
@@ -335,7 +337,9 @@
 						Yes
 						<input name="projector2" type="radio" id="projector_no2" onChange="change_room_code()" value="0"/>
 						No
-					</span> <br>
+					</span> 
+					</td>
+					<td>
 					<span id="adv_block">
 						Visualiser <br/>
 						<input name="visualiser2" type="radio" id="visualiser_yes2" onChange="change_room_code()" value="1" checked="checked"/>
@@ -361,7 +365,7 @@
 						</select> <button type='button' onClick="ext_toggle(3);" id='expand3'>Expand ↓</button>
 						</span></td>
 					</tr>
-					<tr id="ad_pref3">
+					<tr id="ad_pref3" style="display: none;">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
@@ -376,7 +380,9 @@
 						Yes
 						<input name="projector3" type="radio" id="projector_no3" onChange="change_room_code()" value="0"/>
 						No
-					</span> <br>
+					</span> 
+					</td>
+					<td>					
 					<span id="adv_block">
 						Visualiser <br/>
 						<input name="visualiser3" type="radio" id="visualiser_yes3" onChange="change_room_code()" value="1" checked="checked"/>
@@ -402,7 +408,7 @@
 						</select> <button type='button' onClick="ext_toggle(4);" id='expand4'>Expand ↓</button>
 						</span></td>
 					</tr>
-					<tr id="ad_pref4">
+					<tr id="ad_pref4" style="display: none;">
 					  <td>
 					<span id="adv_block">  
 					    Wheelchair <br/>
@@ -417,7 +423,9 @@
 						Yes
 						<input name="projector4" type="radio" id="projector_no4" onChange="change_room_code()" value="0"/>
 						No
-					</span> <br>
+					</span>
+					</td>
+					<td>
 					<span id="adv_block">
 						Visualiser <br/>
 						<input name="visualiser4" type="radio" id="visualiser_yes4" onChange="change_room_code()" value="1" checked="checked"/>
