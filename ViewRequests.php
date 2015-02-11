@@ -69,6 +69,7 @@
 			
 		?>
 		
+		 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.js"></script>
 		<script src="js/jquery.serializejson.min.js"></script>
@@ -288,14 +289,122 @@
 				}
 			}
 			
+			//table styling - Tom Middleton
+			
+			
+var fixed = false;
+
+$(document).scroll(function() {
+    if( $(this).scrollTop() >= 150 ) {
+        if( !fixed ) {
+            fixed = true;
+            $('#table_header').css({position:'fixed',top:0}); 
+        	$('#content_wrap').css({position:'relative',top:70}); 
+        }                                           
+    } else {
+        if( fixed ) {
+            fixed = false;
+            $('#table_header').css({position:'static'});
+            $('#content_wrap').css({position:'static'});
+        }
+    }
+});
+
+
+			
 		</script>
+		<link rel="stylesheet" href="Theme.css"/>
 	</head>
 	<body>
-		<table id="dataTable">
+	<div id = "top_style" > 
+		<b>
+			<a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;">Logout</a>
+		</b> 
+	</div>
+	<div id = "header_style" >
+  		<div id="title">
+    		<h1>Loughborough University Timetabling </h1>
+    		<h2> 
+    			<?php $dept_code = strtolower($username); $sql = "SELECT dept_name FROM DEPT WHERE dept_code = '$dept_code' "; 		$res =& $db->query($sql); //getting the result from the database
+				if(PEAR::isError($res)){
+					die($res->getMessage());
+				}
+							//put each rows into value array
+				while($row = $res->fetchRow()){
+					echo $row["dept_name"];
+				}  ?>   
+				<br/> 
+			</h2> 
+  		</div>
+  	<div id="logo"> <a href="http://www.lboro.ac.uk/?external"> <img id = "lboro_logo" src="LU-mark-rgb.png" alt="Loughborough University Logo" /> </a> </div>
+	</div>
+	
+	<div id="page_wrap">
+	<div id="table_header">
+		<table id="scrollTable">
 			<tr>
 				Click on the headers to sort the table<br>
                 Status: 
                 <select id="status" onChange="populateTable()">
+                	<option>Rejected</option>
+                    <option>Booked</option>
+                    <option>Pending</option>
+                </select>
+				<td id="request_id" onClick="sortHeader(this.id);">
+					Request</br>Id
+				</td>
+				<td id="module_code" onClick="sortHeader(this.id);">
+					Module </br> Code
+				</td>
+				<td id="room_code" onClick="sortHeader(this.id)">
+					Room Code
+				</td>
+				<td id="capacity" onClick="sortHeader(this.id)">
+					Capacity
+				</td>
+				<td id="wheelchair" onClick="sortHeader(this.id)">
+					Wheelchair
+				</td>
+				<td id="projector" onClick="sortHeader(this.id)">
+					Projector
+				</td>
+				<td id="visualiser" onClick="sortHeader(this.id)">
+					Visualiser
+				</td>
+				<td id="whiteboard" onClick="sortHeader(this.id)">
+					Whiteboard
+				</td>
+				<td id="special_requirements">
+					Special </br>Requirements
+				</td>
+				<td id="priority" onClick="sortHeader(this.id)">
+					Priority
+				</td>
+				<td id="period" onClick="sortHeader(this.id)">
+					Period
+				</td>
+				<td id="day" onClick="sortHeader(this.id)">
+					Day
+				</td>
+				<td id="duration" onClick="sortHeader(this.id)">
+					Duration
+				</td>
+				<td id="week(s)">
+					Week(s)
+				</td>
+				<td id="status" onClick="sortHeader(this.id)">
+					Status
+				</td>
+			</tr>
+			</table>
+			
+			</div>
+			
+			
+			<div id="content_wrap">
+					<table id="dataTable">
+			<tr style="display:none;">
+                <select style="display:none;" id="status" onChange="populateTable()">
                 	<option>Rejected</option>
                     <option>Booked</option>
                     <option>Pending</option>
@@ -325,7 +434,7 @@
 					whiteboard
 				</td>
 				<td id="special_requirements">
-					special_requirements
+					Special </br>Requirements
 				</td>
 				<td id="priority" onClick="sortHeader(this.id)">
 					priority
@@ -345,8 +454,10 @@
 				<td id="status" onClick="sortHeader(this.id)">
 					Status
 				</td>
-				
 			</tr>
+			
+			
+			
 			<?php
 				//putting in all the information about requests into the table
 				//Callan Swanson
@@ -374,11 +485,13 @@
 						$sortedWeeks = explode(',', $value[$i]['week']);
 						$sortedWeeks1 = sort($sortedWeeks);
 						$sortedWeeks1 = implode(',', $sortedWeeks);
-						echo "<td>".$sortedWeeks1."</td></tr>";
+						echo "<td>".$sortedWeeks1."</td><td></td></tr>";
 					}
 				}
 			?>
 		</table>
-		Click on the 
+		Click on the
+		</div>
+		</div> 
 	</body>
 </html>
