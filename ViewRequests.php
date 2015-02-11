@@ -22,7 +22,7 @@
 			$username = strtoupper($_SESSION['username']);
 			
 			
-			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."'GROUP BY request_id";
+			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ', ') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."'GROUP BY request_id";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -74,6 +74,32 @@
 		<script src="js/jquery-ui.js"></script>
 		<script src="js/jquery.serializejson.min.js"></script>
 		<script type="text/javascript">
+		
+		
+		function currentSort(id) {
+			document.getElementById('request_id').className="";
+			document.getElementById('module_code').className="";
+			document.getElementById('room_code').className="";
+			document.getElementById('capacity').className="";
+			document.getElementById('wheelchair').className="";
+			document.getElementById('projector').className="";
+			document.getElementById('visualiser').className="";
+			document.getElementById('whiteboard').className="";
+
+			document.getElementById('priority').className="";
+			document.getElementById('period').className="";
+			document.getElementById('day').className="";
+			document.getElementById('duration').className="";
+			document.getElementById('status').className="";
+			
+			
+			
+					
+			document.getElementById(id).className="currentSort";
+		}
+		
+		
+		
 		
 			<?php
 				echo "var requestData = ".$jsonRequests.";\n"; //WILL CHANGE TO HOLD THE PENDING DATA WHEN PAGE LOADS
@@ -340,59 +366,63 @@ $(document).scroll(function() {
 	</div>
 	
 	<div id="page_wrap">
+	<hr/>
 	<div id="table_header">
 		<table id="scrollTable">
 			<tr>
-				Click on the headers to sort the table<br>
-                Status: 
-                <select id="status" onChange="populateTable()">
+				
+                <div id="status_change"><h3>Sort by Status: </h3>
+				
+                <select id="statusList" onChange="populateTable()">
                 	<option>Rejected</option>
                     <option>Booked</option>
                     <option>Pending</option>
-                </select>
-				<td id="request_id" onClick="sortHeader(this.id);">
+                </select><br/>
+				</div>
+				<h4>Click on the headers to sort the table</h4><br/><br/>
+				<td id="request_id" onClick="sortHeader(this.id);currentSort(this.id);">
 					Request</br>Id
 				</td>
-				<td id="module_code" onClick="sortHeader(this.id);">
+				<td id="module_code" onClick="sortHeader(this.id); currentSort(this.id);">
 					Module </br> Code
 				</td>
-				<td id="room_code" onClick="sortHeader(this.id)">
+				<td id="room_code" onClick="sortHeader(this.id); currentSort(this.id);">
 					Room Code
 				</td>
-				<td id="capacity" onClick="sortHeader(this.id)">
+				<td id="capacity" onClick="sortHeader(this.id); currentSort(this.id);">
 					Capacity
 				</td>
-				<td id="wheelchair" onClick="sortHeader(this.id)">
+				<td id="wheelchair" onClick="sortHeader(this.id); currentSort(this.id);">
 					Wheelchair
 				</td>
-				<td id="projector" onClick="sortHeader(this.id)">
+				<td id="projector" onClick="sortHeader(this.id); currentSort(this.id);">
 					Projector
 				</td>
-				<td id="visualiser" onClick="sortHeader(this.id)">
+				<td id="visualiser" onClick="sortHeader(this.id); currentSort(this.id);">
 					Visualiser
 				</td>
-				<td id="whiteboard" onClick="sortHeader(this.id)">
+				<td id="whiteboard" onClick="sortHeader(this.id); currentSort(this.id);">
 					Whiteboard
 				</td>
 				<td id="special_requirements">
 					Special </br>Requirements
 				</td>
-				<td id="priority" onClick="sortHeader(this.id)">
+				<td id="priority" onClick="sortHeader(this.id);currentSort(this.id);">
 					Priority
 				</td>
-				<td id="period" onClick="sortHeader(this.id)">
+				<td id="period" onClick="sortHeader(this.id);currentSort(this.id);">
 					Period
 				</td>
-				<td id="day" onClick="sortHeader(this.id)">
+				<td id="day" onClick="sortHeader(this.id);currentSort(this.id);">
 					Day
 				</td>
-				<td id="duration" onClick="sortHeader(this.id)">
+				<td id="duration" onClick="sortHeader(this.id);currentSort(this.id);">
 					Duration
 				</td>
 				<td id="week(s)">
 					Week(s)
 				</td>
-				<td id="status" onClick="sortHeader(this.id)">
+				<td id="status" onClick="sortHeader(this.id);currentSort(this.id);">
 					Status
 				</td>
 			</tr>
@@ -402,9 +432,9 @@ $(document).scroll(function() {
 			
 			
 			<div id="content_wrap">
-					<table id="dataTable">
+					<table id="dataTable" class="entries_table">
 			<tr style="display:none;">
-                <select style="display:none;" id="status" onChange="populateTable()">
+                <select style="display:none;" id="statusList" onChange="populateTable()">
                 	<option>Rejected</option>
                     <option>Booked</option>
                     <option>Pending</option>
@@ -455,8 +485,7 @@ $(document).scroll(function() {
 					Status
 				</td>
 			</tr>
-			
-			
+				
 			
 			<?php
 				//putting in all the information about requests into the table
@@ -479,19 +508,21 @@ $(document).scroll(function() {
 					
 					
 					if($value[$i]['week']==0) { //default weeks
-						echo "<td>1,2,3,4,5,6,7,8,9,10,11,12</td><td></td></tr>";
+						echo "<td>1, 2, 3, 4, 5, 6,7,8, 9, 10, 11, 12</td><td></td></tr>";
 					} else {
 						//sorting the list of numbers into lowest first order 
-						$sortedWeeks = explode(',', $value[$i]['week']);
+						$sortedWeeks = explode(', ' , $value[$i]['week']);
 						$sortedWeeks1 = sort($sortedWeeks);
-						$sortedWeeks1 = implode(',', $sortedWeeks);
+						$sortedWeeks1 = implode(', ', $sortedWeeks);
 						echo "<td>".$sortedWeeks1."</td><td></td></tr>";
 					}
 				}
 			?>
 		</table>
-		Click on the
 		</div>
+		
+
 		</div> 
+		
 	</body>
 </html>
