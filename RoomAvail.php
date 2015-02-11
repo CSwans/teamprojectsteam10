@@ -190,20 +190,30 @@
 			//changes the relevant places rooms are located
 			//Callan Swanson, Inthuch Therdchanakul
 			function RoomChange() {
-				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
-				var roomChosen = roomIndex();
-				$("#Wheelchair").val(roomInfo[roomChosen].wheelchair);
-				$("#Projector").val(roomInfo[roomChosen].projector);
-				$("#Visualiser").val(roomInfo[roomChosen].visualiser);
-				$("#Whiteboard").val(roomInfo[roomChosen].whiteboard);
-				$("#RoomSubmitInput").val(document.getElementById("RoomSelect").value);
+				facilityChange();
 				
-				$("#WhiteboardSubmit").html("Whiteboard: "+roomInfo[roomIndex()].whiteboard);
-				$("#ProjectorSubmit").html("Projector: "+roomInfo[roomIndex()].projector);
-				$("#VisualiserSubmit").html("Visualiser: "+roomInfo[roomIndex()].visualiser);
-				$("#WheelchairSubmit").html("Wheelchair: "+roomInfo[roomIndex()].wheelchair);
 				
 				hideForm();
+			}
+			
+			function facilityChange() {
+				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
+				
+				var wheelchairVal = document.getElementById("wheelchair_yes").checked;
+				var whiteboardVal = document.getElementById("whiteboard_yes").checked;
+				var projectorVal = document.getElementById("projector_yes").checked;
+				var visualiserVal = document.getElementById("visualiser_yes").checked;
+				
+				$("#WhiteboardSubmit").html("Whiteboard: "+ ~~whiteboardVal);
+				$("#ProjectorSubmit").html("Projector: "+ ~~projectorVal);
+				$("#VisualiserSubmit").html("Visualiser: "+ ~~visualiserVal);
+				$("#WheelchairSubmit").html("Wheelchair: "+ ~~wheelchairVal);
+				
+				$("#Wheelchair").val(~~wheelchairVal);
+				$("#Projector").val(~~projectorVal);
+				$("#Visualiser").val(~~visualiserVal);
+				$("#Whiteboard").val(~~whiteboardVal);
+				$("#RoomSubmitInput").val(document.getElementById("RoomSelect").value);
 			}
 			
 			//when the module code dropdown changed its index, change the module title index with it
@@ -231,13 +241,17 @@
 				$("#DaySubmit").html("Day: "+buttonId.substr(0, buttonId.length-2));
 				//gets the period from the buttonId and finds the time, then places into teh bottom
 				$("#PeriodSubmit").html("Period/Time: "+buttonId.substr(buttonId.length-2,1)+" / "+(8+parseInt(buttonId.substr(buttonId.length-2,1)))+":00");
+				
 			
+				$("#priorityCell").html("Priority: "+document.getElementById("priorityInputTrue").checked);
+				$("#priority").val(~~document.getElementById("priorityInputTrue").checked);
 				//changes the values of the hidden input fields to correspond to the button clicked
 				var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 				var dayNo = days.indexOf(buttonId.substr(0, buttonId.length-2));
 				$("#DaySubmitInput").val((dayNo+1));
 				
 				$("#PeriodSubmitInput").val(buttonId.substr(buttonId.length-2,1));
+				
 				showForm();
 			}
 			
@@ -250,6 +264,8 @@
 				console.log(roomInfo[roomIndex()].capacity);
 				
 				var capacity = roomInfo[roomIndex()].capacity;
+				
+				
 				
 				//only returns true if both the capacity fits (and not empty) and the day has been chosen
 				if(document.getElementById("capacity1").value != "") {
@@ -319,10 +335,11 @@
 				var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 				var buildingCode = document.getElementById("BuildingCodeSelect").value;
 				
+				document.getElementById("capacity1").value = capacity;
 				
 				//empty the room code list
 				$("#RoomSelect").empty();
-				$("#RoomSelect").append("<option>" + "" + "</option>");
+				
 
 				for(var i=0;i<roomData.length;i++){
 				//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
@@ -364,24 +381,28 @@
 				
 				<!-- functionality selection-->
 				</br>
+				Priority
+				<input name="priorityInput" type="radio" id="priorityInputTrue" onchange="change_room_code()" value="1"/>Yes
+				<input name="priorityInput" type="radio" id="priorityInputFalse" onchange="change_room_code()" value="0"/>No
+				</br>
 				Wheelchair
-				<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code()"> Yes
-				<input type="radio" name="wheelchair" id="wheelchair_no" value="0" onchange="change_room_code()" checked="checked">No
+				<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code();facilityChange();hideForm();"> Yes
+				<input type="radio" name="wheelchair" id="wheelchair_no" value="0" onchange="change_room_code();facilityChange();hideForm();" checked="checked">No
 				</br>
 				Projector
-				<input type="radio" name="projector" id="projector_yes" value="1" onchange="change_room_code()" checked="checked"> Yes
-				<input type="radio" name="projector" id="projector_no" value="0" onchange="change_room_code()" > No
+				<input type="radio" name="projector" id="projector_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
+				<input type="radio" name="projector" id="projector_no" value="0" onchange="change_room_code();facilityChange();hideForm();" > No
 				</br>
 				Visualiser
-				<input type="radio" name="visualiser" id="visualiser_yes" value="1" onchange="change_room_code()" checked="checked"> Yes
-				<input type="radio" name="visualiser" id="visualiser_no" value="0" onchange="change_room_code()"> No
+				<input type="radio" name="visualiser" id="visualiser_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
+				<input type="radio" name="visualiser" id="visualiser_no" value="0" onchange="change_room_code();facilityChange();hideForm();"> No
 				</br>
 				Whiteboard
-				<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" onchange="change_room_code()" checked="checked"> Yes
-				<input type="radio" name="whiteboard" id="whiteboard_no" value="0" onchange="change_room_code()" > No
+				<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
+				<input type="radio" name="whiteboard" id="whiteboard_no" value="0" onchange="change_room_code();facilityChange();hideForm();" > No
 				</br>
 				Capacity
-				<input type="text" id="capacity" name="capacity1" onchange="change_room_code()" >
+				<input type="text" id="capacity" name="capacity1" onchange="change_room_code();hideForm();" >
 				</br>
 				
 				Park :-
@@ -481,6 +502,12 @@
 						</td>
 					</tr>
 					<tr>
+						<td id="priorityCell"> 
+							Priority: 
+						</td>
+						<input name="priority" type="hidden" id="priority" value="" />
+					</tr>
+					<tr>
 						<td>
 							<?php
 								//will output the whole set of module codes from the database, module codes will change when module titles change
@@ -526,9 +553,10 @@
 					</tr>
 					
 					<tr>
-						<td id="capacityCell"> Capacity:
-							<input name="capacity" type="text" id="capacity1" value="" />
+						<td id="capacityCell"> 
+							
 						</td>
+						<input name="capacity" type="hidden" id="capacity1" value="" />
 					</tr>
 				
 					<tr>
