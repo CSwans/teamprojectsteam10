@@ -90,7 +90,7 @@
 			document.getElementById('period').className="";
 			document.getElementById('day').className="";
 			document.getElementById('duration').className="";
-			document.getElementById('status').className="";
+			document.getElementById('status2').className="";
 			
 			
 			
@@ -373,7 +373,7 @@ $(document).scroll(function() {
 				
                 <div id="status_change"><h3>Sort by Status: </h3>
 				
-                <select id="statusList" onChange="populateTable()">
+                <select id="status" onChange="populateTable()">
                 	<option>Rejected</option>
                     <option>Booked</option>
                     <option>Pending</option>
@@ -404,7 +404,7 @@ $(document).scroll(function() {
 				<td id="whiteboard" onClick="sortHeader(this.id); currentSort(this.id);">
 					Whiteboard
 				</td>
-				<td id="special_requirements">
+				<td id="special_requirements" style="cursor:default; font-size:0.8em; font-weight:bold;">
 					Special </br>Requirements
 				</td>
 				<td id="priority" onClick="sortHeader(this.id);currentSort(this.id);">
@@ -419,10 +419,10 @@ $(document).scroll(function() {
 				<td id="duration" onClick="sortHeader(this.id);currentSort(this.id);">
 					Duration
 				</td>
-				<td id="week(s)">
+				<td id="week(s)" style="cursor:default;">
 					Week(s)
 				</td>
-				<td id="status" onClick="sortHeader(this.id);currentSort(this.id);">
+				<td id="status2" onClick="sortHeader(this.id);currentSort(this.id);">
 					Status
 				</td>
 			</tr>
@@ -478,7 +478,7 @@ $(document).scroll(function() {
 				<td id="duration" onClick="sortHeader(this.id)">
 					duration
 				</td>
-				<td id="week(s)">
+				<td id="week(s)" >
 					week(s)
 				</td>
 				<td id="status" onClick="sortHeader(this.id)">
