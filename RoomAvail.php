@@ -28,7 +28,7 @@
 			//username is the uppercase dept code that was loggged in
 			$username = strtoupper($_SESSION['username']);
 			
-			$sql = "SELECT DISTINCT PARKS.park, ROOMS.room_code FROM ROOMS, PARKS WHERE ROOMS.building_code = PARKS.building_code";
+			$sql = "SELECT DISTINCT ROOMS.capacity, wheelchair, projector, visualiser, whiteboard, PARKS.park, ROOMS.room_code, ROOMS.building_code FROM ROOMS, PARKS WHERE ROOMS.building_code = PARKS.building_code";
 			$res =& $db->query($sql); //getting the result from the database
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -40,7 +40,17 @@
 			}
 			$json = json_encode($value);
 			
-			
+			$sql = "SELECT * FROM PARKS";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value2 = array();
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value2[] = $row;
+			}
+			$buildingJson = json_encode($value2);
 		?>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/jquery-ui.js"></script>
@@ -52,6 +62,7 @@
 			
 			$(function() {
 				
+				
 				ParkChange();
 				WeekChange();
 				RoomChange();
@@ -59,11 +70,12 @@
 				//Populates the correct room values into the form as the page is loaded
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
 				$("#WeekSubmit").html("Week: "+document.getElementById("Weeks").value);
-				
+				buildingInitialise();
 			});
 			
 			<?php
 				echo "var roomData = ".$json.";\n";
+				echo "var buildingData = ".$buildingJson.";\n";
 			
 				//retrieveing all the room codes with their sizes attatched
 				//Callan Swanson
@@ -155,6 +167,15 @@
 				}
 				
 				hideForm();
+				
+				$("#BuildingCodeSelect").html("<option>All</option>");
+				$("#BuildingNameSelect").html("<option>All</option>");				
+				for(var i=0; i<buildingData.length; i++) {
+					if(buildingData[i].park == document.getElementById("ParkSelect").value) {
+						$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+						$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+					}
+				}
 			}
 			
 			//chnages teh relevant places weeks are located
@@ -289,131 +310,50 @@
 				//cache user settings
 				
 				var ParkSelect = document.getElementById("ParkSelect").value;
-				var capacity = parseInt(document.getElementById("capacity1").value);
+				var capacity = document.getElementById("capacity").value;
 				var isWheelchair = document.getElementById("wheelchair_yes").checked;
 				var isVisualiser = document.getElementById("visualiser_yes").checked;
 
 				var isProjector = document.getElementById("projector_yes").checked;
 
 				var isWhiteboard = document.getElementById("whiteboard_yes").checked;
-
-
-				//var n = parseInt(document.forms.requestForm.elements.day.value)-1;
-				//var day;
-				/* if(n>-1){
-					day = document.forms.requestForm.elements.day[n].id;
-					day = day.charAt(0).toUpperCase() + day.slice(1);
-				} */
-
-				/* var weeks=[];
-
-				for(var x=0;x<16;x++){
-					if(document.forms.requestForm.elements['weeks[]'][x].checked){
-						weeks.push(x+1);
-					}
-				}
-				 */
-
-				   
-				/* var period = document.getElementById('time').selectedIndex+1;
-				var duration = document.getElementById('duration').selectedIndex+1; */
-
-				//var bookedRooms=[];
-
-				/* var flag=false;
-
-				for(var x=0;x<weeks.length;x++){
-					if(weeks[x]>0 && weeks[x]<13) flag=true;
-				} */
-
-
-				/* for(var x=1;x<bookingData.length;x++){
-					for(var y=0;y<weeks.length;y++){
-						if(parseInt(bookingData[x].week)==weeks[y] || (bookingData[x].week=="0" && flag==true)){
-							if( bookingData[x].day==day){
-								if((parseInt(bookingData[x].period) <= period && ((parseInt(bookingData[x].period) + parseInt(bookingData[x].duration)) > period )) || 
-								 ((period+duration)> parseInt(bookingData[x].period) && period < parseInt(bookingData[x].period)+ parseInt(bookingData[x].duration))){
-									bookedRooms.push(bookingData[x].room_code);
-								}
-							}
-						}
-					}
-				} */
-					
+				var buildingCode = document.getElementById("BuildingCodeSelect").value;
+				
+				
 				//empty the room code list
 				$("#RoomSelect").empty();
 				$("#RoomSelect").append("<option>" + "" + "</option>");
 
 				for(var i=0;i<roomData.length;i++){
 				//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
-					if(roomData[i].capacity >= capacity &&
-					(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
+					if((roomData[i].capacity >= parseInt(capacity) || capacity == "") &&
+					(ParkSelect == "Any" || ParkSelect == roomData[i].park) &&
 					(!isWheelchair || roomData[i].wheelchair == 1) &&
 					(!isVisualiser || roomData[i].visualiser == 1) &&
 					(!isProjector || roomData[i].projector == 1) &&
-					(!isWhiteboard || roomData[i].whiteboard == 1))
+					(!isWhiteboard || roomData[i].whiteboard == 1) && 
+					(buildingCode == "All" || buildingCode == roomData[i].building_code)) {
 						$("#RoomSelect").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+					}
 				}
-				//additional stages if more than one room pref option required
-				//Tom middleton
-				/* if(parseInt(document.getElementById('noRooms').value) > 1){
-					if(capacity2 != '' && capacity2 > 0){
-				for(var i=0;i<roomData.length;i++){
-				if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity2 &&
-				(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
-				(!isWheelchair2 || roomData[i].wheelchair == 1) &&
-				(!isVisualiser2 || roomData[i].visualiser == 1) &&
-				(!isProjector2 || roomData[i].projector == 1) &&
-				(!isWhiteboard2 || roomData[i].whiteboard == 1))
-				$("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+			}
+			
+			function buildingCodeChange() {
+				document.getElementById("BuildingNameSelect").selectedIndex = document.getElementById("BuildingCodeSelect").selectedIndex;
+			}
+			
+			function buildingNameChange() {
+				document.getElementById("BuildingCodeSelect").selectedIndex = document.getElementById("BuildingNameSelect").selectedIndex;
+			}
+			
+			function buildingInitialise() {
+				$("#BuildingCodeSelect").html("<option>All</option>");
+				$("#BuildingNameSelect").html("<option>All</option>");				
+				for(var i=0; i<buildingData.length; i++) {
+					$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+					$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
 				}
-				}
-				else {} */
-				/* for(var x=1;x<4;x++){
-				 document.getElementById('RoomSelect'+ (x+1)).style.display='none';
-				  document.getElementById('roomlabel'+ (x+1)).style.display='none';
-				}
-				noOfRooms = parseInt(document.getElementById('noRooms').value);
-				if(noOfRooms>1){
-				for(var x=1;x<noOfRooms;x++){
-				 document.getElementById('RoomSelect'+ (x+1)).style.display='block';
-				  document.getElementById('roomlabel'+ (x+1)).style.display='block';
-				} 
-				}
-				}
-				else {
-				for(var x=1;x<4;x++){
-				 document.getElementById('RoomSelect'+ (x+1)).style.display='none';
-				  document.getElementById('roomlabel'+ (x+1)).style.display='none';
-				}	
-				} */
-				/* if(parseInt(document.getElementById('noRooms').value) > 2){
-				for(var i=0;i<roomData.length;i++){
-				if(capacity3 != '' && capacity3 > 0){
-				if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity3 &&
-				(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
-				(!isWheelchair3 || roomData[i].wheelchair == 1) &&
-				(!isVisualiser3 || roomData[i].visualiser == 1) &&
-				(!isProjector3 || roomData[i].projector == 1) &&
-				(!isWhiteboard3 || roomData[i].whiteboard == 1))
-				$("#room_list3").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-				}
-				}
-				}
-				if(parseInt(document.getElementById('noRooms').value) > 3){
-				if(capacity4 != '' && capacity4 > 0){
-				for(var i=0;i<roomData.length;i++){
-				if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity4 &&
-				(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
-				(!isWheelchair4 || roomData[i].wheelchair == 1) &&
-				(!isVisualiser4 || roomData[i].visualiser == 1) &&
-				(!isProjector4 || roomData[i].projector == 1) &&
-				(!isWhiteboard4 || roomData[i].whiteboard == 1))
-				$("#room_list4").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-				}
-				}
-				} */
-		}
+			}
 			
 		</script>
 		
@@ -423,29 +363,45 @@
 				<a href="timetable.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
 				
 				<!-- functionality selection-->
+				</br>
 				Wheelchair
-				<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" > Yes
-				<input type="radio" name="wheelchair" id="wheelchair_no" value="0" >No
+				<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code()"> Yes
+				<input type="radio" name="wheelchair" id="wheelchair_no" value="0" onchange="change_room_code()" checked="checked">No
 				</br>
 				Projector
-				<input type="radio" name="projector" id="projector_yes" value="1" > Yes
-				<input type="radio" name="projector" id="projector_no" value="0" > No
+				<input type="radio" name="projector" id="projector_yes" value="1" onchange="change_room_code()" checked="checked"> Yes
+				<input type="radio" name="projector" id="projector_no" value="0" onchange="change_room_code()" > No
 				</br>
 				Visualiser
-				<input type="radio" name="visualiser" id="visualiser_yes" value="1" > Yes
-				<input type="radio" name="visualisier" id="visualiser_no" value="0" > No
+				<input type="radio" name="visualiser" id="visualiser_yes" value="1" onchange="change_room_code()" checked="checked"> Yes
+				<input type="radio" name="visualiser" id="visualiser_no" value="0" onchange="change_room_code()"> No
 				</br>
 				Whiteboard
-				<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" > Yes
-				<input type="radio" name="whiteboard" id="whiteboard_no" value="0" > No
+				<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" onchange="change_room_code()" checked="checked"> Yes
+				<input type="radio" name="whiteboard" id="whiteboard_no" value="0" onchange="change_room_code()" > No
+				</br>
+				Capacity
+				<input type="text" id="capacity" name="capacity1" onchange="change_room_code()" >
+				</br>
 				
 				Park :-
-				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange()">
+				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();change_room_code()" >
 					<option value="Any">Any</option>
 					<option value="C">C</option>
 					<option value="E">E</option>
 					<option value="W">W</option>
 				</select>
+				
+				Building Name :-
+				<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
+					
+				</select>
+				
+				Building Code :-
+				<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
+					
+				</select>
+				
 				Rooms :-
 				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
 				</select>

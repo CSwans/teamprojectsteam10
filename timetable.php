@@ -567,8 +567,8 @@ function refill_codes() {
 			type : "POST", 
 			data : $("#requestForm").serialize(),
 			success : function (data){					
-					//data = JSON.parse(data);
-					alert("Request submitted with request id " + data);
+					//data = $.parseJSON(data);
+					alert("Request submitted with request id " + data[0].request_id);
 					console.log("data "+data); //quick check
 					
 				},
