@@ -149,7 +149,6 @@ border-bottom-left-radius: 40px;
 #lboro_logo {
     display: inline-block;
     float: right;
-    height: 100%;
     margin-right: 90px;
     margin-top: 20px;
     padding-left: 65px;
@@ -473,4 +472,47 @@ textarea {
 
 #room_list4 > select {
 	width:120px;
+}
+
+
+
+
+
+#content_wrap {
+    background-color: #ececdb;
+    clear: both;
+    height: 1100px;
+    margin-left: 0;
+    width: 100%;
+    z-index:0;
+}
+
+#table_header {
+	clear:both;
+	z-index:99;
+	width:100%;
+	background-color: #ececdb;
+}
+
+#page_wrap {
+	margin: 0 auto;
+    width: 70%;
+    min-width: 1400px;
+}
+
+#dataTable {
+	width:100%;
+	table-layout:fixed;
+	white-space: nowrap;
+		overflow-x:hidden;
+}
+
+#dataTable td {
+	width:6.66%;
+	font-size:1em;
+}
+
+#scrollTable td {
+	width:6.66%;
+	font-size:1em;
 }
