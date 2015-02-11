@@ -479,7 +479,7 @@ $(document).scroll(function() {
 					
 					
 					if($value[$i]['week']==0) { //default weeks
-						echo "<td>1,2,3,4,5,6,7,8,9,10,11,12</td></tr>";
+						echo "<td>1,2,3,4,5,6,7,8,9,10,11,12</td><td></td></tr>";
 					} else {
 						//sorting the list of numbers into lowest first order 
 						$sortedWeeks = explode(',', $value[$i]['week']);
