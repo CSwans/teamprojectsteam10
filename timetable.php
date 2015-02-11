@@ -138,46 +138,46 @@
     <script type="text/javascript">
 		function ext_toggle(n) {
 		    if(n==1){
-				if(document.getElementById('ad_pref1').style.display=="block"){
+				if(document.getElementById('ad_pref1').style.display==""){
 					document.getElementById('expand').innerHTML="Expand ↓";
 					document.getElementById('ad_pref1').style.display="none";
 				}
 				else {
 					document.getElementById('expand').innerHTML="Hide ↑";
-					document.getElementById('ad_pref1').style.display="block";
+					document.getElementById('ad_pref1').style.display="";
 				}
 			}
 			
 			if(n==2){
-				if(document.getElementById('ad_pref2').style.display=="block"){
+				if(document.getElementById('ad_pref2').style.display==""){
 					document.getElementById('expand2').innerHTML="Expand ↓";
 					document.getElementById('ad_pref2').style.display="none";
 				}
 				else {
 					document.getElementById('expand2').innerHTML="Hide ↑";
-					document.getElementById('ad_pref2').style.display="block";
+					document.getElementById('ad_pref2').style.display="";
 				}
 			}
 			
 			if(n==3){
-				if(document.getElementById('ad_pref3').style.display=="block"){
+				if(document.getElementById('ad_pref3').style.display==""){
 					document.getElementById('expand3').innerHTML="Expand ↓";
 					document.getElementById('ad_pref3').style.display="none";
 				}
 				else {
 					document.getElementById('expand3').innerHTML="Hide ↑";
-					document.getElementById('ad_pref3').style.display="block";
+					document.getElementById('ad_pref3').style.display="";
 				}
 			}
 			
 			if(n==4){
-				if(document.getElementById('ad_pref4').style.display=="block"){
+				if(document.getElementById('ad_pref4').style.display==""){
 					document.getElementById('expand4').innerHTML="Expand ↓";
 					document.getElementById('ad_pref4').style.display="none";
 				}
 				else {
 					document.getElementById('expand4').innerHTML="Hide ↑";
-					document.getElementById('ad_pref4').style.display="block";
+					document.getElementById('ad_pref4').style.display="";
 				}
 			}
 		}
