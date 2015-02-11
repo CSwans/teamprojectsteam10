@@ -2,12 +2,10 @@
 Tom Middleton */
 
 body {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    margin-left: 0px;
-	 background-color: #ECECDB;
-	 width:99%;
+    background-color: #ececdb;
+    margin: 0;
+    overflow-x: hidden;
+    width:99%;
 }
 
 .ui-widget-header {
@@ -128,10 +126,10 @@ border-bottom-left-radius: 40px;
 
 
 #header_style {
-    height: 185px;
     margin: 0;
     min-width: 1500px;
     padding-left: 1px;
+ 
     width: 100%;
 }
 
@@ -139,25 +137,23 @@ border-bottom-left-radius: 40px;
 #title {
     float: left;
     margin-left: 10%;
-    margin-top: 30px;
-    width: 700px;
+    width: 50%;
 }
 
-#logo{
-float:right;
-width:300px;
-margin-right:50px;
-margin-top:20px;
+#logo {
+    float: right;
+    margin-right: 50px;
+    width: 20%;
 }
 
 #lboro_logo {
- display: inline-block;
+    display: inline-block;
     float: right;
-    height: 78px;
+    height: 100%;
     margin-right: 90px;
-	margin-top: 20px;
+    margin-top: 20px;
     padding-left: 65px;
-    width: 340px;
+    width: 100%;
 }
 
 button, #submit{
@@ -271,7 +267,7 @@ select{
 #advance {
     float: left;
     margin-left: 5%;
-    width: 400px;
+    width: 40%;
     display:none;
 }
 
@@ -290,7 +286,7 @@ select{
 #advance4 {
     float: left;
     margin-left: 5%;
-    width: 400px;
+    width: 45%;
 }
 
 #id_submit {
@@ -341,6 +337,7 @@ color:#84847A;
 
 #tabs {
     background-color: #ececdb;
+    clear: both;
     height: 1100px;
     margin-left: 0;
     min-width: 1250px;
@@ -396,26 +393,9 @@ ul.tabs li.ui-tabs-active a, ul.tabs li.ui-tabs-selected a{ background-color:blu
 }
 
 #adv_block {
-	display:block;
 	float:left;
 	margin-right:30px;
 	margin-bottom:30px;
-}
-
-#ad_pref1 {
-	display:block;
-}
-
-#ad_pref2 {
-	display:none;
-}
-
-#ad_pref3 {
-	display:none;
-}
-
-#ad_pref4 {
-	display:none;
 }
 
 #expand {
@@ -445,4 +425,44 @@ ul.tabs li.ui-tabs-active a, ul.tabs li.ui-tabs-selected a{ background-color:blu
     font-size: 0.45em;
     padding: 0;
 	margin-top: 5px;
+}
+
+#module_code_select {
+	width:35%;
+}
+
+#module_title_select {
+	width:90%;
+}
+
+#tuesday {
+	margin-left:38px;
+}
+
+#time {
+	width:30%;
+}
+
+#duration {
+
+}
+
+textarea {
+	width:90%;
+}
+
+#room_list {
+	width:120px;
+}
+
+#room_list2 > select {
+	width:120px;
+}
+
+#room_list3 {
+	width:120px;
+}
+
+#room_list4 {
+	width:120px;
 }
