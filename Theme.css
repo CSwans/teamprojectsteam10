@@ -463,6 +463,14 @@ textarea {
 	width:120px;
 }
 
+#room_list3 > select {
+	width:120px;
+}
+
 #room_list4 {
+	width:120px;
+}
+
+#room_list4 > select {
 	width:120px;
 }
