@@ -285,6 +285,135 @@
 				e.style.display = 'none';
 			}
 			
+			function change_room_code() {
+				//cache user settings
+				
+				var ParkSelect = document.getElementById("ParkSelect").value;
+				var capacity = parseInt(document.getElementById("capacity1").value);
+				var isWheelchair = document.getElementById("wheelchair_yes").checked;
+				var isVisualiser = document.getElementById("visualiser_yes").checked;
+
+				var isProjector = document.getElementById("projector_yes").checked;
+
+				var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+
+
+				//var n = parseInt(document.forms.requestForm.elements.day.value)-1;
+				//var day;
+				/* if(n>-1){
+					day = document.forms.requestForm.elements.day[n].id;
+					day = day.charAt(0).toUpperCase() + day.slice(1);
+				} */
+
+				/* var weeks=[];
+
+				for(var x=0;x<16;x++){
+					if(document.forms.requestForm.elements['weeks[]'][x].checked){
+						weeks.push(x+1);
+					}
+				}
+				 */
+
+				   
+				/* var period = document.getElementById('time').selectedIndex+1;
+				var duration = document.getElementById('duration').selectedIndex+1; */
+
+				//var bookedRooms=[];
+
+				/* var flag=false;
+
+				for(var x=0;x<weeks.length;x++){
+					if(weeks[x]>0 && weeks[x]<13) flag=true;
+				} */
+
+
+				/* for(var x=1;x<bookingData.length;x++){
+					for(var y=0;y<weeks.length;y++){
+						if(parseInt(bookingData[x].week)==weeks[y] || (bookingData[x].week=="0" && flag==true)){
+							if( bookingData[x].day==day){
+								if((parseInt(bookingData[x].period) <= period && ((parseInt(bookingData[x].period) + parseInt(bookingData[x].duration)) > period )) || 
+								 ((period+duration)> parseInt(bookingData[x].period) && period < parseInt(bookingData[x].period)+ parseInt(bookingData[x].duration))){
+									bookedRooms.push(bookingData[x].room_code);
+								}
+							}
+						}
+					}
+				} */
+					
+				//empty the room code list
+				$("#RoomSelect").empty();
+				$("#RoomSelect").append("<option>" + "" + "</option>");
+
+				for(var i=0;i<roomData.length;i++){
+				//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
+					if(roomData[i].capacity >= capacity &&
+					(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
+					(!isWheelchair || roomData[i].wheelchair == 1) &&
+					(!isVisualiser || roomData[i].visualiser == 1) &&
+					(!isProjector || roomData[i].projector == 1) &&
+					(!isWhiteboard || roomData[i].whiteboard == 1))
+						$("#RoomSelect").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+				}
+				//additional stages if more than one room pref option required
+				//Tom middleton
+				/* if(parseInt(document.getElementById('noRooms').value) > 1){
+					if(capacity2 != '' && capacity2 > 0){
+				for(var i=0;i<roomData.length;i++){
+				if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity2 &&
+				(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
+				(!isWheelchair2 || roomData[i].wheelchair == 1) &&
+				(!isVisualiser2 || roomData[i].visualiser == 1) &&
+				(!isProjector2 || roomData[i].projector == 1) &&
+				(!isWhiteboard2 || roomData[i].whiteboard == 1))
+				$("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+				}
+				}
+				else {} */
+				/* for(var x=1;x<4;x++){
+				 document.getElementById('RoomSelect'+ (x+1)).style.display='none';
+				  document.getElementById('roomlabel'+ (x+1)).style.display='none';
+				}
+				noOfRooms = parseInt(document.getElementById('noRooms').value);
+				if(noOfRooms>1){
+				for(var x=1;x<noOfRooms;x++){
+				 document.getElementById('RoomSelect'+ (x+1)).style.display='block';
+				  document.getElementById('roomlabel'+ (x+1)).style.display='block';
+				} 
+				}
+				}
+				else {
+				for(var x=1;x<4;x++){
+				 document.getElementById('RoomSelect'+ (x+1)).style.display='none';
+				  document.getElementById('roomlabel'+ (x+1)).style.display='none';
+				}	
+				} */
+				/* if(parseInt(document.getElementById('noRooms').value) > 2){
+				for(var i=0;i<roomData.length;i++){
+				if(capacity3 != '' && capacity3 > 0){
+				if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity3 &&
+				(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
+				(!isWheelchair3 || roomData[i].wheelchair == 1) &&
+				(!isVisualiser3 || roomData[i].visualiser == 1) &&
+				(!isProjector3 || roomData[i].projector == 1) &&
+				(!isWhiteboard3 || roomData[i].whiteboard == 1))
+				$("#room_list3").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+				}
+				}
+				}
+				if(parseInt(document.getElementById('noRooms').value) > 3){
+				if(capacity4 != '' && capacity4 > 0){
+				for(var i=0;i<roomData.length;i++){
+				if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity4 &&
+				(ParkSelect == "Any" || ParkSelect == roomData[i].ParkSelect) &&
+				(!isWheelchair4 || roomData[i].wheelchair == 1) &&
+				(!isVisualiser4 || roomData[i].visualiser == 1) &&
+				(!isProjector4 || roomData[i].projector == 1) &&
+				(!isWhiteboard4 || roomData[i].whiteboard == 1))
+				$("#room_list4").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+				}
+				}
+				} */
+		}
 			
 		</script>
 		
