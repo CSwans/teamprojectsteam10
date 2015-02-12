@@ -108,7 +108,9 @@
 				
 			?>
 			
-			
+			var dialog;
+			var 
+			var allFields = $([]).add(
 			
 			$(function() {
 				//console.log(bookingData);
@@ -116,8 +118,23 @@
 				
 				findPendings();
 				console.log(pendingData);
+				
+				
 			});
 			
+			//functions for the editing dialog
+			function createDialog() {
+				dialog = $("dialog-form").dialog({
+					autoOpen: false,
+					height: 500,
+					width: 350,
+					modal: true,
+					close: function() {
+						form[0].reset();
+						allFields.removeClass("ui-state-error");
+					}
+				});
+			}
 			
 			//finds the pending data by searching through both the rejected and the booked arrays
 			//callan swanson
@@ -546,10 +563,143 @@
 				}
 			?>
 		</table>
+		
 		</div>
 		
 
-		</div> 
+		</div>
+
+		<div id="dialog-form" title="Edit information" >
+			<form>
+				<fieldset>
+					<label for="module_code_select"> Module Code: </label>
+					<select id="module_code_select" name="module_code_select">
+					
+					</select>
+					
+					<label for="module_title_select"> Module Title: </label>
+					<select id="module_title_select" name="module_title_select">
+					
+					</select>
+					
+					Day: 
+					<input type="radio" name="day" id='monday' value="1" required/>
+					Monday
+					<input type="radio" name="day" id='tuesday' value="2" required/>
+					Tuesday<br/>
+					<input type="radio" name="day" id='wednesday' value="3" required/>
+					Wednesday
+					<input type="radio" name="day" id='thursday' value="4" required/>
+					Thursday<br/>
+					<input type="radio" name="day" id='friday' value="5" required/>
+					Friday 
+					
+					Week: 
+					<span class="week_label"> 1 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
+					<span class="week_label"> 2 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="2" checked="checked" /></input>
+					<span class="week_label"> 3 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="3" checked="checked" /></input>
+					<span class="week_label"> 4 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="4" checked="checked" /></input>
+					<span class="week_label"> 5 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="5" checked="checked" /></input>
+					<span class="week_label"> 6 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="6" checked="checked" /></input>
+					<span class="week_label"> 7 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
+					<span class="week_label"> 8 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
+					<br/>
+					<br/>
+					<span class="week_label"> 9 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
+					<span class="week_label"> 10 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="10" checked="checked" /></input>
+					<span class="week_label"> 11 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="11" checked="checked" /></input>
+					<span class="week_label"> 12 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="12" checked="checked" /></input>
+					<span class="week_label"> 13 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="13" /></input>
+					<span class="week_label"> 14 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="14" /></input>
+					<span class="week_label"> 15 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="15" /></input>
+					<span class="week_label"> 16 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="16" /></input>
+					
+					Period:
+					<?php
+						//dropdown for the period, includes the time in 24hr format
+						//Callan Swanson
+						//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
+						echo "<select name='time' id='time' onchange='refill_duration()'>";
+						for($i=1;$i<=9;$i++){
+							$time = $i+8;
+							echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
+						}
+						echo "</select>";
+					?>
+					
+					Duration: 
+					<?php
+						//dropdown for the duration
+						//Scott Marshall
+						echo "<select name='duration' id='duration'>";
+						for($i=1;$i<=9;$i++){
+							$duration = $i+8;
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+						echo "</select>";
+					?>
+					
+					Special Requirements:
+					<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
+					
+					Capacity:
+					<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
+					
+					Park:
+					<select id="park" name="park" onChange="change_room_code()">
+						<option>Any</option>
+						<option>C</option>
+						<option>E</option>
+						<option>W</option>
+					</select>
+					
+					Room:
+					<select name='roomCode0' id='room_list' onchange='refill_codes();'>
+					</select>
+					
+					Wheelchair:
+					<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
+					Yes
+					<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
+					No
+							
+					Visualiser:
+					<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
+					No
+						
+					Projector:
+					<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
+					No
+							
+					Whiteboard:
+					<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
+					No
+					
+				</fieldset>
+			</form>
+		</div>
 		
 	</body>
 </html>

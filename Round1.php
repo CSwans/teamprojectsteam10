@@ -269,7 +269,8 @@
 						  <option>C</option>
 						  <option>E</option>
 						  <option>W</option>
-						</select></td>
+						</select>
+					  </td>
 					</tr>
 					<tr>
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
