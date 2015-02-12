@@ -337,11 +337,31 @@ $(document).scroll(function() {
 });
 
 
+
+function hideEmpty() {
+		var row = $('#dataTable tr').length;
+		var x = $('#dataTable').children('tbody').children('tr').children('td').length;
+		var col = x/row;
+		var count;
+		
+		for(var i = 0;i<row;i++){
+			var count=0;
+			for(var y = 0;y<col;y++){
+				if(document.getElementById(i+1).children[y].innerHTML == ""){
+				count=count+1;
+				}
+			}
+			if(count==15) document.getElementById(i+1).style.display='none';
+			else document.getElementById(i+1).style.display='block';
+		}
+
+}
+
 			
 		</script>
 		<link rel="stylesheet" href="Theme.css"/>
 	</head>
-	<body>
+	<body onload="hideEmpty();">
 	<div id = "top_style" > 
 		<b>
 			<a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;">Logout</a>
@@ -373,7 +393,7 @@ $(document).scroll(function() {
 				
                 <div id="status_change"><h3>Sort by Status: </h3>
 				
-                <select id="status" onChange="populateTable()">
+                <select id="status" onChange="populateTable();hideEmpty(); ">
                 	<option>Rejected</option>
                     <option>Booked</option>
                     <option>Pending</option>
@@ -492,7 +512,7 @@ $(document).scroll(function() {
 				//Callan Swanson
 				for($i = 0; $i<sizeof($value);$i++) {
 					
-					echo "<tr><td>".$value[$i]['request_id']."</td>";
+					echo "<tr id='".($i+1)."'><td>".$value[$i]['request_id']."</td>";
 					echo "<td>".$value[$i]['module_code']."</td>";
 					echo "<td>".$value[$i]['room_code']."</td>";
 					echo "<td>".$value[$i]['capacity']."</td>";
