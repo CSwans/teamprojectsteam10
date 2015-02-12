@@ -66,6 +66,40 @@
 			
 			$jsonRejections = json_encode($value3);
 			
+			$sql = "SELECT DISTINCT ROOMS.capacity, wheelchair, projector, visualiser, whiteboard, PARKS.park, ROOMS.room_code, ROOMS.building_code FROM ROOMS, PARKS WHERE ROOMS.building_code = PARKS.building_code";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$roomData = array();
+			
+			while($row = $res->fetchRow()){
+				$roomData[] = $row;
+			}
+			$roomDataJson = json_encode($roomData);
+			
+			$sql = "SELECT * FROM PARKS";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$buildingData = array();
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$buildingData[] = $row;
+			}
+			$buildingJson = json_encode($buildingData);
+			
+			$sql = "SELECT module_code, module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$moduleInfo = array();
+			while($row = $res->fetchRow()){
+				$moduleInfo[] = $row;
+			}
+			$moduleJson = json_encode($moduleInfo);
 			
 		?>
 		<link rel="stylesheet" href="Theme.css"/>
@@ -76,12 +110,10 @@
 		 <style>
 
 label, input { display:block; }
-input.text { margin-bottom:12px; width:95%; padding: .4em; }
-fieldset { padding:0; border:0; margin-top:25px; }
+
 h1 { font-size: 1.2em; margin: .6em 0; }
 
 .ui-dialog .ui-state-error { padding: .3em; }
-.validateTips { border: 1px solid transparent; padding: 0.3em; }
 </style>
 		<script src="js/jquery.serializejson.min.js"></script>
 		<script type="text/javascript">
@@ -113,29 +145,151 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 			echo "var requestData = ".$jsonRequests.";\n"; //WILL CHANGE TO HOLD THE PENDING DATA WHEN PAGE LOADS
 			echo "var bookingData = ".$jsonBookings.";\n";
 			echo "var rejectedData = ".$jsonRejections.";\n";
-
+			echo "var roomData = ". $roomDataJson . ";\n";
+			echo "var moduleData = ". $moduleJson . ";\n";
+			echo "var buildingData = ". $buildingJson . ";\n";
 			?>
 			
 			
 			$(function() {
 				//console.log(bookingData);
 				//apply dialog to input form
-				$("#dialog-form1").dialog();
+				$("#dialog-form1").dialog({
+					height: 500,
+					width: 700
+				});
 				//hide dialog
 				$("#dialog-form1").dialog("close");
 				populateTable();
 				findPendings();
-				console.log(pendingData);
+				buildingInitialise();
 				
 				 
 			});
 			//show dialog when edit button is clicked
 			//callan swanson, Inthuch Therdchanakul
-			function showDialog(){
+			function showDialog(el){
 				$("#dialog-form1").dialog("open");
+				var request_id = parseInt(el.parentNode.parentNode.cells[0].textContent);
+				$("#requestId").val(request_id);
+				inputModule();
+				$("#module_code_select").val(el.parentNode.parentNode.cells[1].textContent);
+				module_code_change(); 
+				checkDay(el);
+				checkperiod(el);
+				checkDuration(el);
+				checkSpecialReq(el);
+				checkCapacity(el);
+				checkFacility(el);
+				checkRoomCode(el);
 			}
+			//close dialog when cancel is clicked
 			function closeDialog(){
 				$("#dialog-form1").dialog("close");
+			}
+			///input module data into dialog div
+			function inputModule(){
+				for(var i=0;i<moduleData.length;i++){
+					$("#module_code_select").append("<option>" + moduleData[i].module_code + "</option>");
+					$("#module_title_select").append("<option>" + moduleData[i].module_title + "</option>");
+				}
+			}
+			function updateAjax(){
+				$.ajax({
+				url : "updateInfo.php",
+				type : "POST", 
+				data : $("#editForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request submitted with request id " + data[data.length-1].request_id);
+						console.log("data "+data); //quick check
+						
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
+			//onChange for module title/code
+			function module_code_change(){
+				document.getElementById("module_title_select").selectedIndex = document.getElementById("module_code_select").selectedIndex ;
+			}
+			function module_title_change(){
+				document.getElementById("module_code_select").selectedIndex = document.getElementById("module_title_select").selectedIndex;
+			}
+			//select radio button matching the day in the table cell
+			function checkDay(el){
+				var day = el.parentNode.parentNode.cells[11].textContent;
+				if(day == "Monday")
+					$("#monday").prop('checked', true);
+				if(day == "Tuesday")
+					$("#tuesday").prop('checked', true);
+				if(day == "Wednesday")
+					$("#wednesday").prop('checked', true);
+				if(day == "Thursday")
+					$("#thursday").prop('checked', true);
+				if(day == "Friday")
+					$("#friday").prop('checked', true);
+			}
+			//populate dialog form with data from selected table row
+			function checkperiod(el){
+				var period = parseInt(el.parentNode.parentNode.cells[10].textContent);
+				document.getElementById("time").selectedIndex = period - 1;
+			}
+			function checkDuration(el){
+				var duration = parseInt(el.parentNode.parentNode.cells[12].textContent);
+				document.getElementById("duration").selectedIndex = duration - 1;
+			}
+			function checkSpecialReq(el){
+				var req = el.parentNode.parentNode.cells[8].textContent;
+				$("#specialReq").val(req);
+			}
+			function checkCapacity(el){
+				var capacity = parseInt(el.parentNode.parentNode.cells[3].textContent);
+				$("#capacity1").val(capacity);
+			}
+			function checkRoomCode(el){
+				var room = el.parentNode.parentNode.cells[2].textContent;
+				$("#room_list").empty();
+				for(var i=0;i<roomData.length;i++){
+					$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+				}
+				$("#room_list").val(room);
+			}
+			function checkFacility(el){
+				if(parseInt(el.parentNode.parentNode.cells[4].textContent) == 1)
+					$("#wheelchair_yes").prop('checked', true);
+				else 
+					$("#wheelchair_no").prop('checked', true);
+				if(parseInt(el.parentNode.parentNode.cells[5].textContent) == 1)
+					$("#projector_yes").prop('checked', true);
+				else 
+					$("#projector_no").prop('checked', true);
+				if(parseInt(el.parentNode.parentNode.cells[6].textContent) == 1)
+					$("#visualiser_yes").prop('checked', true);
+				else 
+					$("#visualiser_no").prop('checked', true);
+				if(parseInt(el.parentNode.parentNode.cells[4].textContent) == 1)
+					$("#whiteboard_yes").prop('checked', true);
+				else 
+					$("#whiteboard_no").prop('checked', true);
+			}
+			
+			//building function
+			function buildingCodeChange() {
+				document.getElementById("BuildingNameSelect").selectedIndex = document.getElementById("BuildingCodeSelect").selectedIndex;
+			}
+			
+			function buildingNameChange() {
+				document.getElementById("BuildingCodeSelect").selectedIndex = document.getElementById("BuildingNameSelect").selectedIndex;
+			}
+			
+			function buildingInitialise() {
+				$("#BuildingCodeSelect").html("<option>All</option>");
+				$("#BuildingNameSelect").html("<option>All</option>");				
+				for(var i=0; i<buildingData.length; i++) {
+					$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+					$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+				}
 			}
 			//finds the pending data by searching through both the rejected and the booked arrays
 			//callan swanson
@@ -330,7 +484,8 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 						sortedWeeks.sort();
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
-					$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input type='button' value='edit' onclick='showDialog()'>");
+					if(document.getElementById("status").value == "Pending")
+						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input type='button' value='edit' onclick='showDialog(this)'>");
 					
 				}
 			}
@@ -376,13 +531,39 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 							}
 
 					}
-				function rowFunction(el) {
-				    var n = el.parentNode.parentNode.cells[0].textContent;
-				   // var request_id = parseInt(n);
-				    alert(parseInt(el.parentNode.parentNode.cells[0].textContent));
-				}
+					function change_room_code() {
+						//cache user settings
+						
+						var ParkSelect = document.getElementById("park").value;
+						var capacity = document.getElementById("capacity1").value;
+						var isWheelchair = document.getElementById("wheelchair_yes").checked;
+						var isVisualiser = document.getElementById("visualiser_yes").checked;
 
-			
+						var isProjector = document.getElementById("projector_yes").checked;
+
+						var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+						var buildingCode = document.getElementById("BuildingCodeSelect").value;
+						
+						
+						//empty the room code list
+						$("#room_list").empty();
+						
+						for(var i=0;i<roomData.length;i++){
+						//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
+							if((roomData[i].capacity >= parseInt(capacity) || capacity == "") &&
+							(ParkSelect == "Any" || ParkSelect == roomData[i].park) &&
+							(!isWheelchair || roomData[i].wheelchair == 1) &&
+							(!isVisualiser || roomData[i].visualiser == 1) &&
+							(!isProjector || roomData[i].projector == 1) &&
+							(!isWhiteboard || roomData[i].whiteboard == 1) && 
+							(buildingCode == "All" || buildingCode == roomData[i].building_code)) {
+								$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+								
+							}
+							
+						}
+					}
+	
 		</script>
 		
 	</head>
@@ -414,6 +595,151 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 			
     <div id="page_wrap">
 	<hr/>
+	<div id="dialog-form1" title="Edit information" style="display: none;" >
+			<form id="editForm" name="editForm">
+				<fieldset>
+					<input type="hidden" value="" id="requestId"/>
+					
+					<label for="module_code_select"> Module Code: </label>
+					<select id="module_code_select" name="module_code_select" onchange='module_code_change()'>
+					
+					</select>
+					
+					<label for="module_title_select" onchange='module_title_change()'> Module Title: </label>
+					<select id="module_title_select" name="module_title_select">
+					
+					</select>
+					
+					Day: 
+					<input type="radio" name="day" id='monday' value="1" required/>
+					Monday
+					<input type="radio" name="day" id='tuesday' value="2" required/>
+					Tuesday<br/>
+					<input type="radio" name="day" id='wednesday' value="3" required/>
+					Wednesday
+					<input type="radio" name="day" id='thursday' value="4" required/>
+					Thursday<br/>
+					<input type="radio" name="day" id='friday' value="5" required/>
+					Friday 
+					
+					Week: 
+					<span class="week_label"> 1 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
+					<span class="week_label"> 2 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="2" checked="checked" /></input>
+					<span class="week_label"> 3 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="3" checked="checked" /></input>
+					<span class="week_label"> 4 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="4" checked="checked" /></input>
+					<span class="week_label"> 5 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="5" checked="checked" /></input>
+					<span class="week_label"> 6 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="6" checked="checked" /></input>
+					<span class="week_label"> 7 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
+					<span class="week_label"> 8 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
+					<br/>
+					<br/>
+					<span class="week_label"> 9 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
+					<span class="week_label"> 10 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="10" checked="checked" /></input>
+					<span class="week_label"> 11 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="11" checked="checked" /></input>
+					<span class="week_label"> 12 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="12" checked="checked" /></input>
+					<span class="week_label"> 13 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="13" /></input>
+					<span class="week_label"> 14 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="14" /></input>
+					<span class="week_label"> 15 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="15" /></input>
+					<span class="week_label"> 16 </span>
+					<input type="checkbox" name="weeks[]" id="week" value="16" /></input>
+					
+					Period:
+					<?php
+						//dropdown for the period, includes the time in 24hr format
+						//Callan Swanson
+						//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
+						echo "<select name='time' id='time' onchange='refill_duration()'>";
+						for($i=1;$i<=9;$i++){
+							$time = $i+8;
+							echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
+						}
+						echo "</select>";
+					?>
+					
+					Duration: 
+					<?php
+						//dropdown for the duration
+						//Scott Marshall
+						echo "<select name='duration' id='duration'>";
+						for($i=1;$i<=9;$i++){
+							$duration = $i+8;
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+						echo "</select>";
+					?>
+					
+					Special Requirements:
+					<textarea name="specialReq" id="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
+					
+					Capacity:
+					<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
+					
+					Park:
+					<select id="park" name="park" onChange="change_room_code()">
+						<option>Any</option>
+						<option>C</option>
+						<option>E</option>
+						<option>W</option>
+					</select>
+					
+					Building Name :
+					<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
+						
+					</select>
+				
+					Building Code :
+					<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
+						
+					</select>
+					
+					Room:
+					<select name='roomCode0' id='room_list' onchange='refill_codes();'>
+					</select>
+					
+					Wheelchair:
+					<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
+					Yes
+					<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
+					No
+							
+					Visualiser:
+					<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
+					No
+						
+					Projector:
+					<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
+					No
+							
+					Whiteboard:
+					<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
+					No
+					
+					<input type="button" value="Submit" onClick="updateAjax()" />
+					<input type="button" value="Cancel" onClick="closeDialog()" />
+				</fieldset>
+			</form>
+		</div>
 	<div id="table_header">
 		<table id="scrollTable">
 			<tr>
@@ -572,137 +898,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 
 		</div>
 
-		<div id="dialog-form1" title="Edit information" style="display: none;" >
-			<form>
-				<fieldset>
-					<label for="module_code_select"> Module Code: </label>
-					<select id="module_code_select" name="module_code_select">
-					
-					</select>
-					
-					<label for="module_title_select"> Module Title: </label>
-					<select id="module_title_select" name="module_title_select">
-					
-					</select>
-					
-					Day: 
-					<input type="radio" name="day" id='monday' value="1" required/>
-					Monday
-					<input type="radio" name="day" id='tuesday' value="2" required/>
-					Tuesday<br/>
-					<input type="radio" name="day" id='wednesday' value="3" required/>
-					Wednesday
-					<input type="radio" name="day" id='thursday' value="4" required/>
-					Thursday<br/>
-					<input type="radio" name="day" id='friday' value="5" required/>
-					Friday 
-					
-					Week: 
-					<span class="week_label"> 1 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
-					<span class="week_label"> 2 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="2" checked="checked" /></input>
-					<span class="week_label"> 3 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="3" checked="checked" /></input>
-					<span class="week_label"> 4 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="4" checked="checked" /></input>
-					<span class="week_label"> 5 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="5" checked="checked" /></input>
-					<span class="week_label"> 6 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="6" checked="checked" /></input>
-					<span class="week_label"> 7 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
-					<span class="week_label"> 8 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
-					<br/>
-					<br/>
-					<span class="week_label"> 9 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
-					<span class="week_label"> 10 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="10" checked="checked" /></input>
-					<span class="week_label"> 11 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="11" checked="checked" /></input>
-					<span class="week_label"> 12 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="12" checked="checked" /></input>
-					<span class="week_label"> 13 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="13" /></input>
-					<span class="week_label"> 14 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="14" /></input>
-					<span class="week_label"> 15 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="15" /></input>
-					<span class="week_label"> 16 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="16" /></input>
-					
-					Period:
-					<?php
-						//dropdown for the period, includes the time in 24hr format
-						//Callan Swanson
-						//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
-						echo "<select name='time' id='time' onchange='refill_duration()'>";
-						for($i=1;$i<=9;$i++){
-							$time = $i+8;
-							echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
-						}
-						echo "</select>";
-					?>
-					
-					Duration: 
-					<?php
-						//dropdown for the duration
-						//Scott Marshall
-						echo "<select name='duration' id='duration'>";
-						for($i=1;$i<=9;$i++){
-							$duration = $i+8;
-							echo "<option value='".$i."'>".$i."</option>";
-						}
-						echo "</select>";
-					?>
-					
-					Special Requirements:
-					<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
-					
-					Capacity:
-					<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
-					
-					Park:
-					<select id="park" name="park" onChange="change_room_code()">
-						<option>Any</option>
-						<option>C</option>
-						<option>E</option>
-						<option>W</option>
-					</select>
-					
-					Room:
-					<select name='roomCode0' id='room_list' onchange='refill_codes();'>
-					</select>
-					
-					Wheelchair:
-					<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
-					Yes
-					<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
-					No
-							
-					Visualiser:
-					<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
-					Yes
-					<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
-					No
-						
-					Projector:
-					<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
-					Yes
-					<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
-					No
-							
-					Whiteboard:
-					<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
-					Yes
-					<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
-					No
-					
-				</fieldset>
-			</form>
-		</div>
+		
 		
 
 	</body>
