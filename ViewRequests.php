@@ -563,6 +563,32 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 							
 						}
 					}
+					function ParkChange() {
+						var parkChosen = "Any";
+						parkChosen = document.getElementById("park").value;
+						$("#room_list").empty();
+						
+						//if any parks are chosen then all the rooms are displayed
+						if(parkChosen=="Any") {
+							for(var i=0; i<roomData.length; i++) {
+								$("#room_list").append("<option> " + roomData[i].room_code + "</option>");
+							}
+						} else { //if a park is chosen teh jsut that park's rooms are displayed
+							for(var i=0; i<roomData.length; i++) {
+								if(roomData[i].park == parkChosen) {
+									$("#room_list").append("<option> " + roomData[i].room_code + "</option>");
+								}
+							}
+						}
+						$("#BuildingCodeSelect").html("<option>All</option>");
+						$("#BuildingNameSelect").html("<option>All</option>");				
+						for(var i=0; i<buildingData.length; i++) {
+							if(buildingData[i].park == document.getElementById("park").value) {
+								$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+								$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+							}
+						}
+					}
 	
 		</script>
 		
@@ -690,7 +716,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 					<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
 					
 					Park:
-					<select id="park" name="park" onChange="change_room_code()">
+					<select id="park" name="park" onChange="ParkChange();change_room_code();">
 						<option>Any</option>
 						<option>C</option>
 						<option>E</option>
