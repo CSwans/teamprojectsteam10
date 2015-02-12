@@ -303,6 +303,7 @@
 					$("#dataTable tr:eq("+(i+1)+") td:eq(12)").html(status[i].duration);
 					
 					
+					
 					if(status[i].week==0) { //default weeks
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1,2,3,4,5,6,7,8,9,10,11,12");
 					} else {
@@ -311,6 +312,7 @@
 						sortedWeeks.sort();
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
+					$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input type='button' value='edit' onclick='rowFunction(this)'>");
 					
 				}
 			}
@@ -318,44 +320,49 @@
 			//table styling - Tom Middleton
 			
 			
-var fixed = false;
+					var fixed = false;
 
-$(document).scroll(function() {
-    if( $(this).scrollTop() >= 150 ) {
-        if( !fixed ) {
-            fixed = true;
-            $('#table_header').css({position:'fixed',top:0}); 
-        	$('#content_wrap').css({position:'relative',top:70}); 
-        }                                           
-    } else {
-        if( fixed ) {
-            fixed = false;
-            $('#table_header').css({position:'static'});
-            $('#content_wrap').css({position:'static'});
-        }
-    }
-});
+					$(document).scroll(function() {
+						if( $(this).scrollTop() >= 150 ) {
+							if( !fixed ) {
+								fixed = true;
+								$('#table_header').css({position:'fixed',top:0}); 
+								$('#content_wrap').css({position:'relative',top:70}); 
+							}                                           
+						} else {
+							if( fixed ) {
+								fixed = false;
+								$('#table_header').css({position:'static'});
+								$('#content_wrap').css({position:'static'});
+							}
+						}
+					});
 
 
 
-function hideEmpty() {
-		var row = $('#dataTable tr').length;
-		var x = $('#dataTable').children('tbody').children('tr').children('td').length;
-		var col = x/row;
-		var count;
-		
-		for(var i = 0;i<row;i++){
-			var count=0;
-			for(var y = 0;y<col;y++){
-				if(document.getElementById(i+1).children[y].innerHTML == ""){
-				count=count+1;
+					function hideEmpty() {
+							var row = $('#dataTable tr').length;
+							var x = $('#dataTable').children('tbody').children('tr').children('td').length;
+							var col = x/row;
+							var count;
+							
+							for(var i = 0;i<row;i++){
+								var count=0;
+								for(var y = 0;y<col;y++){
+									if(document.getElementById(i+1).children[y].innerHTML == ""){
+									count=count+1;
+									}
+								}
+								if(count==15) document.getElementById(i+1).style.display='none';
+								else document.getElementById(i+1).style.display='block';
+							}
+
+					}
+				function rowFunction(el) {
+				    var n = el.parentNode.parentNode.cells[0].textContent;
+				   // var request_id = parseInt(n);
+				    alert(parseInt(el.parentNode.parentNode.cells[0].textContent));
 				}
-			}
-			if(count==15) document.getElementById(i+1).style.display='none';
-			else document.getElementById(i+1).style.display='block';
-		}
-
-}
 
 			
 		</script>
@@ -443,7 +450,7 @@ function hideEmpty() {
 					Week(s)
 				</td>
 				<td id="status2" onClick="sortHeader(this.id);currentSort(this.id);">
-					Status
+					Edit
 				</td>
 			</tr>
 			</table>
@@ -502,7 +509,7 @@ function hideEmpty() {
 					week(s)
 				</td>
 				<td id="status" onClick="sortHeader(this.id)">
-					Status
+					Edit
 				</td>
 			</tr>
 				
