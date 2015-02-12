@@ -201,7 +201,24 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 				data : $("#editForm").serialize(),
 				success : function (data){					
 						data = JSON.parse(data);
-						alert("Request submitted with request id " + data[data.length-1].request_id);
+						alert("Request has been saved with request id " + data[data.length-1].request_id);
+						console.log("data "+data); //quick check
+						
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
+			function deleteAjax(el){
+				var delId = parseInt(el.parentNode.parentNode.cells[0].textContent);
+				$("#delId").val(delId);
+				$.ajax({
+				url : "deleteInfo.php",
+				type : "POST", 
+				data : $("#deleteForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request deleted with request id " + data[data.length-1].request_id);
 						console.log("data "+data); //quick check
 						
 					},
@@ -484,9 +501,10 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 						sortedWeeks.sort();
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
-					if(document.getElementById("status").value == "Pending")
-						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input type='button' value='edit' onclick='showDialog(this)'>");
-					
+					if(document.getElementById("status").value == "Pending"){
+						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input type='button' value='Edit' onclick='showDialog(this)'>");
+						$("#dataTable tr:eq("+(i+1)+") td:eq(15)").html("<input type='button' value='Delete' onclick='deleteAjax(this)'>");
+					}
 				}
 			}
 			
@@ -621,6 +639,9 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 			
     <div id="page_wrap">
 	<hr/>
+	<form id="deleteForm" name="deleteForm">
+		<input type="hidden" id="delId" name="delId" value=""/>
+	</form>
 	<div id="dialog-form1" title="Edit information" style="display: none;" >
 			<form id="editForm" name="editForm">
 				<fieldset>
@@ -821,9 +842,10 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 				<td id="week(s)" style="cursor:default;">
 					Week(s)
 				</td>
-				<td id="status2" onClick="sortHeader(this.id);currentSort(this.id);">
+				<td id="editRow">
 					Edit
 				</td>
+				
 			</tr>
 			</table>
 			
@@ -883,6 +905,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 				<td id="status" onClick="sortHeader(this.id)">
 					Edit
 				</td>
+				
 			</tr>
 				
 			
