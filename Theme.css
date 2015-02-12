@@ -603,10 +603,3 @@ hr {
 #testTable  td {
 	border: 1px solid black;
 }
-
-#info {
-	width:40%;
-	height:400px;
-	position:relative;
-	background-color:#ffffff;
-}
