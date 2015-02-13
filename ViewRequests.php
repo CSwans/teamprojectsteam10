@@ -327,19 +327,19 @@ label, input { display:block; }
 				$("#room_list").val(room);
 			}
 			function checkFacility(el){
-				if(parseInt(el.parentNode.parentNode.cells[4].textContent) == 1)
+				if (el.parentNode.parentNode.cells[4].textContent == "Yes")
 					$("#wheelchair_yes").prop('checked', true);
 				else 
 					$("#wheelchair_no").prop('checked', true);
-				if(parseInt(el.parentNode.parentNode.cells[5].textContent) == 1)
+				if (el.parentNode.parentNode.cells[5].textContent == "Yes")
 					$("#projector_yes").prop('checked', true);
 				else 
 					$("#projector_no").prop('checked', true);
-				if(parseInt(el.parentNode.parentNode.cells[6].textContent) == 1)
+				if (el.parentNode.parentNode.cells[6].textContent == "Yes")
 					$("#visualiser_yes").prop('checked', true);
 				else 
 					$("#visualiser_no").prop('checked', true);
-				if(parseInt(el.parentNode.parentNode.cells[4].textContent) == 1)
+				if (el.parentNode.parentNode.cells[7].textContent == "Yes")
 					$("#whiteboard_yes").prop('checked', true);
 				else 
 					$("#whiteboard_no").prop('checked', true);
@@ -538,14 +538,29 @@ label, input { display:block; }
 					
 					$("#dataTable tr:eq("+(i+1)+") td:eq(2)").html(status[i].room_code);
 					$("#dataTable tr:eq("+(i+1)+") td:eq(3)").html(status[i].capacity);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(4)").html(status[i].wheelchair);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(5)").html(status[i].projector);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(6)").html(status[i].visualiser);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(7)").html(status[i].whiteboard);
+					if(status[i].wheelchair == 1)
+						$("#dataTable tr:eq("+(i+1)+") td:eq(4)").html("Yes");
+					else
+						$("#dataTable tr:eq("+(i+1)+") td:eq(4)").html("No");
+					if(status[i].projector == 1)
+						$("#dataTable tr:eq("+(i+1)+") td:eq(5)").html("Yes");
+					else
+						$("#dataTable tr:eq("+(i+1)+") td:eq(5)").html("No");
+					if(status[i].visualiser == 1)
+						$("#dataTable tr:eq("+(i+1)+") td:eq(6)").html("Yes");
+					else
+						$("#dataTable tr:eq("+(i+1)+") td:eq(6)").html("No");
+					if(status[i].whiteboard == 1)
+						$("#dataTable tr:eq("+(i+1)+") td:eq(7)").html("Yes");
+					else
+						$("#dataTable tr:eq("+(i+1)+") td:eq(7)").html("No");
 					$("#dataTable tr:eq("+(i+1)+") td:eq(8)").html(status[i].special_requirements);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(9)").html(status[i].priority);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(10)").html(status[i].period);
-					$("#dataTable tr:eq("+(i+1)+") td:eq(11)").html(status[i].day);
+					if(status[i].priority == 1)
+						$("#dataTable tr:eq("+(i+1)+") td:eq(9)").html("Yes");
+					else
+						$("#dataTable tr:eq("+(i+1)+") td:eq(9)").html("No");
+					$("#dataTable tr:eq("+(i+1)+") td:eq(10)").html(status[i].day);
+					$("#dataTable tr:eq("+(i+1)+") td:eq(11)").html(parseInt(status[i].period) + 8 + ":00");
 					$("#dataTable tr:eq("+(i+1)+") td:eq(12)").html(status[i].duration);
 					
 					
@@ -928,12 +943,13 @@ label, input { display:block; }
 				<td id="priority" onClick="sortHeader(this.id);currentSort(this.id);">
 					Priority
 				</td>
-				<td id="period" onClick="sortHeader(this.id);currentSort(this.id);">
-					Period
 				</td>
 				<td id="day" onClick="sortHeader(this.id);currentSort(this.id);">
 					Day
 				</td>
+				<td id="period" onClick="sortHeader(this.id);currentSort(this.id);">
+					Period
+				
 				<td id="duration" onClick="sortHeader(this.id);currentSort(this.id);">
 					Duration
 				</td>
@@ -988,12 +1004,13 @@ label, input { display:block; }
 				<td id="priority" onClick="sortHeader(this.id)">
 					priority
 				</td>
-				<td id="period" onClick="sortHeader(this.id)">
-					period
-				</td>
 				<td id="day" onClick="sortHeader(this.id)">
 					day
 				</td>
+				<td id="period" onClick="sortHeader(this.id)">
+					period
+				</td>
+				
 				<td id="duration" onClick="sortHeader(this.id)">
 					duration
 				</td>
