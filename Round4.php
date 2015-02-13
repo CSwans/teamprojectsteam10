@@ -84,7 +84,7 @@
 			<div id="button_wrap1">
 				<a><button id="adv_options" type="button" onclick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button></a>
 				<a href="ViewRequests.php"><button id ="All" type="button" >&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button></a>
-				<a><button type="button">&gt;&nbsp;&nbsp;&nbsp;&nbsp;CHECK AVAILABILITY</button></a>
+				<a href="RoomAvail.php"><button type="button">&gt;&nbsp;&nbsp;&nbsp;&nbsp;CHECK AVAILABILITY</button></a>
 				<a><button id="Load_Last_Year" type="button" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button></a>
 			</div>
         </div>
@@ -417,7 +417,7 @@
 				<table id="subtable">
 					<tr>
 						<td>
-							<input id="submit" type="submit" value="Submit"/>
+							 <input id="submit" type="button" onClick="ajaxFunction()" value="Send Request!">
 						</td>
 					</tr>
 				</table>
