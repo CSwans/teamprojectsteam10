@@ -131,8 +131,8 @@ label, input { display:block; }
 			document.getElementById('period').className="";
 			document.getElementById('day').className="";
 			document.getElementById('duration').className="";
-			document.getElementById('status2').className="";
-			
+			document.getElementById('edit_cell').className="";
+			document.getElementById('delete_cell').className="";
 			
 			
 					
@@ -222,8 +222,32 @@ label, input { display:block; }
 				}
 				});
 			}
-	
+			function confirmDelete(el){
+				currentRow = el.parentNode.parentNode;
+				row = el;
+				if (confirm('Are you sure you want to delete this request?')){
+					deleteAjax();
+				}else{
+				return false;
+				}
+			}
 			
+			function deleteAjax(){
+				var request_id = parseInt(currentRow.cells[0].textContent);
+				$("#requestIdDel").val(request_id);
+				$.ajax({
+				url : "deleteInfo.php",
+				type : "POST", 
+				data : $("#deleteForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request deleted");
+						$(row).closest("tr").remove();
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
 			//onChange for module title/code
 			function module_code_change(){
 				document.getElementById("module_title_select").selectedIndex = document.getElementById("module_code_select").selectedIndex ;
@@ -499,9 +523,9 @@ label, input { display:block; }
 						sortedWeeks.sort();
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
 					}
-					if(document.getElementById("status").value == "Pending")
-						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'>");
-					
+					if(document.getElementById("status").value == "Pending"){
+						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+					}
 				}
 			}
 			
@@ -667,6 +691,11 @@ label, input { display:block; }
 	
 	<div id="page_wrap">
 	<hr/>
+	<div style="display:none;">
+		<form id="deleteForm" name="deleteForm">
+			<input type="hidden" value="" id="requestIdDel" name="requestIdDel"/>
+		</form>
+	</div>
 	<div id="dialog-form1" title="Edit information" style="display: none;" >
 			<form id="editForm" name="editForm">
 				<fieldset>
@@ -869,9 +898,10 @@ label, input { display:block; }
 				<td id="week(s)" style="cursor:default;">
 					Week(s)
 				</td>
-				<td id="status2" style="cursor:default;">
-					Edit
+				<td id="edit_cell" style="cursor:default;">
+					Edit/Delete
 				</td>
+				
 			</tr>
 			</table>
 			
@@ -928,9 +958,10 @@ label, input { display:block; }
 				<td id="week(s)" >
 					week(s)
 				</td>
-				<td id="status" style="cursor:default;">
-					Edit
+				<td id="edit_cell" style="cursor:default;">
+					Edit/Delete
 				</td>
+				
 			</tr>
 				
 			
@@ -955,7 +986,7 @@ label, input { display:block; }
 					
 					
 					if($value[$i]['week']==0) { //default weeks
-						echo "<td>1, 2, 3, 4, 5, 6,7,8, 9, 10, 11, 12</td><td></td></tr>";
+						echo "<td>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12</td><td></td></tr>";
 					} else {
 						//sorting the list of numbers into lowest first order 
 						$sortedWeeks = explode(', ' , $value[$i]['week']);
