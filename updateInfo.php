@@ -74,7 +74,7 @@
 		} 
 	}
 	
-	$sql5 = "SELECT * FROM REQUEST WHERE request_id='$request_id'";
+	$sql5 = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ', ') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND REQUEST.request_id='$request_id' GROUP BY request_id";
 	$res =& $db->query($sql5); 
 	if(PEAR::isError($res)){
 		die($res->getMessage());
