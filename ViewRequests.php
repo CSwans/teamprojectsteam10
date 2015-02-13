@@ -219,18 +219,13 @@ label, input { display:block; }
 						currentRow.cells[10].textContent = data[0].period;
 						currentRow.cells[11].textContent = data[0].day;
 						currentRow.cells[12].textContent = data[0].duration;
-<<<<<<< HEAD
-=======
 						currentRow.cells[13].textContent = data[0].week;
->>>>>>> origin/march
 						closeDialog();
 					},
 				error : function(jqXHR, textStatus, errorThrown) {
 				}
 				});
 			}
-<<<<<<< HEAD
-=======
 			function checkWeek(el){
 				var request_id = parseInt(el.parentNode.parentNode.cells[0].textContent);
 				$("#weekCheck").val(request_id);
@@ -256,7 +251,7 @@ label, input { display:block; }
 				});
 			}
 			//confirmation box when click delete
->>>>>>> origin/march
+
 			function confirmDelete(el){
 				currentRow = el.parentNode.parentNode;
 				row = el;
@@ -266,11 +261,9 @@ label, input { display:block; }
 				return false;
 				}
 			}
-<<<<<<< HEAD
-			
-=======
+
 			//delete selected request from database
->>>>>>> origin/march
+
 			function deleteAjax(){
 				var request_id = parseInt(currentRow.cells[0].textContent);
 				$("#requestIdDel").val(request_id);
@@ -737,26 +730,25 @@ label, input { display:block; }
 		<form id="deleteForm" name="deleteForm">
 			<input type="hidden" value="" id="requestIdDel" name="requestIdDel"/>
 		</form>
-<<<<<<< HEAD
-=======
+
 		<form id="weekForm" name="weekForm">
 			<input type="hidden" value="" id="weekCheck" name="weekCheck"/>
 		</form>
->>>>>>> origin/march
+
 	</div>
 	<div id="dialog-form1" title="Edit information" style="display: none;" >
 			<form id="editForm" name="editForm">
 				<fieldset>
 					<input type="hidden" value="" id="requestId" name="requestId"/>
-<<<<<<< HEAD
+
 					
 					<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="1"/>Yes
 					<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="0"/>No
-=======
+
 					Priority: 
 					<input name="priorityInput" type="radio" id="priorityInput1" onchange="change_room_code()" value="1"/>Yes
 					<input name="priorityInput" type="radio" id="priorityInput2" onchange="change_room_code()" value="0"/>No
->>>>>>> origin/march
+
 					<label for="module_code_select"> Module Code: </label>
 					<select id="module_code_select" name="module_code_select" onchange='module_code_change()'>
 					
