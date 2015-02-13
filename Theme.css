@@ -35,7 +35,10 @@ padding-bottom:20px;
 }
 
 div#subdiv {
-margin-left: 100em;
+    margin-right: 10%;
+    position: absolute;
+    right: 0;
+    margin-top: 20%;
 }
 #subdiv > #submit {
 	background-color: #cc0066;
@@ -279,7 +282,7 @@ width:100%;
 #inputs {
 float: left;
 margin-left: 0;
-width: 50%;
+width: 80%;
 font-size:1.2em;
 }
 
@@ -474,11 +477,11 @@ margin-top: 5px;
 }
 
 #module_code_select {
-width:35%;
+width:80%;
 }
 
 #module_title_select {
-width:90%;
+    width: 85%;
 }
 
 #tuesday {
@@ -486,11 +489,15 @@ margin-left:38px;
 }
 
 #time {
-width:30%;
+width:100%;
 }
 
 #duration {
+width: 45%;
+}
 
+#noRooms{
+width: 18%;
 }
 
 textarea {
@@ -617,6 +624,19 @@ hr {
 	background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
 	background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
 	background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
+}
+
+
+#round_input_separator{
+	margin-bottom: 30px;
+    margin-top: 30px;
+	border: 0;
+	height: 1.5px;
+	background-image:
+	-webkit-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
+	background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
+	background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
+	background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
 }
 
 #timetable {
