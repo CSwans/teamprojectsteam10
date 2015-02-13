@@ -74,7 +74,7 @@
 		} 
 	}
 	
-	$sql5 = "SELECT * FROM REQUEST";
+	$sql5 = "SELECT * FROM REQUEST WHERE request_id='$request_id'";
 	$res =& $db->query($sql5); 
 	if(PEAR::isError($res)){
 		die($res->getMessage());
