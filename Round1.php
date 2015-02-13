@@ -257,6 +257,11 @@
 				</table>
 				
 				</div>
+                				<div id="subdiv">
+							<input type="hidden" name="priorityInput" value="1" >
+                            <input id="submit" type="button" onClick="ajaxFunction()" value="Send Request!" >
+
+				</div>
 				<!--inputs-->
 				<div id="advance">
 				  <table id="advancedinputs">
@@ -445,17 +450,7 @@
 				  </table>
 				</div>
 				<!--advance-->
-				<div id="subdiv">
-				<table id="subtable">
-					<tr>
-						<td>
-							<input type="hidden" name="priorityInput" value="1" >
-                            <input id="submit" type="button" onClick="ajaxFunction()" value="Send Request!">
-						</td>
-					</tr>
-				</table>
-				
-				</div>
+
 				<!--subdiv--> 
 		</div>
       <!--input wrap--> 
