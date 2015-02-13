@@ -217,6 +217,7 @@ label, input { display:block; }
 						currentRow.cells[10].textContent = data[0].period;
 						currentRow.cells[11].textContent = data[0].day;
 						currentRow.cells[12].textContent = data[0].duration;
+						closeDialog();
 					},
 				error : function(jqXHR, textStatus, errorThrown) {
 				}
