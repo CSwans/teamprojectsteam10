@@ -147,7 +147,8 @@ label, input { display:block; }
 			echo "var moduleData = ". $moduleJson . ";\n";
 			echo "var buildingData = ". $buildingJson . ";\n";
 			?>
-			
+			var currentRow;
+			var row;
 			
 			$(function() {
 				//console.log(bookingData);
@@ -168,6 +169,8 @@ label, input { display:block; }
 			//show dialog when edit button is clicked
 			//callan swanson, Inthuch Therdchanakul
 			function showDialog(el){
+				currentRow = el.parentNode.parentNode;
+				row = el;
 				$("#dialog-form1").dialog("open");
 				var request_id = parseInt(el.parentNode.parentNode.cells[0].textContent);
 				$("#requestId").val(request_id);
@@ -202,8 +205,18 @@ label, input { display:block; }
 				success : function (data){					
 						data = JSON.parse(data);
 						alert("Request submitted with request id " + data[data.length-1].request_id);
-						console.log("data "+data); //quick check
-						
+						currentRow.cells[1].textContent = data[0].module_code;
+						currentRow.cells[2].textContent = data[0].room_code;
+						currentRow.cells[3].textContent = data[0].capacity;
+						currentRow.cells[4].textContent = data[0].wheelchair;
+						currentRow.cells[5].textContent = data[0].projector;
+						currentRow.cells[6].textContent = data[0].visuliser;
+						currentRow.cells[7].textContent = data[0].whiteboard;
+						currentRow.cells[8].textContent = data[0].special_requirements;
+						currentRow.cells[9].textContent = data[0].priority;
+						currentRow.cells[10].textContent = data[0].period;
+						currentRow.cells[11].textContent = data[0].day;
+						currentRow.cells[12].textContent = data[0].duration;
 					},
 				error : function(jqXHR, textStatus, errorThrown) {
 				}
