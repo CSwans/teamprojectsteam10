@@ -576,10 +576,24 @@ function refill_codes() {
 			}
 		});
 	}
+	
+	
+	function logout_question(){
+  if (confirm('Are you sure you want to logout?')){
+    return true;
+  }else{
+    return false;
+  }
+}
+	
+	
 </script>
 </head>
 <body>
-<div id = "top_style"  > <b><a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;">Logout</a></b> </div>
+<div id="top_style">
+<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+<b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 <div id = "header_style" >
   <div id="title">
 	 <!-- Nikolaos Demosthenous	Riccardo Mangiapelo Tom Middleton Inthuch Therdchanakul-->
