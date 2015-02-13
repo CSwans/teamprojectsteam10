@@ -241,7 +241,7 @@ label, input { display:block; }
 				data : $("#deleteForm").serialize(),
 				success : function (data){					
 						data = JSON.parse(data);
-						alert("Request deleted");
+						alert("Request deleted with request id " + data + " has been deleted");
 						$(row).closest("tr").remove();
 					},
 				error : function(jqXHR, textStatus, errorThrown) {
