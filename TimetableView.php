@@ -238,15 +238,15 @@
 				}
 				
 					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td>Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td>Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td>Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td>Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td>Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 			
 					var n = parseInt(document.getElementById('current_week').value);
 				
@@ -269,7 +269,7 @@
 							if(duration>1){
 								for(var n =0;n<duration;n++){
 									if(part != null && bookingData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP:>'+bookingData[x].room_code+'</span></p>';
 									}
 									if(module != null && bookingData[x].module_code==module){
 										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
@@ -319,15 +319,15 @@
 				}
 				
 					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td>Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" >Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td>Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" >Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td>Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" >Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td>Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" >Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td>Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" >Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 			
 					var n = parseInt(document.getElementById('current_week').value);
 				
@@ -402,15 +402,15 @@
 				}
 				
 					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td>Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td>Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td>Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td>Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td>Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 			
 					var n = parseInt(document.getElementById('current_week').value);
 				
@@ -511,12 +511,18 @@
 	
 			
 			
+			
+			function goBack() {
+				window.history.back()
+			}
 		</script>	
 <link rel="stylesheet" href="Theme.css"/>
 </head>
 <body onload="initialise(); statusChange(); moduleList();">
+
 <div id="top_style">
-<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+<div align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">
+<a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div><a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 	<div id = "header_style" >
@@ -539,28 +545,30 @@
 	
 	
 		<div id="images_holder" >
-			<a style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
-			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:30%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable Grid View </a> 
-	</div>
+			<div id="image_wrap">
+				<a id="listLink" style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
+				<a style="color:#99165c;" href="TimetableView.php"> <img style="margin-left:15%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="RED_timetable_grid_view.png" > Timetable<br/>Grid View </a> 
+			</div>
+		</div>
 	
 	<div id="page_wrap">
 		<hr/>
-	<table width="80%" align "center" id="testTable">
+	<table frame="box" style="width:100%;" align "center" id="testTable">
 	
-	View: <select id="statusList" onChange="statusChange()">
+	<h3>View: </h3><select id="statusList" onChange="statusChange()">
                 	<option>Rejected</option>
                     <option>Booked</option>
                     <option>Pending</option>
                 </select>
 				
-	Sort By:<select id="sortList" onchange="changeSort();statusChange();">
+	<h3>Sort By: </h3><select id="sortList" onchange="changeSort();statusChange();">
 				<option>Part</option>
 				<option>Module</option>
 				<option>Room</option>
 			</select>
 	
-	<div id="partDiv" style="display:block">
-	Part:
+	<div id="partDiv" style="display:block" class="sort">
+	<h4>Part: </h4>
 	<input type='radio' name='partCode' id='aPart' value='A' onchange='statusChange();' checked> A
 	<input type='radio' name='partCode' id='bPart' value='B' onchange='statusChange();'> B
 	<input type='radio' name='partCode' id='iPart' value='I' onchange='statusChange();'> I
@@ -568,16 +576,16 @@
 	<input type='radio' name='partCode' id='dPart' value='D' onchange='statusChange();'> D
 	</div>
 	
-	<div id="moduleDiv" style="display:none">
-	Module Code:<select id="moduleCodeList" onchange="module_code_change(); statusChange();">
+	<div id="moduleDiv" style="display:none" class="sort">
+	<h4>Module Code: </h4><select id="moduleCodeList" onchange="module_code_change(); statusChange();">
 	</select>			
 	
-	Module Title:<select id="moduleTitleList"onchange="module_title_change();statusChange();">
+	<h4>Module Title: </h4><select id="moduleTitleList"onchange="module_title_change();statusChange();">
 	</select>
 	</div>
 	
-	<div id="roomDiv" style="display:none">
-	Room:<select id="roomList" onchange="statusChange();">
+	<div id="roomDiv" style="display:none" class="sort">
+	<h4>Room: </h4><select id="roomList" onchange="statusChange();">
 	</select>
 	</div>			
 				
@@ -586,7 +594,7 @@
 	<div id="hours">
 	
 		<button type="button" onclick="decreaseWeek(); statusChange();">-</button><input id="current_week" type="text" name="current_week"  disabled></input><button type="button" onclick="increaseWeek();statusChange(); ">+</button>
-		<tr>
+		<tr id="headers">
 			<th>Timetable</th>
 			<th>09.00</th>
 			<th>10.00</th>
@@ -603,7 +611,7 @@
 
 	<div id="Days">
 		<tr id="Monday">	
-			<td>Monday</td>
+			<td class="day">Monday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -616,7 +624,7 @@
 			<td id="p10"></td>
 		</tr>
 		<tr id="Tuesday">
-			<td>Tuesday</td>
+			<td class="day">Tuesday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -629,7 +637,7 @@
 			<td id="p10"></td>			
 		</tr>
 		<tr id="Wednesday">
-			<td>Wednesday</td>
+			<td class="day"></td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -642,7 +650,7 @@
 			<td id="p10"></td>
 		</tr>
 		<tr id="Thursday">
-			<td>Thursday</td>
+			<td class="day">Thursday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -655,7 +663,7 @@
 			<td id="p10"></td>			
 		</tr>
 		<tr id="Friday">
-			<td>Friday</td>
+			<td class="day">Friday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
