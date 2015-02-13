@@ -685,8 +685,8 @@ label, input { display:block; }
 		
 	<div id="images_holder" >
 		<div id="image_wrap">
-			<a id="listLink" style="color:#99165c;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
-			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:30%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable<br/>Grid View </a> 
+			<a id="listLink" style="color:#99165c;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="RED_list_picture.png" > List View </a> 
+			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:15%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable<br/>Grid View </a> 
 		</div>
 	</div>
 	
