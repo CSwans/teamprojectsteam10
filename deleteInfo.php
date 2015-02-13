@@ -17,5 +17,21 @@
 	}
 	$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 	//username is the uppercase dept code that was loggged in
-	$username = strtoupper($_SESSION['username']);
+	$deptCode = strtoupper($_SESSION['username']);
+	$request_id = $_POST['requestIdDel'];
+	
+	$sql1 = "DELETE FROM REQUEST WHERE request_id=$request_id";
+	$res =& $db->query($sql1); //query the result from the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	
+	$sql2 = "DELETE FROM REQUEST_WEEKS WHERE request_id=$request_id";
+	$res =& $db->query($sql2); //query the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	$results = array();
+	$results[] = $request_id;
+	echo json_encode($results);
 ?>
