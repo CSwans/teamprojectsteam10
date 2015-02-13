@@ -741,10 +741,6 @@ label, input { display:block; }
 				<fieldset>
 					<input type="hidden" value="" id="requestId" name="requestId"/>
 
-					
-					<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="1"/>Yes
-					<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="0"/>No
-
 					Priority: 
 					<input name="priorityInput" type="radio" id="priorityInput1" onchange="change_room_code()" value="1"/>Yes
 					<input name="priorityInput" type="radio" id="priorityInput2" onchange="change_room_code()" value="0"/>No
