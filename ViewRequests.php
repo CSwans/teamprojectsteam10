@@ -606,12 +606,24 @@ label, input { display:block; }
     $(window).scrollTop(0);
 });
 	
+	
+	
+	
+		function goBack() {
+    window.history.back()
+}			
+			
+	
+	
+	
 		</script>
 		
 	</head>
 	<body onLoad="hideEmpty(); ">
     
 <div id="top_style">
+<div  align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">  
+<a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
 <a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
@@ -635,7 +647,7 @@ label, input { display:block; }
 		
 	<div id="images_holder" >
 		<div id="image_wrap">
-			<a id="listLink" style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
+			<a id="listLink" style="color:#99165c;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
 			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:30%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable<br/>Grid View </a> 
 		</div>
 	</div>
@@ -645,8 +657,10 @@ label, input { display:block; }
 	<div id="dialog-form1" title="Edit information" style="display: none;" >
 			<form id="editForm" name="editForm">
 				<fieldset>
-					<input type="hidden" value="" id="requestId"/>
+					<input type="hidden" value="" id="requestId" name="requestId"/>
 					
+					<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="1"/>Yes
+					<input name="priorityInput" type="radio" id="priorityInput" onchange="change_room_code()" value="0"/>No
 					<label for="module_code_select"> Module Code: </label>
 					<select id="module_code_select" name="module_code_select" onchange='module_code_change()'>
 					
@@ -671,39 +685,39 @@ label, input { display:block; }
 					
 					Week: 
 					<span class="week_label"> 1 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week1" value="1"/></input>
 					<span class="week_label"> 2 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="2" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week2" value="2"  /></input>
 					<span class="week_label"> 3 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="3" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week3" value="3"  /></input>
 					<span class="week_label"> 4 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="4" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week4" value="4"  /></input>
 					<span class="week_label"> 5 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="5" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week5" value="5" /></input>
 					<span class="week_label"> 6 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="6" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week6" value="6" /></input>
 					<span class="week_label"> 7 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week7" value="7" /></input>
 					<span class="week_label"> 8 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week8" value="8" /></input>
 					<br/>
 					<br/>
 					<span class="week_label"> 9 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week9" value="9" /></input>
 					<span class="week_label"> 10 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="10" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week10" value="10" /></input>
 					<span class="week_label"> 11 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="11" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week11" value="11" /></input>
 					<span class="week_label"> 12 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="12" checked="checked" /></input>
+					<input type="checkbox" name="weeks[]" id="week12" value="12" /></input>
 					<span class="week_label"> 13 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="13" /></input>
+					<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
 					<span class="week_label"> 14 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="14" /></input>
+					<input type="checkbox" name="weeks[]" id="week14" value="14" /></input>
 					<span class="week_label"> 15 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="15" /></input>
+					<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
 					<span class="week_label"> 16 </span>
-					<input type="checkbox" name="weeks[]" id="week" value="16" /></input>
+					<input type="checkbox" name="weeks[]" id="week16" value="16" /></input>
 					
 					Period:
 					<?php
