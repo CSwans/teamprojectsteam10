@@ -904,7 +904,7 @@ label, input { display:block; }
 		<table id="scrollTable">
 			<tr>
 				
-                <div id="status_change"><h3>Sort by Status: </h3>
+                <div id="status_change"><h3>Filter by: </h3>
 				
                 <select id="status" onChange="populateTable();hideEmpty(); ">
                 	<option>Rejected</option>
