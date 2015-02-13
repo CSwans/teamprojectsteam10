@@ -103,7 +103,7 @@
 			
 		?>
 		<link rel="stylesheet" href="Theme.css"/>
-		 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	
@@ -111,7 +111,6 @@
 
 label, input { display:block; }
 
-h1 { font-size: 1.2em; margin: .6em 0; }
 
 .ui-dialog .ui-state-error { padding: .3em; }
 </style>
@@ -165,6 +164,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 				
 				 
 			});
+	
 			//show dialog when edit button is clicked
 			//callan swanson, Inthuch Therdchanakul
 			function showDialog(el){
@@ -182,6 +182,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 				checkFacility(el);
 				checkRoomCode(el);
 			}
+			
 			//close dialog when cancel is clicked
 			function closeDialog(){
 				$("#dialog-form1").dialog("close");
@@ -208,6 +209,8 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 				}
 				});
 			}
+	
+			
 			//onChange for module title/code
 			function module_code_change(){
 				document.getElementById("module_title_select").selectedIndex = document.getElementById("module_code_select").selectedIndex ;
@@ -495,7 +498,7 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 					var fixed = false;
 
 					$(document).scroll(function() {
-						if( $(this).scrollTop() >= 150 ) {
+						if( $(this).scrollTop() >= 320 ) {
 							if( !fixed ) {
 								fixed = true;
 								$('#table_header').css({position:'fixed',top:0}); 
@@ -599,6 +602,10 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 }
 	
 	
+	$(document).ready(function(){
+    $(window).scrollTop(0);
+});
+	
 		</script>
 		
 	</head>
@@ -627,8 +634,10 @@ h1 { font-size: 1.2em; margin: .6em 0; }
 		</div>
 		
 	<div id="images_holder" >
-			<a style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
-			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:30%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable Grid View </a> 
+		<div id="image_wrap">
+			<a id="listLink" style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
+			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:30%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable<br/>Grid View </a> 
+		</div>
 	</div>
 	
 	<div id="page_wrap">
