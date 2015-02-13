@@ -171,7 +171,7 @@
 					<tr>
 						<td><!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
 						  <!-- allowing a raneg of weeks to be chosen --> 
-							Week: <
+							Week: 
 						</td>
 						<td>
 							<span class="week_label"> 1 </span>
@@ -271,8 +271,14 @@
 						</td>
 					</tr>
 				</table>
-				
 				</div>
+				
+				                				<div id="subdiv">
+							<input type="hidden" name="priorityInput" value="1" >
+                            <input id="submit" type="button" onClick="ajaxFunction()" value="Send Request!" >
+
+				</div>
+				
 				<!--inputs-->
 				<div id="advance">
 				  <table id="advancedinputs">
@@ -461,17 +467,7 @@
 				  </table>
 				</div>
 				<!--advance-->
-				<div id="subdiv">
-				<table id="subtable">
-					<tr>
-						<td>
-							 <input id="submit" type="button" onClick="ajaxFunction()" value="Send Request!">
-						</td>
-					</tr>
-				</table>
-				
-				</div>
-				<!--subdiv--> 
+
 		</div>
       <!--input wrap--> 
 	</div>
