@@ -500,12 +500,51 @@
 				}
 			}
 			
+			
+					function logout_question(){
+  if (confirm('Are you sure you want to logout?')){
+    return true;
+  }else{
+    return false;
+  }
+}
+	
+			
+			
 		</script>	
 <link rel="stylesheet" href="Theme.css"/>
 </head>
 <body onload="initialise(); statusChange(); moduleList();">
-
-<div id="page_wrap">
+<div id="top_style">
+<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+<b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
+	<div id = "header_style" >
+  		<div id="title">
+    		<h1>Loughborough University Timetabling </h1>
+    		<h2> 
+    			<?php $dept_code = strtolower($username); $sql = "SELECT dept_name FROM DEPT WHERE dept_code = '$dept_code' "; 		$res =& $db->query($sql); //getting the result from the database
+				if(PEAR::isError($res)){
+					die($res->getMessage());
+				}
+							//put each rows into value array
+				while($row = $res->fetchRow()){
+					echo $row["dept_name"];
+				}  ?>   
+				<br/> 
+			</h2> 
+  		</div>
+  	<div id="logo"> <a href="http://www.lboro.ac.uk/?external"> <img id = "lboro_logo" src="LU-mark-rgb.png" alt="Loughborough University Logo" /> </a> </div>
+	</div>
+	
+	
+		<div id="images_holder" >
+			<a style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
+			<a style="color:black;" href="TimetableView.php"> <img style="margin-left:30%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="timetable_grid_view.png" > Timetable Grid View </a> 
+	</div>
+	
+	<div id="page_wrap">
+		<hr/>
 	<table width="80%" align "center" id="testTable">
 	
 	View: <select id="statusList" onChange="statusChange()">
