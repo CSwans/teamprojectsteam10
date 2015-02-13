@@ -528,7 +528,8 @@ background-color: #ececdb;
 }
 
 #page_wrap {
-margin: 50px auto;
+clear: both;
+margin: 270px auto 0;
 width: 1400px;
 }
 
@@ -616,4 +617,24 @@ hr {
 
 #testTable  td {
 	border: 1px solid black;
+}
+
+#images_holder {
+    position: relative;
+    width: 100%;
+	top: 70px;
+}
+
+#image_wrap {
+	width: 190px;
+	margin:0 auto;
+}
+
+#image_wrap a {
+	float:left;
+}
+
+#listLink {
+	float:left;
+	margin-right: 70px;
 }
