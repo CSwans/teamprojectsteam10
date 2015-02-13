@@ -85,14 +85,17 @@
 			<div id="inputs">
 			
 				<table class="inputs">
+
+					
+				<tr> <td> &nbsp; </td> </tr>
+					
 					<tr>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Part: 
-						</td>
+						<td align="center" width="27%"> Part: </td>
+						<td align="center" width="16%"> Module Code: </td>
+						<td align="center"> Module Title: </td>
+						</tr>
+						<tr>
+						
 						<td>
 							<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
 							<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
@@ -101,14 +104,8 @@
 							<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C 
 							<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D
 						</td> 
-					</tr>
-
-					<!--<tr>-->
-					<tr>
-						<td>
-							Module Code:
-						</td>
-						<td>
+						
+						<td align="center">
 							<?php
 								//will output the whole set of module codes from the database, module codes will change when module titles change
 								//Callan Swanson, Inthuch Therdchanakul
@@ -118,12 +115,8 @@
 								echo "</select>";
 							?>
 						</td>
-					</tr>
-					<tr>
-						<td>
-							Module Title:
-						</td>
-						<td>
+
+						<td align="center">
 							<?php
 								//displays the module titles, titles will change when module codes change
 								//Callan Swanson, Inthuch Therdchanakul
@@ -133,15 +126,26 @@
 							?>
 						</td>
 					</tr>
+					
+					</table>
+					
+					<hr/ id="round_input_separator">
+					
+					<table class="inputs">
+				
 					<tr>
-						<td> 
-							Day:
-						</td>
+						
+						<td align="center" width="27%"> Day: </td>
+						<td align="center" width="10%"> Period: </td>
+						<td align="center" width="25%"> &nbsp;</td>
+						<td align="center">&nbsp;</td>
+					</tr>
+					<tr>			
 						<td>
 						  <!--radio buttons for the day of the week--> 
 						  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
 						  
-							<input type="radio" name="day" id='monday' value="1" required/>
+							<br/><input type="radio" name="day" id='monday' value="1" required checked />
 							Monday
 							<input type="radio" name="day" id='tuesday' value="2" required/>
 							Tuesday<br/>
@@ -152,13 +156,67 @@
 							<input type="radio" name="day" id='friday' value="5" required/>
 							Friday 
 						</td>
+						
+
+						<td align="center" valign="top">
+							<?php
+								//dropdown for the period, includes the time in 24hr format
+								//Callan Swanson
+								//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
+								echo "<select name='time' id='time' onchange='refill_duration()'>";
+								for($i=1;$i<=9;$i++){
+									$time = $i+8;
+									echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
+								}
+								echo "</select>";
+							?>
+							
+							<br> <br> Duration: <br>
+							
+							<?php
+								//dropdown for the duration
+								//Scott Marshall
+								echo "<select name='duration' id='duration'>";
+								for($i=1;$i<=9;$i++){
+									$duration = $i+8;
+									echo "<option value='".$i."'>".$i."</option>";
+								}
+								echo "</select>";
+							?>
+						</td>
+						
+						<td align="center">
+						  Number of rooms: </br>
+							<select id="noRooms" name="noRooms" onChange="showCapacity(); change_room_code();" >
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+							</select>
+						</td>
+						
+						<td> 
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacity: </br>
+							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="100"/> 
+						</td>												
+						
+						</tr>
+					</table>
+					
+
+					
+					<table class="inputs">
+						
+						<!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
+						  <!-- allowing a raneg of weeks to be chosen --> 
+
+					<tr>
+						<tr> <td> &nbsp; </td> </tr>
+						<td align="center" width="25%"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Week(s): </td>
+						<td align="center" width="25%">  &nbsp;</td>
 					</tr>
 					<tr>
-						<td><!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
-						  <!-- allowing a raneg of weeks to be chosen --> 
-							Week:
-						</td>
-						<td>
+						<td colspan="2">
 							<span class="week_label"> 1 </span>
 							<input type="checkbox" name="weeks[]" id="week" value="1" checked="checked" /></input>
 							<span class="week_label"> 2 </span>
@@ -175,8 +233,6 @@
 							<input type="checkbox" name="weeks[]" id="week" value="7" checked="checked" /></input>
 							<span class="week_label"> 8 </span>
 							<input type="checkbox" name="weeks[]" id="week" value="8" checked="checked" /></input>
-							<br/>
-							<br/>
 							<span class="week_label"> 9 </span>
 							<input type="checkbox" name="weeks[]" id="week" value="9" checked="checked" /></input>
 							<span class="week_label"> 10 </span>
@@ -194,68 +250,27 @@
 							<span class="week_label"> 16 </span>
 							<input type="checkbox" name="weeks[]" id="week" value="16" /></input>
 						</td>
+
+
 					</tr>
+					
+					</table>
+					
+					<hr/ id="round_input_separator">
+
+				<table class="inputs">
+					
+					
 					<tr>
-						<td> Period:
-						</td>
+						<td> Special requirements: &nbsp;&nbsp;&nbsp;&nbsp; </td>
 						<td>
-							<?php
-								//dropdown for the period, includes the time in 24hr format
-								//Callan Swanson
-								//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
-								echo "<select name='time' id='time' onchange='refill_duration()'>";
-								for($i=1;$i<=9;$i++){
-									$time = $i+8;
-									echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
-								}
-								echo "</select>";
-							?>
+							<textarea name="specialReq" cols="80" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
 					</tr>
-					<tr>
-						<td> Duration:
-						</td>
-						<td>
-							<?php
-								//dropdown for the duration
-								//Scott Marshall
-								echo "<select name='duration' id='duration'>";
-								for($i=1;$i<=9;$i++){
-									$duration = $i+8;
-									echo "<option value='".$i."'>".$i."</option>";
-								}
-								echo "</select>";
-							?>
-						</td>
-					</tr>
-					<tr>
-						<td> Special requirements: </td>
-						<td>
-							<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td> Number of rooms:
-						</td>
-						<td>
-							<select id="noRooms" name="noRooms" onChange="showCapacity(); change_room_code();" >
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td id="labelCell">
-							Capacity:
-						</td>
-						<td id="capacityCell">
-							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>
-						</td>
-					</tr>
-				</table>
-				
+					
+					</table>
+					
+					<hr/ id="round_input_separator">
 				</div>
                 				<div id="subdiv">
 							<input type="hidden" name="priorityInput" value="1" >
