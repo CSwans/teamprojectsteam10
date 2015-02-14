@@ -16,6 +16,18 @@
 		die($db->getMessage());
 	}
 	$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
+	
+	//the number of rows within te table, to be added in the request weeks table
+	$sql = "COUNT(request_id) as number FROM REQUEST"; 
+	
+	$res =& $db->query($sql); //query the result from the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	while($row = $res->fetchRow()){
+		$l = $row['number'];
+	}
+	
 	//deptCode is the uppercase dept code that was loggged in
 	$i = $_POST['form'];
 	$deptCode = strtoupper($_SESSION['username']);
@@ -29,6 +41,12 @@
 	$id1 = $db->lastInsertID('REQUEST');
 	if (PEAR::isError($id1)) {
     	die($id->getMessage());
+	}
+	
+	$sql = "INSERT INTO REQUEST_WEEKS(request_id, week) SELECT SUM(request_id+$l), week FROM LAST_YEAR_WEEK";
+	$res =& $db->query($sql); //query the result from the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
 	}
 	
 	//get the last inserted request from REQUEST table
