@@ -180,7 +180,7 @@ label, input { display:block; }
 				module_code_change(); 
 				checkDay(el);
 				checkWeek(el)
-				checkperiod(el);
+				checkPeriod(el);
 				checkDuration(el);
 				checkSpecialReq(el);
 				checkCapacity(el);
@@ -226,6 +226,7 @@ label, input { display:block; }
 				}
 				});
 			}
+			//check the week checkbox based on data of selected row
 			function checkWeek(el){
 				var request_id = parseInt(el.parentNode.parentNode.cells[0].textContent);
 				$("#weekCheck").val(request_id);
@@ -289,7 +290,7 @@ label, input { display:block; }
 			}
 			//select radio button matching the day in the table cell
 			function checkDay(el){
-				var day = el.parentNode.parentNode.cells[11].textContent;
+				var day = el.parentNode.parentNode.cells[10].textContent;
 				if(day == "Monday")
 					$("#monday").prop('checked', true);
 				if(day == "Tuesday")
@@ -302,8 +303,38 @@ label, input { display:block; }
 					$("#friday").prop('checked', true);
 			}
 			//populate dialog form with data from selected table row
-			function checkperiod(el){
-				var period = parseInt(el.parentNode.parentNode.cells[10].textContent);
+			function checkPeriod(el){
+				var period;
+				var time = el.parentNode.parentNode.cells[11].textContent;
+				switch(time){
+				case "9:00": 
+					period = 1;
+					break;
+				case "10:00":
+					period = 2;
+					break;
+				case "11:00":
+					period = 3;
+					break;
+				case "12:00":
+					period = 4;
+					break;
+				case "13:00":
+					period = 5;
+					break;
+				case "14:00":
+					period = 6;
+					break;
+				case "15:00":
+					period = 7;
+					break;
+				case "16:00":
+					period = 8;
+					break;
+				case "17:00":
+					period = 9;
+					break;
+				}
 				document.getElementById("time").selectedIndex = period - 1;
 			}
 			function checkDuration(el){
@@ -345,8 +376,13 @@ label, input { display:block; }
 					$("#whiteboard_no").prop('checked', true);
 			}
 			function checkPriority(el){
-				var priority = parseInt(el.parentNode.parentNode.cells[9].textContent);
-				$("#priorityInput" + priority).prop('checked',true);
+				var priority = el.parentNode.parentNode.cells[9].textContent;
+				if(priority == "Yes"){
+					$("#priorityInput1").prop('checked',true);
+				}
+				else{
+					$("#priorityInput2").prop('checked',true);
+				}
 			}
 			//building function
 			function buildingCodeChange() {
