@@ -377,7 +377,7 @@ var capacityID = "capacity" + (i + 1);
 var capacityName = "capacity" + (i);
 if(i == 0){
 //$("#labelCell").append('1:'); 
-$("#capacityCell").append(' 1) <input name="capacity" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
+$("#capacityCell").append(' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacity: </br> 1) <input name="capacity" type="text" onchange="change_room_code();" id="' + capacityID + '"/><br/>');
 }
 else {
 //$("#labelCell").append('<br>'+(i+1)+ ':'); 
@@ -563,6 +563,61 @@ function refill_codes() {
 		}
 	}
 	function ajaxFunction(){
+	
+		//finds the day that has been chosen
+		var dayChosen = null;
+		if(document.getElementById("monday").checked) {
+			dayChosen = "Monday";
+		} else if(document.getElementById("tuesday").checked) {
+			dayChosen = "Tuesday";
+		} else if(document.getElementById("wednesday").checked) {
+			dayChosen = "Wednesday";
+		} else if(document.getElementById("thursday").checked) {
+			dayChosen = "Thursday";
+		} else if(document.getElementById("friday").checked) {
+			dayChosen = "Friday";
+		}
+		if (dayChosen == null) { //stops if there is no day input
+			return(alert("Please Enter a day!"));
+		}
+		
+		alert(dayChosen);
+		var roomChosen = document.getElementById("room_list");
+		
+		//checks the room capacity asked for
+		var noRoom = document.getElementById("noRooms");
+		if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+			return(alert("Please enter a suitable capacity"));
+		}
+		if(noRoom == 2) {
+			if(document.getElementById("capacity2").value > 1000 || document.getElementById("capacity2").value < 1)
+				return(alert("Please enter a suitable capacity 2"));
+		}
+		if(noRoom == 3) {
+			if(document.getElementById("capacity3").value > 1000 || document.getElementById("capacity3").value < 1)
+				return(alert("Please enter a suitable capacity 3"));
+		}
+		if(noRoom ==4 ) {
+			if(document.getElementById("capacity4").value > 1000 || document.getElementById("capacity4").value < 1)
+				return(alert("Please enter a suitable capacity 4"));
+		}
+		
+		//alert(document.getElementById("week").checked);
+		if(document.getElementById("week").checked == false) {
+			//return(alert("Please enter a week you wish to book for"));
+		}
+		
+		var checked = false;
+		$('#requestForm  input[type="checkbox"]').each(function() {
+			if ($(this).is(":checked")) {
+				checked = true;
+			}
+		});
+ 
+		if (checked == false) {
+			return(alert("Please enter a week"));
+		} 
+	
 		$.ajax( {
 			url : "insertInfo.php",
 			type : "POST", 
@@ -577,6 +632,86 @@ function refill_codes() {
 			}
 		});
 	}
+	
+	function validationBeforeSend() {
+		
+	}
+	
+	function adhocAjaxFunction(){
+		
+		
+		
+		
+		//finds the day that has been chosen
+		var dayChosen = null;
+		if(document.getElementById("monday").checked) {
+			dayChosen = "Monday";
+		} else if(document.getElementById("tuesday").checked) {
+			dayChosen = "Tuesday";
+		} else if(document.getElementById("wednesday").checked) {
+			dayChosen = "Wednesday";
+		} else if(document.getElementById("thursday").checked) {
+			dayChosen = "Thursday";
+		} else if(document.getElementById("friday").checked) {
+			dayChosen = "Friday";
+		}
+		if (dayChosen == null) { //stops if there is no day input
+			return(alert("Please Enter a day!"));
+		}
+		
+		alert(dayChosen);
+		var roomChosen = document.getElementById("room_list");
+		
+		//checks the room capacity asked for
+		var noRoom = document.getElementById("noRooms");
+		if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+			return(alert("Please enter a suitable capacity"));
+		}
+		if(noRoom == 2) {
+			if(document.getElementById("capacity2").value > 1000 || document.getElementById("capacity2").value < 1)
+				return(alert("Please enter a suitable capacity 2"));
+		}
+		if(noRoom == 3) {
+			if(document.getElementById("capacity3").value > 1000 || document.getElementById("capacity3").value < 1)
+				return(alert("Please enter a suitable capacity 3"));
+		}
+		if(noRoom ==4 ) {
+			if(document.getElementById("capacity4").value > 1000 || document.getElementById("capacity4").value < 1)
+				return(alert("Please enter a suitable capacity 4"));
+		}
+		
+		//alert(document.getElementById("week").checked);
+		if(document.getElementById("week").checked == false) {
+			//return(alert("Please enter a week you wish to book for"));
+		}
+		
+		var checked = false;
+		$('#requestForm  input[type="checkbox"]').each(function() {
+			if ($(this).is(":checked")) {
+				checked = true;
+			}
+		});
+ 
+		if (checked == false) {
+			return(alert("Please enter a week"));
+		} 
+		
+		
+		$.ajax( {
+			url : "insertInfoAdhoc.php",
+			type : "POST", 
+			data : $("#requestForm").serialize(),
+			success : function (data){					
+					data = JSON.parse(data);
+					alert("Request submitted with request id " + data[data.length-1].request_id);
+					console.log("data "+data); //quick check
+					
+				},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+	}
+	
 	function loadRequest(){
 		$.ajax( {
 			url : "loadRequest.php",
@@ -584,7 +719,7 @@ function refill_codes() {
 			data : $("#lastYear").serialize(),
 			success : function (data){					
 					data = JSON.parse(data);
-					alert("Request has been loaded successfully with request id " + data[0].request_id);
+					alert("Request has been loaded successfully");
 					console.log("data "+data); //quick check
 					
 				},
