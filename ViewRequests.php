@@ -615,7 +615,7 @@ label, input { display:block; }
 									count=count+1;
 									}
 								}
-								if(count==15) document.getElementById(i+1).style.display='none';
+								if(count>13) document.getElementById(i+1).style.display='none';
 								else document.getElementById(i+1).style.display='block';
 							}
 
