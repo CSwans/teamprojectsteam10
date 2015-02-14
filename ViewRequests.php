@@ -704,6 +704,8 @@ label, input { display:block; }
 					}
 					if(document.getElementById("status").value == "Pending"){
 						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+					} else {
+						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("");
 					}
 				}
 			}

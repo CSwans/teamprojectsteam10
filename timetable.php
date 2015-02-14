@@ -577,7 +577,21 @@ function refill_codes() {
 			}
 		});
 	}
-	
+	function loadRequest(){
+		$.ajax( {
+			url : "loadRequest.php",
+			type : "POST", 
+			data : $("#lastYear").serialize(),
+			success : function (data){					
+					data = JSON.parse(data);
+					alert("Request has been loaded successfully with request id " + data[0].request_id);
+					console.log("data "+data); //quick check
+					
+				},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+	}
 	
 	function logout_question(){
   if (confirm('Are you sure you want to logout?')){
