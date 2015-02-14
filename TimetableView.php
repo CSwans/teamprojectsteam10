@@ -240,249 +240,219 @@
 			}
 			
 			function booked_grid_view(){
-			
-				var sort = document.getElementById('sortList').selectedIndex;
-				var part;
-				var module;
-				var room;
-				
-				if(sort==0) {
-					var radios = document.getElementsByName('partCode');
-					for(var x=0;x<radios.length;x++){
-						if (radios[x].checked) {
-							part=document.getElementsByName('partCode')[x].value;
-						}
-					}
-				}
-				
-				if(sort==1) {
-					module=document.getElementById('moduleCodeList').value;
-				}
-				
-				if(sort==2) {
-					room=document.getElementById('roomList').value;
-				}
-				
-					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-			
-					var n = parseInt(document.getElementById('current_week').value);
-				
-					for(var x = 0;x<bookingData.length;x++) {
-						var weeks = bookingData[x].week;
-						var day = bookingData[x].day;
-						var period = parseInt(bookingData[x].period);
-						var duration = parseInt(bookingData[x].duration);
-						var weekArr = weeks.split(",");
-						
-						for(var i=0;i<weekArr.length;i++){
-							weekArr[i]=parseInt(weekArr[i]);
-							if(weekArr[i]==0){
-								weekArr=[];
-								weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
-							}
-						}
-					
-						if(weekArr.indexOf(n)> -1){
-							if(duration>1){
-								for(var n =0;n<duration;n++){
-									if(part != null && bookingData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP:>'+bookingData[x].room_code+'</span></p>';
-									}
-									if(module != null && bookingData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}						
-									if(room != null && bookingData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-								}
-							}
-							else {
-								if(part != null && bookingData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-								}
-								if(module != null && bookingData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-								if(room != null && bookingData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-							}
-						}
-					}
-			}
-			
-			function pending_grid_view(){
-			
-				var sort = document.getElementById('sortList').selectedIndex;
-				var part;
-				var module;
-				var room;
-				
-				if(sort==0) {
-					var radios = document.getElementsByName('partCode');
-					for(var x=0;x<radios.length;x++){
-						if (radios[x].checked) {
-							part=document.getElementsByName('partCode')[x].value;
-						}
-					}
-				}
-				
-				if(sort==1) {
-					module=document.getElementById('moduleCodeList').value;
-				}
-				
-				if(sort==2) {
-					room=document.getElementById('roomList').value;
-				}
-				
-					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-			
-					var n = parseInt(document.getElementById('current_week').value);
-				
-					for(var x = 0;x<requestData.length;x++) {
-						var weeks = requestData[x].week;
-						var day = requestData[x].day;
-						var period = parseInt(requestData[x].period);
-						var duration = parseInt(requestData[x].duration);
-						var weekArr = weeks.split(",");
-						
-						for(var i=0;i<weekArr.length;i++){
-							weekArr[i]=parseInt(weekArr[i]);
-							if(weekArr[i]==0){
-								weekArr=[];
-								weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
-							}
-						}
-					
-						if(weekArr.indexOf(n)> -1){
-							if(duration>1){
-								for(var n =0;n<duration;n++){
-									if(part != null && requestData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-									if(module != null && requestData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}						
-									if(room != null && requestData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-								}
-							}
-							else {
-								if(part != null && requestData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-								}
-								if(module != null && requestData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-								if(room != null && requestData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-							}
-						}
-					}
-			}
-			
-			
-			
-			function rejected_grid_view(){
-			
-				var sort = document.getElementById('sortList').selectedIndex;
-				var part;
-				var module;
-				var room;
-				
-				if(sort==0) {
-					var radios = document.getElementsByName('partCode');
-					for(var x=0;x<radios.length;x++){
-						if (radios[x].checked) {
-							part=document.getElementsByName('partCode')[x].value;
-						}
-					}
-				}
-				
-				if(sort==1) {
-					module=document.getElementById('moduleCodeList').value;
-				}
-				
-				if(sort==2) {
-					room=document.getElementById('roomList').value;
-				}
-				
-					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
-			
-					var n = parseInt(document.getElementById('current_week').value);
-				
-					for(var x = 0;x<rejectedData.length;x++) {
-						var weeks = rejectedData[x].week;
-						var day = rejectedData[x].day;
-						var period = parseInt(rejectedData[x].period);
-						var duration = parseInt(rejectedData[x].duration);
-						var weekArr = weeks.split(",");
-						
-						for(var i=0;i<weekArr.length;i++){
-							weekArr[i]=parseInt(weekArr[i]);
-							if(weekArr[i]==0){
-								weekArr=[];
-								weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
-							}
-						}
-					
-						if(weekArr.indexOf(n)> -1){
-							if(duration>1){
-								for(var n =0;n<duration;n++){
-									if(part != null && rejectedData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-									if(module != null && rejectedData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}						
-									if(room != null && rejectedData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-								}
-							}
-							else {
-								if(part != null && rejectedData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-								}
-								if(module != null && rejectedData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-								if(room != null && rejectedData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
-									}
-							}
-						}
-					}
-			}
+var sort = document.getElementById('sortList').selectedIndex;
+var part;
+var module;
+var room;
+if(sort==0) {
+var radios = document.getElementsByName('partCode');
+for(var x=0;x<radios.length;x++){
+if (radios[x].checked) {
+part=document.getElementsByName('partCode')[x].value;
+}
+}
+}
+if(sort==1) {
+module=document.getElementById('moduleCodeList').value;
+}
+if(sort==2) {
+room=document.getElementById('roomList').value;
+}
+var myNode = document.getElementById("Monday");
+myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Tuesday");
+myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Wednesday");
+myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Thursday");
+myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Friday");
+myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var n = parseInt(document.getElementById('current_week').value);
+for(var x = 0;x<bookingData.length;x++) {
+var weeks = bookingData[x].week;
+var day = bookingData[x].day;
+var period = parseInt(bookingData[x].period);
+var duration = parseInt(bookingData[x].duration);
+var weekArr = weeks.split(",");
+for(var i=0;i<weekArr.length;i++){
+weekArr[i]=parseInt(weekArr[i]);
+if(weekArr[i]==0){
+weekArr=[];
+weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
+}
+}
+if(weekArr.indexOf(n)> -1){
+if(duration>1){
+for(var n =0;n<duration;n++){
+if(part != null && bookingData[x].module_code.charAt(4)==part){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+bookingData[x].request_id+'</span><br/> Module code: <span>'+bookingData[x].module_code+'</span><br/> Room code: <span>'+bookingData[x].room_code+'</span></p>';
+}
+if(module != null && bookingData[x].module_code==module){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+bookingData[x].request_id+'</span><br/> Module code: <span>'+bookingData[x].module_code+'</span><br/> Room code: <span>'+bookingData[x].room_code+'</span></p>';
+}
+if(room != null && bookingData[x].room_code==room){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+bookingData[x].request_id+'</span><br/> Module code: <span>'+bookingData[x].module_code+'</span><br/> Room code: <span>'+bookingData[x].room_code+'</span></p>';
+}
+}
+}
+else {
+if(part != null && bookingData[x].module_code.charAt(4)==part) {
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+bookingData[x].request_id+'</span><br/> Module code: <span>'+bookingData[x].module_code+'</span><br/> Room code: <span>'+bookingData[x].room_code+'</span></p>';
+}
+if(module != null && bookingData[x].module_code==module){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+bookingData[x].request_id+'</span><br/> Module code: <span>'+bookingData[x].module_code+'</span><br/> Room code: <span>'+bookingData[x].room_code+'</span></p>';
+}
+if(room != null && bookingData[x].room_code==room){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+bookingData[x].request_id+'</span><br/> Module code: <span>'+bookingData[x].module_code+'</span><br/> Room code: <span>'+bookingData[x].room_code+'</span></p>';
+}
+}
+}
+}
+}
+function pending_grid_view(){
+var sort = document.getElementById('sortList').selectedIndex;
+var part;
+var module;
+var room;
+if(sort==0) {
+var radios = document.getElementsByName('partCode');
+for(var x=0;x<radios.length;x++){
+if (radios[x].checked) {
+part=document.getElementsByName('partCode')[x].value;
+}
+}
+}
+if(sort==1) {
+module=document.getElementById('moduleCodeList').value;
+}
+if(sort==2) {
+room=document.getElementById('roomList').value;
+}
+var myNode = document.getElementById("Monday");
+myNode.innerHTML = '<td class="day" >Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Tuesday");
+myNode.innerHTML = '<td class="day" >Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Wednesday");
+myNode.innerHTML = '<td class="day" >Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Thursday");
+myNode.innerHTML = '<td class="day" >Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Friday");
+myNode.innerHTML = '<td class="day" >Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var n = parseInt(document.getElementById('current_week').value);
+for(var x = 0;x<requestData.length;x++) {
+var weeks = requestData[x].week;
+var day = requestData[x].day;
+var period = parseInt(requestData[x].period);
+var duration = parseInt(requestData[x].duration);
+var weekArr = weeks.split(",");
+for(var i=0;i<weekArr.length;i++){
+weekArr[i]=parseInt(weekArr[i]);
+if(weekArr[i]==0){
+weekArr=[];
+weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
+}
+}
+if(weekArr.indexOf(n)> -1){
+if(duration>1){
+for(var n =0;n<duration;n++){
+if(part != null && requestData[x].module_code.charAt(4)==part){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+requestData[x].request_id+'</span><br/> Module code: <span>'+requestData[x].module_code+'</span><br/> Room code: <span>'+requestData[x].room_code+'</span></p>';
+}
+if(module != null && requestData[x].module_code==module){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+requestData[x].request_id+'</span><br/> Module code: <span>'+requestData[x].module_code+'</span><br/> Room code: <span>'+requestData[x].room_code+'</span></p>';
+}
+if(room != null && requestData[x].room_code==room){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+requestData[x].request_id+'</span><br/> Module code: <span>'+requestData[x].module_code+'</span><br/> Room code: <span>'+requestData[x].room_code+'</span></p>';
+}
+}
+}
+else {
+if(part != null && requestData[x].module_code.charAt(4)==part) {
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+requestData[x].request_id+'</span><br/> Module code: <span>'+requestData[x].module_code+'</span><br/> Room code: <span>'+requestData[x].room_code+'</span></p>';
+}
+if(module != null && requestData[x].module_code==module){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+requestData[x].request_id+'</span><br/> Module code: <span>'+requestData[x].module_code+'</span><br/> Room code: <span>'+requestData[x].room_code+'</span></p>';
+}
+if(room != null && requestData[x].room_code==room){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+requestData[x].request_id+'</span><br/> Module code: <span>'+requestData[x].module_code+'</span><br/> Room code: <span>'+requestData[x].room_code+'</span></p>';
+}
+}
+}
+}
+}
+function rejected_grid_view(){
+var sort = document.getElementById('sortList').selectedIndex;
+var part;
+var module;
+var room;
+if(sort==0) {
+var radios = document.getElementsByName('partCode');
+for(var x=0;x<radios.length;x++){
+if (radios[x].checked) {
+part=document.getElementsByName('partCode')[x].value;
+}
+}
+}
+if(sort==1) {
+module=document.getElementById('moduleCodeList').value;
+}
+if(sort==2) {
+room=document.getElementById('roomList').value;
+}
+var myNode = document.getElementById("Monday");
+myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Tuesday");
+myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Wednesday");
+myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Thursday");
+myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Friday");
+myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var n = parseInt(document.getElementById('current_week').value);
+for(var x = 0;x<rejectedData.length;x++) {
+var weeks = rejectedData[x].week;
+var day = rejectedData[x].day;
+var period = parseInt(rejectedData[x].period);
+var duration = parseInt(rejectedData[x].duration);
+var weekArr = weeks.split(",");
+for(var i=0;i<weekArr.length;i++){
+weekArr[i]=parseInt(weekArr[i]);
+if(weekArr[i]==0){
+weekArr=[];
+weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
+}
+}
+if(weekArr.indexOf(n)> -1){
+if(duration>1){
+for(var n =0;n<duration;n++){
+if(part != null && rejectedData[x].module_code.charAt(4)==part){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+rejectedData[x].request_id+'</span><br/> Module code: <span>'+rejectedData[x].module_code+'</span><br/> Room code: <span>'+rejectedData[x].room_code+'</span></p>';
+}
+if(module != null && rejectedData[x].module_code==module){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+rejectedData[x].request_id+'</span><br/> Module code: <span>'+rejectedData[x].module_code+'</span><br/> Room code: <span>'+rejectedData[x].room_code+'</span></p>';
+}
+if(room != null && rejectedData[x].room_code==room){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+rejectedData[x].request_id+'</span><br/> Module code: <span>'+rejectedData[x].module_code+'</span><br/> Room code: <span>'+rejectedData[x].room_code+'</span></p>';
+}
+}
+}
+else {
+if(part != null && rejectedData[x].module_code.charAt(4)==part) {
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+rejectedData[x].request_id+'</span><br/> Module code: <span>'+rejectedData[x].module_code+'</span><br/> Room code: <span>'+rejectedData[x].room_code+'</span></p>';
+}
+if(module != null && rejectedData[x].module_code==module){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+rejectedData[x].request_id+'</span><br/> Module code: <span>'+rejectedData[x].module_code+'</span><br/> Room code: <span>'+rejectedData[x].room_code+'</span></p>';
+}
+if(room != null && rejectedData[x].room_code==room){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span>'+rejectedData[x].request_id+'<span><br/> Module code: <span>'+rejectedData[x].module_code+'<span><br/> Room code: <span>'+rejectedData[x].room_code+'<span></p>';
+}
+}
+}
+}
+}
+
 			
 			
 			
@@ -548,7 +518,7 @@
 			
 	function showDialog(el){
 	
-			if(document.getElementById('sortList').selectedIndex==2) {
+			if(document.getElementById('statusList').selectedIndex==2) {
 				$("#dialog-form1").dialog("open");
 				
 				var request_id=parseInt(el.id);
@@ -566,7 +536,7 @@
 				checkCapacity(el);
 				checkFacility(el);
 				checkRoomCode(el);
-			}		
+		}			
 	}
 			
 	function inputModule(){
@@ -717,7 +687,10 @@
 				for(var i=0;i<roomData.length;i++){
 					$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
 				}
-				$("#room_list").val(room);
+				
+				if(room != "null"){
+					$("#room_list").val(room);
+				}
 			}
 			
 	function module_code_change(){
