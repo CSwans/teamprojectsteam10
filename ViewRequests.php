@@ -519,6 +519,99 @@ label, input { display:block; }
 				}
 			}
 			
+			//delete the table contents and fill the headers
+			function createHeaders(pending) {
+				$("#dataTable").empty();
+				
+				$("#dataTable").append('<tr style="display:none;"><select style="display:none;" id="statusList" onChange="populateTable()">');
+                $("#dataTable").append('<option>Rejected</option>');
+                $("#dataTable").append('<option>Booked</option>');
+                $("#dataTable").append('<option>Pending</option></select>');
+				$("#dataTable").append('<td id="request_id" onClick="sortHeader(this.id);">request_id</td>');
+				$("#dataTable").append('<td id="module_code" onClick="sortHeader(this.id);">module_code</td>');
+				$("#dataTable").append('<td id="room_code" onClick="sortHeader(this.id)">room_code</td>');
+				$("#dataTable").append('<td id="capacity" onClick="sortHeader(this.id)">capacity</td>');
+				$("#dataTable").append('<td id="wheelchair" onClick="sortHeader(this.id)">wheelchair</td>');
+				$("#dataTable").append('<td id="projector" onClick="sortHeader(this.id)">projector</td>');
+				$("#dataTable").append('<td id="visualiser" onClick="sortHeader(this.id)">visualiser</td>');
+				$("#dataTable").append('<td id="whiteboard" onClick="sortHeader(this.id)">whiteboard</td>');
+				$("#dataTable").append('<td id="special_requirements">Special </br>Requirements</td>');
+				$("#dataTable").append('<td id="priority" onClick="sortHeader(this.id)">priority</td>');
+				$("#dataTable").append('<td id="day" onClick="sortHeader(this.id)">day</td>');
+				$("#dataTable").append('<td id="period" onClick="sortHeader(this.id)">period</td>');
+				$("#dataTable").append('<td id="duration" onClick="sortHeader(this.id)">duration</td>');
+				$("#dataTable").append('<td id="week(s)" >week(s)</td>');
+				
+				//add the edit and delete button column
+				if(document.getElementById("status") == "Pending") {
+					$("#dataTable").append('<td id="edit_cell" style="cursor:default;">Edit/Delete</td></tr>');
+				}
+				
+			}
+			
+			function statusChange(status) {
+			
+				createHeaders();
+				
+				
+				
+				for(var i=0; i<status.length; i++) {
+
+					$("#dataTable".append("<tr>");
+				
+					$("#dataTable").append(status[i].request_id);
+					
+					if(status[i].room_code === null) console.log("NULL");
+					$("#dataTable").append(status[i].module_code);
+					
+					$("#dataTable").append(status[i].room_code);
+					$("#dataTable").append(status[i].capacity);
+					if(status[i].wheelchair == 1)
+						$("#dataTable").append("Yes");
+					else
+						$("#dataTable").append("No");
+					if(status[i].projector == 1)
+						$("#dataTable").append("Yes");
+					else
+						$("#dataTable").append("No");
+					if(status[i].visualiser == 1)
+						$("#dataTable").append("Yes");
+					else
+						$("#dataTable").append("No");
+					if(status[i].whiteboard == 1)
+						$("#dataTable").append("Yes");
+					else
+						$("#dataTable").append("No");
+					$("#dataTable").append(status[i].special_requirements);
+					if(status[i].priority == 1)
+						$("#dataTable").append("Yes");
+					else
+						$("#dataTable").append("No");
+					$("#dataTable").append(status[i].day);
+					$("#dataTable").append(parseInt(status[i].period) + 8 + ":00");
+					$("#dataTable").append(status[i].duration);
+					
+					
+					
+					if(status[i].week==0) { //default weeks
+						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").append("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12");
+					} else {
+						//sorting the list of numbers into lowest first order 
+						var sortedWeeks = status[i].week.split(",");
+						sortedWeeks.sort();
+						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").append(sortedWeeks.join());
+					}
+					
+					if(document.getElementById("status").value == "Pending"){
+						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").append("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+					}
+					
+					$("#dataTable".append("</tr>");
+				}
+				
+			}
+			
+			/*
 			//alters the table to contain the data they want to see
 			//callan swanson, Inthuch Therdchanakul
 			function statusChange(status){
@@ -578,6 +671,7 @@ label, input { display:block; }
 					}
 				}
 			}
+			*/
 			
 			//table styling - Tom Middleton
 			
@@ -700,8 +794,6 @@ label, input { display:block; }
     window.history.back()
 }			
 			
-	
-	
 	
 		</script>
 		
