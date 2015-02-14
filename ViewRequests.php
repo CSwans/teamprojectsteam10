@@ -549,6 +549,7 @@ label, input { display:block; }
 				
 			}
 			
+			/*
 			function statusChange(status) {
 			
 				createHeaders();
@@ -557,61 +558,87 @@ label, input { display:block; }
 				
 				for(var i=0; i<status.length; i++) {
 
-					$("#dataTable".append("<tr>");
+					$("#dataTable").append("<tr>");
+					$("#dataTable").append("<td>");
 				
 					$("#dataTable").append(status[i].request_id);
-					
+					$("#dataTable").append("</td><td>");
 					if(status[i].room_code === null) console.log("NULL");
 					$("#dataTable").append(status[i].module_code);
-					
+					$("#dataTable").append("</td><td>");
 					$("#dataTable").append(status[i].room_code);
+					$("#dataTable").append("</td><td>");
 					$("#dataTable").append(status[i].capacity);
-					if(status[i].wheelchair == 1)
+					$("#dataTable").append("</td><td>");
+					if(status[i].wheelchair == 1) {
 						$("#dataTable").append("Yes");
-					else
+						$("#dataTable").append("</td><td>");
+					} else {
 						$("#dataTable").append("No");
-					if(status[i].projector == 1)
+						$("#dataTable").append("</td><td>");
+					}
+					if(status[i].projector == 1) {
 						$("#dataTable").append("Yes");
-					else
+						$("#dataTable").append("</td><td>");
+					}else {
 						$("#dataTable").append("No");
-					if(status[i].visualiser == 1)
+						$("#dataTable").append("</td><td>");
+					}
+					if(status[i].visualiser == 1) {
 						$("#dataTable").append("Yes");
-					else
+						$("#dataTable").append("</td><td>");
+					}else {
 						$("#dataTable").append("No");
-					if(status[i].whiteboard == 1)
+						$("#dataTable").append("</td><td>");
+					}
+					if(status[i].whiteboard == 1) {
 						$("#dataTable").append("Yes");
-					else
+						$("#dataTable").append("</td><td>");
+					}else {
 						$("#dataTable").append("No");
+						$("#dataTable").append("</td><td>");
+					}
 					$("#dataTable").append(status[i].special_requirements);
-					if(status[i].priority == 1)
+					$("#dataTable").append("</td><td>");
+					if(status[i].priority == 1) {
 						$("#dataTable").append("Yes");
-					else
+						$("#dataTable").append("</td><td>");
+					}else {
 						$("#dataTable").append("No");
+						$("#dataTable").append("</td><td>");
+					}
 					$("#dataTable").append(status[i].day);
+					$("#dataTable").append("</td><td>");
 					$("#dataTable").append(parseInt(status[i].period) + 8 + ":00");
+					$("#dataTable").append("</td><td>");
 					$("#dataTable").append(status[i].duration);
+					$("#dataTable").append("</td><td>");
 					
 					
 					
 					if(status[i].week==0) { //default weeks
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").append("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12");
+						$("#dataTable").append("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12");
+						$("#dataTable").append("</td>");
 					} else {
 						//sorting the list of numbers into lowest first order 
 						var sortedWeeks = status[i].week.split(",");
 						sortedWeeks.sort();
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").append(sortedWeeks.join());
+						$("#dataTable").append(sortedWeeks.join());
+						$("#dataTable").append("</td>");
 					}
 					
 					if(document.getElementById("status").value == "Pending"){
-						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").append("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+						$("#dataTable").append("<td>");
+						$("#dataTable").append("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+						$("#dataTable").append("</td>");
 					}
 					
-					$("#dataTable".append("</tr>");
+					$("#dataTable").append("</tr>");
 				}
 				
 			}
+			*/
 			
-			/*
 			//alters the table to contain the data they want to see
 			//callan swanson, Inthuch Therdchanakul
 			function statusChange(status){
@@ -659,7 +686,7 @@ label, input { display:block; }
 					
 					
 					if(status[i].week==0) { //default weeks
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1,2,3,4,5,6,7,8,9,10,11,12");
+						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12");
 					} else {
 						//sorting the list of numbers into lowest first order 
 						var sortedWeeks = status[i].week.split(",");
@@ -671,7 +698,7 @@ label, input { display:block; }
 					}
 				}
 			}
-			*/
+			
 			
 			//table styling - Tom Middleton
 			
@@ -709,7 +736,7 @@ label, input { display:block; }
 									count=count+1;
 									}
 								}
-								if(count>13) document.getElementById(i+1).style.display='none';
+								if(count==15) document.getElementById(i+1).style.display='none';
 								else document.getElementById(i+1).style.display='block';
 							}
 
