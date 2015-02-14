@@ -150,13 +150,19 @@ label, input { display:block; }
 			var currentRow;
 			var row;
 			
-			$(function() {
+$(function() {
 				//console.log(bookingData);
 				//apply dialog to input form
+				
 				$("#dialog-form1").dialog({
+					modal:true,
 					height: 500,
-					width: 700
+					width: 700,
+					position: { my:"center",
+								at: "top",
+								of: window}	
 				});
+				$(".ui-widget-overlay").attr('style','background-color: #000; opacity:1; z-index:1000;');
 				//hide dialog
 				$("#dialog-form1").dialog("close");
 				populateTable();
