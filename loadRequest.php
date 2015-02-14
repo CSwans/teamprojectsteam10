@@ -17,27 +17,31 @@
 	}
 	$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 	//deptCode is the uppercase dept code that was loggged in
-	$n = $_POST['form'];
+	$i = $_POST['form'];
 	$deptCode = strtoupper($_SESSION['username']);
-	
+	//insert request from last year with the same department code into REQUEST table
 	$sql = "INSERT INTO REQUEST (dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration, req_group) SELECT dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration, req_group  FROM LAST_YEAR_REQUEST WHERE dept_code='$deptCode'";
 	$res =& $db->query($sql); //query the result from the database
 	if(PEAR::isError($res)){
 		die($res->getMessage());
 	}
+	//get id of last inserted request
 	$id1 = $db->lastInsertID('REQUEST');
 	if (PEAR::isError($id1)) {
     	die($id->getMessage());
 	}
+	
+	//get the last inserted request from REQUEST table
 	$sql = "SELECT * FROM REQUEST WHERE dept_code='$deptCode' AND request_id = $id1";
 	$res =& $db->query($sql); //query the result from the database
 	if(PEAR::isError($res)){
 		die($res->getMessage());
 	}
 	$results = array();
+	//putting sql data into results array
 	while($row = $res->fetchRow()){
 		$results[] = $row;
 	}
-	
+	//parse back as json
 	echo json_encode($results);
 ?>
