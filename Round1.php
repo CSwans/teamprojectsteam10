@@ -60,6 +60,13 @@
 			partChange();
 		});
 		
+		
+		function window_position(){
+			window.scrollTo(0, 300);
+		}
+		
+		
+		
 	</script>
 		
 		<link rel="stylesheet" 
@@ -75,7 +82,7 @@
 		<div class="input_boxes" >
         <div id="buttons">
 			<div id="button_wrap1">
-				<a><button id="adv_options" type="button" onClick="advToggle();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button></a>
+				<a><button id="adv_options" type="button" onClick="advToggle(); window_position();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button></a>
 				<a href="ViewRequests.php"><button id ="All" type="button" >&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button></a>
 				<a href="RoomAvail.php"><button type="button">&gt;&nbsp;&nbsp;&nbsp;&nbsp;CHECK AVAILABILITY</button></a>
 				<a><button id="Load_Last_Year" type="button" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button></a>
@@ -90,8 +97,8 @@
 				<tr> <td> &nbsp; </td> </tr>
 					
 					<tr>
-						<td align="center" width="27%"> Part: </td>
-						<td align="center" width="16%"> Module Code: </td>
+						<td style="min-width:300px" align="center"> Part: </td>
+						<td style="min-width:200px" align="center"> Module Code: </td>
 						<td align="center"> Module Title: </td>
 						</tr>
 						<tr>
@@ -135,9 +142,9 @@
 				
 					<tr>
 						
-						<td align="center" width="27%"> Day: </td>
-						<td align="center" width="10%"> Period: </td>
-						<td align="center" width="25%"> &nbsp;</td>
+						<td width="300px" align="center"> Day: </td>
+						<td width="100px" align="center"> Period: </td>
+						<td width="250px" align="center"> &nbsp; </td>
 						<td align="center">&nbsp;</td>
 					</tr>
 					<tr>			
@@ -212,8 +219,8 @@
 
 					<tr>
 						<tr> <td> &nbsp; </td> </tr>
-						<td align="center" width="25%"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Week(s): </td>
-						<td align="center" width="25%">  &nbsp;</td>
+						<td align="center" style="min-width:800px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Week(s): </td>
+						<td align="center" style="min-width:800px">  &nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2">
@@ -262,9 +269,9 @@
 					
 					
 					<tr>
-						<td> Special requirements: &nbsp;&nbsp;&nbsp;&nbsp; </td>
+						<td style="min-width:230px;">> Special requirements: &nbsp;&nbsp;&nbsp;&nbsp; </td>
 						<td>
-							<textarea name="specialReq" cols="80" maxlength="1000" placeholder="1000 chars max..."></textarea>
+							<textarea style="min-width: 600px;" name="specialReq" cols="80" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
 					</tr>
 					
