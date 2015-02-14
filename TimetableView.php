@@ -238,15 +238,15 @@
 				}
 				
 					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 			
 					var n = parseInt(document.getElementById('current_week').value);
 				
@@ -272,22 +272,22 @@
 										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP:>'+bookingData[x].room_code+'</span></p>';
 									}
 									if(module != null && bookingData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}						
 									if(room != null && bookingData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								}
 							}
 							else {
 								if(part != null && bookingData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
+									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 								}
 								if(module != null && bookingData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								if(room != null && bookingData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+bookingData[x].request_id+'<br/> Module code: '+bookingData[x].module_code+'<br/> Room code: '+bookingData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 							}
 						}
@@ -319,15 +319,15 @@
 				}
 				
 					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td class="day" >Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td class="day" >Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td class="day" >Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td class="day" >Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td class="day" >Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;" >Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 			
 					var n = parseInt(document.getElementById('current_week').value);
 				
@@ -350,25 +350,25 @@
 							if(duration>1){
 								for(var n =0;n<duration;n++){
 									if(part != null && requestData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+requestData[x].request_id+'<br/> Module code: '+requestData[x].module_code+'<br/> Room code: '+requestData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 									if(module != null && requestData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+requestData[x].request_id+'<br/> Module code: '+requestData[x].module_code+'<br/> Room code: '+requestData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}						
 									if(room != null && requestData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+requestData[x].request_id+'<br/> Module code: '+requestData[x].module_code+'<br/> Room code: '+requestData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								}
 							}
 							else {
 								if(part != null && requestData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+requestData[x].request_id+'<br/> Module code: '+requestData[x].module_code+'<br/> Room code: '+requestData[x].room_code+'</p>';
+									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 								}
 								if(module != null && requestData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+requestData[x].request_id+'<br/> Module code: '+requestData[x].module_code+'<br/> Room code: '+requestData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								if(room != null && requestData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+requestData[x].request_id+'<br/> Module code: '+requestData[x].module_code+'<br/> Room code: '+requestData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 							}
 						}
@@ -402,15 +402,15 @@
 				}
 				
 					var myNode = document.getElementById("Monday");
-				myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Tuesday");
-				myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Wednesday");
-				myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Thursday");
-				myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 				var myNode = document.getElementById("Friday");
-				myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+				myNode.innerHTML = '<td class="day" style="background-color:#f1f1f1;">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
 			
 					var n = parseInt(document.getElementById('current_week').value);
 				
@@ -433,25 +433,25 @@
 							if(duration>1){
 								for(var n =0;n<duration;n++){
 									if(part != null && rejectedData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+rejectedData[x].request_id+'<br/> Module code: '+rejectedData[x].module_code+'<br/> Room code: '+rejectedData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 									if(module != null && rejectedData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+rejectedData[x].request_id+'<br/> Module code: '+rejectedData[x].module_code+'<br/> Room code: '+rejectedData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}						
 									if(room != null && rejectedData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+rejectedData[x].request_id+'<br/> Module code: '+rejectedData[x].module_code+'<br/> Room code: '+rejectedData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								}
 							}
 							else {
 								if(part != null && rejectedData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+rejectedData[x].request_id+'<br/> Module code: '+rejectedData[x].module_code+'<br/> Room code: '+rejectedData[x].room_code+'</p>';
+									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 								}
 								if(module != null && rejectedData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+rejectedData[x].request_id+'<br/> Module code: '+rejectedData[x].module_code+'<br/> Room code: '+rejectedData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								if(room != null && rejectedData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: '+rejectedData[x].request_id+'<br/> Module code: '+rejectedData[x].module_code+'<br/> Room code: '+rejectedData[x].room_code+'</p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showInfo(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 							}
 						}
@@ -611,7 +611,7 @@
 
 	<div id="Days">
 		<tr id="Monday">	
-			<td class="day">Monday</td>
+			<td class="day" style="background-color:#f1f1f1;">Monday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -624,7 +624,7 @@
 			<td id="p10"></td>
 		</tr>
 		<tr id="Tuesday">
-			<td class="day">Tuesday</td>
+			<td class="day" style="background-color:#f1f1f1;">Tuesday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -650,7 +650,7 @@
 			<td id="p10"></td>
 		</tr>
 		<tr id="Thursday">
-			<td class="day">Thursday</td>
+			<td class="day" style="background-color:#f1f1f1;">Thursday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
@@ -663,7 +663,7 @@
 			<td id="p10"></td>			
 		</tr>
 		<tr id="Friday">
-			<td class="day">Friday</td>
+			<td class="day" style="background-color:#f1f1f1;">Friday</td>
 			<td id="p1"></td>
 			<td id="p2"></td>
 			<td id="p3"></td>
