@@ -81,7 +81,19 @@
 			}
 			$moduleJson = json_encode($moduleInfo);
 			
-			$sql = "SELECT * FROM ROOMS;";
+			$sql = "SELECT DISTINCT ROOMS.capacity, wheelchair, projector, visualiser, whiteboard, PARKS.park, ROOMS.room_code, ROOMS.building_code FROM ROOMS, PARKS WHERE ROOMS.building_code = PARKS.building_code";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$roomData = array();
+			
+			while($row = $res->fetchRow()){
+				$roomData[] = $row;
+			}
+			$roomDataJson = json_encode($roomData);
+		
+		$sql = "SELECT * FROM `REQUEST_WEEKS`; ";
 		$res =& $db->query($sql); //getting the result from the database
 		if(PEAR::isError($res)){
 			die($res->getMessage());
@@ -89,10 +101,22 @@
 		$value4 = array();
 		//put each rows into value array
 		while($row = $res->fetchRow()){
-			$value4[] = $row;
+			$value5[] = $row;
 		}
 	
-		$roomsJson = json_encode($value4);
+		$weeksJson = json_encode($value5);
+		
+		$sql = "SELECT * FROM PARKS";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$buildingData = array();
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$buildingData[] = $row;
+			}
+			$buildingJson = json_encode($buildingData);
 			
 			
 		?>
@@ -109,7 +133,9 @@
 				echo "var rejectedData = ".$jsonRejections.";\n";
 				echo "var fullData = ".$jsonFullData.";\n";
 				echo "var moduleData = ".$moduleJson.";\n";
-				echo "var roomData = ".$roomsJson.";\n";
+				echo "var roomData = ".$roomDataJson.";\n";
+				echo "var weeksData = ".$weeksJson.";\n";
+				echo "var buildingData = ".$buildingJson.";\n";
 			?>
 			
 			$(function() {
@@ -269,25 +295,25 @@
 							if(duration>1){
 								for(var n =0;n<duration;n++){
 									if(part != null && bookingData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP:>'+bookingData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP:>'+bookingData[x].room_code+'</span></p>';
 									}
 									if(module != null && bookingData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}						
 									if(room != null && bookingData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								}
 							}
 							else {
 								if(part != null && bookingData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 								}
 								if(module != null && bookingData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								if(room != null && bookingData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 							}
 						}
@@ -350,25 +376,25 @@
 							if(duration>1){
 								for(var n =0;n<duration;n++){
 									if(part != null && requestData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 									if(module != null && requestData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}						
 									if(room != null && requestData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								}
 							}
 							else {
 								if(part != null && requestData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 								}
 								if(module != null && requestData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								if(room != null && requestData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 							}
 						}
@@ -433,25 +459,25 @@
 							if(duration>1){
 								for(var n =0;n<duration;n++){
 									if(part != null && rejectedData[x].module_code.charAt(4)==part){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 									if(module != null && rejectedData[x].module_code==module){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}						
 									if(room != null && rejectedData[x].room_code==room){
-										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								}
 							}
 							else {
 								if(part != null && rejectedData[x].module_code.charAt(4)==part) {
-									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+									document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 								}
 								if(module != null && rejectedData[x].module_code==module){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 								if(room != null && rejectedData[x].room_code==room){
-										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this.id);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+										document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
 									}
 							}
 						}
@@ -517,17 +543,272 @@
 					width: 700
 				});
 				$("#dialog-form1").dialog("close");
+				buildingInitialise();
 				});
 			
-	function showDialog(id){
+	function showDialog(el){
+	
+			if(document.getElementById('sortList').selectedIndex==2) {
 				$("#dialog-form1").dialog("open");
-				var request_id;
+				
+				var request_id=parseInt(el.id);
+				var module_code=el.children[2].innerHTML;
+				$("#requestId").val(request_id);			
+				inputModule();
+				$("#module_code_select").val(module_code);
+				 module_code_change();
+				checkPriority(el);
+				checkDay(el);
+				checkWeek(el);
+				checkperiod(el);
+				checkDuration(el);
+				checkSpecialReq(el);
+				checkCapacity(el);
+				checkFacility(el);
+				checkRoomCode(el);
+			}		
+	}
+			
+	function inputModule(){
+				for(var i=0;i<moduleData.length;i++){
+					$("#module_code_select").append("<option>" + moduleData[i].module_code + "</option>");
+					$("#module_title_select").append("<option>" + moduleData[i].module_title + "</option>");
+				}
 			}
 			
+	function checkPriority(el){
+	
+				var request_id=parseInt(el.id);
+				var priority;
+				
+				for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) priority=fullData[x].priority;
+				}
+				
+				alert(priority);
+				if(priority==0)
+				$("#priorityInput2").prop('checked',true);
+				else
+				$("#priorityInput1").prop('checked',true);
+			}
+			
+	function checkDay(el){
+				var request_id=parseInt(el.id);
+				var day; 
+				
+				for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) day=fullData[x].day;
+				}
+				
+				if(day == "Monday")
+					$("#monday").prop('checked', true);
+				if(day == "Tuesday")
+					$("#tuesday").prop('checked', true);
+				if(day == "Wednesday")
+					$("#wednesday").prop('checked', true);
+				if(day == "Thursday")
+					$("#thursday").prop('checked', true);
+				if(day == "Friday")
+					$("#friday").prop('checked', true);
+			}
+			
+	function checkWeek(el){
+				var request_id = parseInt(el.id);
+				var weeks=[];
+				
+				for(var x=0;x<weeksData.length;x++){
+					if(weeksData[x].request_id == request_id) weeks.push(weeksData[x].week);
+				}
+				
+				if(weeks[0] == 0){
+					for(var j=1;j<=12;j++){
+						$("#week" + j).prop('checked',true);
+					}
+				}
+						
+				else{
+					for(var k=0;k<weeks.length;k++){
+						$("#week" + weeks[k]).prop('checked',true);
+					}
+				}
+			}
+			
+	function checkperiod(el){
+			var request_id = parseInt(el.id);
+				var period;
+				for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) period=fullData[x].period;
+				}
+				
+				document.getElementById("time").selectedIndex = period - 1;
+			}
+			
+	function checkDuration(el){
+		var request_id = parseInt(el.id);
+		var duration;
+
+		for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) duration=fullData[x].duration;
+				}
+				
+				document.getElementById("duration").selectedIndex = duration - 1;
+	}
+	
+	function checkSpecialReq(el){
+		var request_id = parseInt(el.id);
+		var req;
+		
+		for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) req=fullData[x].special_requirements;
+				}
+		
+		$("#specialReq").val(req);
+	
+	}
+	
+	function checkCapacity(el){
+			var request_id = parseInt(el.id);
+			var capacity;
+			
+			for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) capacity=fullData[x].capacity;
+				}
+			
+			$("#capacity1").val(capacity);
+	}
+
+		function checkFacility(el){
+			var request_id = parseInt(el.id);
+			var wheelchair;
+			var projector;
+			var visualiser;
+			var whiteboard;
+			
+			for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) { 
+						wheelchair=fullData[x].wheelchair;
+						projector=fullData[x].projector;
+						visualiser=fullData[x].visualiser;
+						whiteboard=fullData[x].whiteboard;
+					}
+				}
+			
+				if (wheelchair == 1)
+					$("#wheelchair_yes").prop('checked', true);
+				else 
+					$("#wheelchair_no").prop('checked', true);
+				if (projector == 1)
+					$("#projector_yes").prop('checked', true);
+				else 
+					$("#projector_no").prop('checked', true);
+				if (visualiser == 1)
+					$("#visualiser_yes").prop('checked', true);
+				else 
+					$("#visualiser_no").prop('checked', true);
+				if (whiteboard == 1)
+					$("#whiteboard_yes").prop('checked', true);
+				else 
+					$("#whiteboard_no").prop('checked', true);
+			}
+			
+	function checkRoomCode(el){
+				var room = el.children[4].innerHTML;
+				$("#room_list").empty();
+				for(var i=0;i<roomData.length;i++){
+					$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+				}
+				$("#room_list").val(room);
+			}
+			
+	function module_code_change(){
+				document.getElementById("module_title_select").selectedIndex = document.getElementById("module_code_select").selectedIndex ;
+			}
+			function module_title_change(){
+				document.getElementById("module_code_select").selectedIndex = document.getElementById("module_title_select").selectedIndex;
+			}
+			
+	function buildingCodeChange() {
+				document.getElementById("BuildingNameSelect").selectedIndex = document.getElementById("BuildingCodeSelect").selectedIndex;
+			}
+			
+			function buildingNameChange() {
+				document.getElementById("BuildingCodeSelect").selectedIndex = document.getElementById("BuildingNameSelect").selectedIndex;
+			}
+			
+			function buildingInitialise() {
+				$("#BuildingCodeSelect").html("<option>All</option>");
+				$("#BuildingNameSelect").html("<option>All</option>");				
+				for(var i=0; i<buildingData.length; i++) {
+					$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+					$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+				}
+			}
+			
+	function change_room_code() {
+						//cache user settings
+						
+						var ParkSelect = document.getElementById("park").value;
+						var capacity = document.getElementById("capacity1").value;
+						var isWheelchair = document.getElementById("wheelchair_yes").checked;
+						var isVisualiser = document.getElementById("visualiser_yes").checked;
+
+						var isProjector = document.getElementById("projector_yes").checked;
+
+						var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+						var buildingCode = document.getElementById("BuildingCodeSelect").value;
+						
+						
+						//empty the room code list
+						$("#room_list").empty();
+						
+						for(var i=0;i<roomData.length;i++){
+						//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
+							if((roomData[i].capacity >= parseInt(capacity) || capacity == "") &&
+							(ParkSelect == "Any" || ParkSelect == roomData[i].park) &&
+							(!isWheelchair || roomData[i].wheelchair == 1) &&
+							(!isVisualiser || roomData[i].visualiser == 1) &&
+							(!isProjector || roomData[i].projector == 1) &&
+							(!isWhiteboard || roomData[i].whiteboard == 1) && 
+							(buildingCode == "All" || buildingCode == roomData[i].building_code)) {
+								$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+								
+							}
+							
+						}
+					}
+					
+					function ParkChange() {
+						var parkChosen = "Any";
+						parkChosen = document.getElementById("park").value;
+						$("#room_list").empty();
+						
+						//if any parks are chosen then all the rooms are displayed
+						if(parkChosen=="Any") {
+							for(var i=0; i<roomData.length; i++) {
+								$("#room_list").append("<option> " + roomData[i].room_code + "</option>");
+							}
+						} else { //if a park is chosen teh jsut that park's rooms are displayed
+							for(var i=0; i<roomData.length; i++) {
+								if(roomData[i].park == parkChosen) {
+									$("#room_list").append("<option> " + roomData[i].room_code + "</option>");
+								}
+							}
+						}
+						$("#BuildingCodeSelect").html("<option>All</option>");
+						$("#BuildingNameSelect").html("<option>All</option>");				
+						for(var i=0; i<buildingData.length; i++) {
+							if(buildingData[i].park == document.getElementById("park").value) {
+								$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+								$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+							}
+						}
+					}
 			
 			function goBack() {
 				window.history.back()
 			}
+			
+			
 		</script>	
 <link rel="stylesheet" href="Theme.css"/>
 </head>
@@ -755,7 +1036,7 @@
 	</div>			
 				
 	<br/>
-	
+	Click on pending requests to make changes or delete your request.
 	<div id="hours">
 	
 		<button type="button" onclick="decreaseWeek(); statusChange();">-</button><input id="current_week" type="text" name="current_week"  disabled></input><button type="button" onclick="increaseWeek();statusChange(); ">+</button>
