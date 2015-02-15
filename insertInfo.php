@@ -72,7 +72,17 @@
 	$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 	//username is the uppercase dept code that was loggged in
 	$username = strtoupper($_SESSION['username']);
-	$sql1 = "INSERT INTO REQUEST(dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration, req_group) VALUES ('$deptCode', '$moduleCode', '$roomCode', '$cap1', '$wheelchair', '$projector', '$visualiser', '$whiteboard', '$specialRequirements', '$priority', '$period', '$day', '$duration' , NULL)";
+	
+	//inputs the chosen information into the database
+	$sql1 = "INSERT INTO REQUEST(dept_code, module_code, room_code, capacity,
+						wheelchair, projector, visualiser, whiteboard, 
+						special_requirements, priority, period, day, duration,
+						req_group) 
+						VALUES ('$deptCode', '$moduleCode', '$roomCode', '$cap1',
+						'$wheelchair', '$projector', '$visualiser', 
+						'$whiteboard', '$specialRequirements', '$priority', 
+						'$period', '$day', '$duration' , NULL)";
+						
 	$res =& $db->query($sql1); //getting the result from the database
 	if(PEAR::isError($res)){
 		die($res->getMessage());
@@ -81,27 +91,34 @@
 	if (PEAR::isError($id1)) {
     	die($id->getMessage());
 	}
+	
 	$id2 = $id1 + 1;
 	$id3 = $id1 + 2;
 	$id4 = $id1 + 3;
 	
-	if(!empty($_POST['weeks'])){ //checks to see if it is the default week format (1-12) if it is then it will put 0 in the REQUEST_WEEKS table 
-			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0 || sizeof(array_diff($defaultWeeks,$_POST['weeks'])) != 0) {
+	//checks to see if it is the default week format (1-12) if it is then it 
+	//will put 0 in the REQUEST_WEEKS table 
+	if(!empty($_POST['weeks'])){ 
+			if(sizeof(array_diff($_POST['weeks'],$defaultWeeks)) != 0 
+			|| sizeof(array_diff($defaultWeeks,$_POST['weeks'])) != 0) {
 				foreach($_POST['weeks'] as $weeks){
-					$weekInsert = 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . $id1 . ',' . $weeks . '); ';
+					//input the weeks table values with the same request_id
+					$weekInsert = 'INSERT INTO REQUEST_WEEKS(request_id, week)
+								   VALUES (' . $id1 . ',' . $weeks . '); ';
 					$res =& $db->query($weekInsert); 
 					if(PEAR::isError($res)){
 						die($res->getMessage());
 					} 
-					/* $weekInsert2.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id2) . ',' . $weeks . '); ';
-					$weekInsert3.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id3) . ',' . $weeks . '); ';
-					$weekInsert4.= 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id4) . ',' . $weeks . '); ';  */
 				}
-			} else {
-				$weekInsert = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . $id1 . ',0); ';
-				$weekInsert2 = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($id2) . ',0); ';
-				$weekInsert3 = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($id3) . ',0); ';
-				$weekInsert4 = 'INSERT INTO REQUEST_WEEKS (request_id, week) VALUES (' . ($id4) . ',0); ';
+			} else { //the default weeks
+				$weekInsert = 'INSERT INTO REQUEST_WEEKS (request_id, week)
+							   VALUES (' . $id1 . ',0); ';
+				$weekInsert2= 'INSERT INTO REQUEST_WEEKS (request_id, week) 
+							   VALUES (' . ($id2) . ',0); ';
+				$weekInsert3= 'INSERT INTO REQUEST_WEEKS (request_id, week)
+							   VALUES (' . ($id3) . ',0); ';
+				$weekInsert4= 'INSERT INTO REQUEST_WEEKS (request_id, week)
+							   VALUES (' . ($id4) . ',0); ';
 				
 				$res =& $db->query($weekInsert); 
 				if(PEAR::isError($res)){
@@ -111,17 +128,29 @@
 	}
 		
 	
+	//addint the multiple room bookings, along with the weeks
 	if($n > 1){
-		$sql2 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . ($id2) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode2 .'\',\''. $cap2 .'\','. $wheelchair2 .','. $projector2 .','. $visualiser2 .','. $whiteboard2 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $id1 .');';
+		$sql2 = 	'INSERT INTO REQUEST(request_id, dept_code, module_code,
+					room_code, capacity, wheelchair, projector, visualiser, 
+					whiteboard, special_Requirements, priority, period, day, 
+					duration, req_group)
+					VALUES (' . ($id2) .',\''. $deptCode .'\',
+					\''. $moduleCode .'\',\''. $roomCode2 .'\',
+					\''. $cap2 .'\','. $wheelchair2 .',
+					'. $projector2 .','. $visualiser2 .',
+					'. $whiteboard2 .',\''. $specialRequirements .'\',
+					'.  $priority .','. $period .',\''. $day .'\',
+					'. $duration .','. $id1 .');';
 	   
 		$res =& $db->query($sql2); 
 		if(PEAR::isError($res)){
 			die($res->getMessage());
 		}
 		
+		//adding the weeks for the multiple round bookings
 		foreach($_POST['weeks'] as $weeks){
-			$weekInsert2 = 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id2) . ',' . $weeks . '); ';
+			$weekInsert2 = 'INSERT INTO REQUEST_WEEKS(request_id, week)
+							VALUES (' . ($id2) . ',' . $weeks . '); ';
 			$res =& $db->query($weekInsert2); 
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -131,8 +160,17 @@
 	}
 	
 	if($n > 2){
-		$sql3 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . ($id3) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode3 .'\',\''. $cap3 .'\','. $wheelchair3 .','. $projector3 .','. $visualiser3 .','. $whiteboard3 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $id1 .');';
+		$sql3 = 	'INSERT INTO REQUEST(request_id, dept_code, module_code,
+					room_code, capacity, wheelchair, projector, visualiser,
+					whiteboard, special_Requirements, priority, period, day,
+					duration, req_group)
+					VALUES (' . ($id3) .',\''. $deptCode .'\',\'
+					'. $moduleCode .'\',\''. $roomCode3 .'\',\'
+					'. $cap3 .'\','. $wheelchair3 .',
+					'. $projector3 .','. $visualiser3 .',
+					'. $whiteboard3 .',\''. $specialRequirements .'\',
+					'.  $priority .','. $period .',\''. $day .'\',
+					'. $duration .','. $id1 .');';
 		
 		$res =& $db->query($sql3); 
 		if(PEAR::isError($res)){
@@ -140,7 +178,8 @@
 		}
 		
 		foreach($_POST['weeks'] as $weeks){
-			$weekInsert3 = 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id3) . ',' . $weeks . '); ';
+			$weekInsert3 = 'INSERT INTO REQUEST_WEEKS(request_id, week) 
+							VALUES (' . ($id3) . ',' . $weeks . '); ';
 			$res =& $db->query($weekInsert3); 
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -149,8 +188,17 @@
 	}
 	
 	if($n > 3){
-		$sql4 = 'INSERT INTO REQUEST(request_id, dept_code, module_code, room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_Requirements, priority, period, day, duration, req_group)
-           VALUES (' . ($id4) .',\''. $deptCode .'\',\''. $moduleCode .'\',\''. $roomCode4 .'\',\''. $cap4 .'\','. $wheelchair4 .','. $projector4 .','. $visualiser4 .','. $whiteboard4 .',\''. $specialRequirements .'\','.  $priority .','. $period .',\''. $day .'\','. $duration .','. $id1 .');';
+		$sql4 = 	'INSERT INTO REQUEST(request_id, dept_code, module_code,
+					room_code, capacity, wheelchair, projector, visualiser,
+					whiteboard, special_Requirements, priority, period, day,
+					duration, req_group)
+					VALUES (' . ($id4) .',\''. $deptCode .'\',\'
+					'. $moduleCode .'\',\''. $roomCode4 .'\',\'
+					'. $cap4 .'\','. $wheelchair4 .',
+					'. $projector4 .','. $visualiser4 .',
+					'. $whiteboard4 .',\''. $specialRequirements .'\',
+					'.  $priority .','. $period .',\''. $day .'\',
+					'. $duration .','. $id1 .');';
 		
 		$res =& $db->query($sql4); 
 		if(PEAR::isError($res)){
@@ -158,7 +206,8 @@
 		}
 		
 		foreach($_POST['weeks'] as $weeks){
-			$weekInsert4 = 'INSERT INTO REQUEST_WEEKS(request_id, week) VALUES (' . ($id4) . ',' . $weeks . '); ';
+			$weekInsert4 = 'INSERT INTO REQUEST_WEEKS(request_id, week) 
+							VALUES (' . ($id4) . ',' . $weeks . '); ';
 			$res =& $db->query($weekInsert4); 
 			if(PEAR::isError($res)){
 				die($res->getMessage());
@@ -166,7 +215,8 @@
 		}
 	}
 	
-	$sql5 = "SELECT * FROM REQUEST";
+	//returns a json_encode variable containing the request id they inserted
+	$sql5 = "SELECT * FROM REQUEST ORDER BY request_id DESC LIMIT $n";
 	$res =& $db->query($sql5); 
 	if(PEAR::isError($res)){
 		die($res->getMessage());
