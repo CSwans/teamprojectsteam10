@@ -92,10 +92,11 @@
 				<a><button id="Load_Last_Year" type="button" onClick="loadRequest()" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button></a>
 			</div>
         </div>
+		<div id="everything">
 		<div id="input_wrap">
 			<div id="inputs">
 			
-				<table class="inputs">
+				<table class="inputs box_class">
 
 					
 				<tr> <td> &nbsp; </td> </tr>
@@ -137,53 +138,60 @@
 							?>
 						</td>
 					</tr>
+					<tr> <td> &nbsp; </td> </tr>
+					</table>
+				
+				<br><br>
 					
+									
+					<table class="inputs box_class floating" >
+						<tr>
+							<td style="height: 28px;" width="300px" align="center"> Day: </td>
+						</tr>
+						<tr>
+							<td style="height: 120px;">
+							  <!--radio buttons for the day of the week--> 
+							  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
+							  
+								<input type="radio" name="day" id='monday' value="1" required checked />
+								Monday
+								<input type="radio" name="day" id='tuesday' value="2" required/>
+								Tuesday<br/>
+								<input type="radio" name="day" id='wednesday' value="3" required/>
+								Wednesday
+								<input type="radio" name="day" id='thursday' value="4" required/>
+								Thursday<br/>
+								<input type="radio" name="day" id='friday' value="5" required/>
+								Friday 
+							</td>
+						</tr>
+						
 					</table>
 					
-					<hr/ id="round_input_separator">
 					
-					<table class="inputs">
-				
-					<tr>
-						
-						<td width="300px" align="center"> Day: </td>
-						<td width="100px" align="center"> Period: </td>
-						<td width="250px" align="center"> &nbsp; </td>
-						<td align="center">&nbsp;</td>
-					</tr>
-					<tr>			
-						<td>
-						  <!--radio buttons for the day of the week--> 
-						  <!--Scott Marshall: added ids for each element. Day is now part of the Form Data -->
-						  
-							<br/><input type="radio" name="day" id='monday' value="1" required checked />
-							Monday
-							<input type="radio" name="day" id='tuesday' value="2" required/>
-							Tuesday<br/>
-							<input type="radio" name="day" id='wednesday' value="3" required/>
-							Wednesday
-							<input type="radio" name="day" id='thursday' value="4" required/>
-							Thursday<br/>
-							<input type="radio" name="day" id='friday' value="5" required/>
-							Friday 
-						</td>
-						
-
-						<td align="center" valign="top">
-							<?php
-								//dropdown for the period, includes the time in 24hr format
-								//Callan Swanson
-								//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
-								echo "<select name='time' id='time' onchange='refill_duration()'>";
-								for($i=1;$i<=9;$i++){
-									$time = $i+8;
-									echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
-								}
-								echo "</select>";
-							?>
-							
-							<br> <br> Duration: <br>
-							
+					<table id="period_duration" class="inputs box_class floating">
+						<tr> 
+							<td width="100px" align="center"> Period: </td>
+						</tr>
+							<td align="center" valign="top">
+								<?php
+									//dropdown for the period, includes the time in 24hr format
+									//Callan Swanson
+									//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
+									echo "<select name='time' id='time' onchange='refill_duration()'>";
+									for($i=1;$i<=9;$i++){
+										$time = $i+8;
+										echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
+									}
+									echo "</select>";
+								?> </td>
+						</tr>
+						<tr> <td> &nbsp; </td> </tr>
+						<tr> 
+							<td width="100px" align="center"> Duration: </td> 
+							</tr>
+							<tr>
+							<td style="text-align:center;">
 							<?php
 								//dropdown for the duration
 								//Scott Marshall
@@ -195,7 +203,14 @@
 								echo "</select>";
 							?>
 						</td>
+						</tr>
 						
+						
+					</table>
+				
+				<table  width="480px" height="180px;" class="inputs box_class floating" style="margin-left: 65px;" width='480px'>
+				
+					<tr>		
 						<td align="center">
 						  Number of rooms: </br>
 							<select id="noRooms" name="noRooms" onChange="showCapacity(); change_room_code();" >
@@ -208,23 +223,24 @@
 						
 						<td id="capacityCell"> 
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacity: </br>
-							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="100"/> 
+							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value=""/> 
 						</td>												
 						
 						</tr>
 					</table>
 					
-
 					
-					<table class="inputs">
+					<br> <br> <br> <br> <br> <br> <br> <br> 
+					
+					<table class="inputs box_class">
 						
 						<!--Checkboxes, using binary to add an independednt value to each week, selectable weeks with weeks 1-12 pre-selected as default--> 
 						  <!-- allowing a raneg of weeks to be chosen --> 
 
 					<tr>
-						<tr> <td> &nbsp; </td> </tr>
+						
 						<td align="center" style="min-width:800px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Week(s): </td>
-						<td align="center" style="min-width:800px">  &nbsp;</td>
+						<td align="center" style="min-width:270px">  &nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2">
@@ -264,24 +280,23 @@
 
 
 					</tr>
-					
+					<tr> <td> &nbsp; </td> </tr>
 					</table>
 					
-					<hr/ id="round_input_separator">
-
-				<table class="inputs">
-					
+				<br><br>
+				
+				<table   style='margin-bottom:50px;' class="inputs box_class">
+					<tr> <td> &nbsp; </td> </tr>
 					
 					<tr>
-						<td style="min-width:230px;">> Special requirements: &nbsp;&nbsp;&nbsp;&nbsp; </td>
+						<td style="min-width:230px;"> Special requirements: &nbsp;&nbsp;&nbsp;&nbsp; </td>
 						<td>
-							<textarea style="min-width: 600px;" name="specialReq" cols="80" maxlength="1000" placeholder="1000 chars max..."></textarea>
+							<textarea style="width:835px;" name="specialReq" cols="80" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
 					</tr>
-					
+					<tr> <td> &nbsp; </td> </tr>
 					</table>
 					
-					<hr/ id="round_input_separator">
 				</div>
                 				<div id="subdiv">
 							<input type="hidden" name="priorityInput" value="1" >
@@ -289,8 +304,10 @@
 
 				</div>
 				<!--inputs-->
-				<div id="advance">
-				  <table id="advancedinputs">
+				
+				<div id="div_holding_everything" style="clear:both;"> 
+				
+								  <table id="parkTable" class="box_class">
 					<tr>
 					  <td> Park:
 					  </td>
@@ -302,15 +319,27 @@
 						  <option>W</option>
 						</select></td>
 					</tr>
+				</table>
+				
+				
+				
+				<div id="advance" class="advance">
+
+				<div id="prefOptions">
+					<table id="advancedinputs1" class="box_class">
 					<tr>
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
 						Room Pref:
 					  </td>
 					  <td>
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
-						</select>   <button type='button' onClick="ext_toggle(1);" id='expand'>Hide ↑</button></td>
+						</select> 
+					  </td>  
+					  <td>
+						<button type='button' onClick="ext_toggle(1);" id='expand'>Expand ↓</button>
+					  </td>
 					</tr>
-					<tr id="ad_pref1" style="display:">
+					<tr id="ad_pref1" style="display:none;">
 					  <td>
 						<span id="adv_block">  
 					    	Wheelchair <br/>
@@ -344,14 +373,22 @@
 					</span>
 						</td>
 					</tr>
+					</table>
+					</div>
+					<div id="prefOptions">
+					<table id="advancedinputs2" class="box_class">
 					<tr id="add_room_col">
 						<td id="roomlabel2" style="display: none;">
 							Room Pref 2:
 						</td>
 					  <td><span id='room_list2' style="display: none;">
 						  <select name='roomCode1' onchange='refill_codes();'>
-						</select> <button type='button' onClick="ext_toggle(2);" id='expand2'>Expand ↓</button>
-						</span></td>
+						</select> 
+						</span>
+					  </td>
+					  <td>
+						<button type='button' onClick="ext_toggle(2);" id='expand2'>Expand ↓</button>
+					  </td>
 					</tr>
 					<tr id="ad_pref2" style="display: none;">
 					  <td>
@@ -387,14 +424,25 @@
 					</span>
 						</td>
 					</tr>
+					</table>
+					</div>
+					</div>
+					<div id="advance2" class="advance">
+					<div id="prefOptions">
+					<table id="advancedinputs3" class="box_class">
 					<tr>
 					<td id="roomlabel3" style="display: none;">
 							Room Pref 3:
 						</td>
 					  <td><span id='room_list3' style="display: none;">
 						  <select name='roomCode2' onchange='refill_codes();'>
-						</select> <button type='button' onClick="ext_toggle(3);" id='expand3'>Expand ↓</button>
-						</span></td>
+					  
+						</select>
+						</span>
+					  </td>
+					  <td>
+						<button type='button' onClick="ext_toggle(3);" id='expand3'>Expand ↓</button>
+					  </td>
 					</tr>
 					<tr id="ad_pref3" style="display: none;">
 					  <td>
@@ -430,14 +478,23 @@
 					</span>
 						</td>
 					</tr>
+					
+					</table>
+					</div>
+					<div id="prefOptions">
+					<table id="advancedinputs4" class="box_class">
 					<tr>
 						<td id="roomlabel4" style="display: none;">
 							Room Pref 4:
 						</td>
 					  <td><span  id='room_list4' style="display: none;">
 						  <select name='roomCode3' onchange='refill_codes();'>
-						</select> <button type='button' onClick="ext_toggle(4);" id='expand4'>Expand ↓</button>
-						</span></td>
+						</select>
+						</span>
+					  </td>
+					  <td>
+						<button type='button' onClick="ext_toggle(4);" id='expand4'>Expand ↓</button>
+					  </td>
 					</tr>
 					<tr id="ad_pref4" style="display: none;">
 					  <td>
@@ -474,6 +531,7 @@
 						</td>
 					</tr>
 				  </table>
+				  </div>	
 				</div>
 				<!--advance-->
 
@@ -482,5 +540,6 @@
       <!--input wrap--> 
 	</div>
 </form>
+</div>
 	</body>
 	</html>
