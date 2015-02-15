@@ -62,10 +62,6 @@
 		});
 		
 		
-		function window_position(){
-			window.scrollTo(0, 300);
-		}
-		
 		
 		
 	</script>
