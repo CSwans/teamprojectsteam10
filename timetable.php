@@ -299,7 +299,7 @@ $("#room_list4").find( "select" ).empty();
 $("#room_list4").find( "select" ).append("<option>" + "" + "</option>");
 for(var i=0;i<roomData.length;i++){
 //if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
-	if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity || isNaN(capacity)) &&
+	if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity &&
 	(park == "Any" || park == roomData[i].park) &&
 	(!isWheelchair || roomData[i].wheelchair == 1) &&
 	(!isVisualiser || roomData[i].visualiser == 1) &&
@@ -310,9 +310,9 @@ for(var i=0;i<roomData.length;i++){
 //additional stages if more than one room pref option required
 //Tom middleton
 if(parseInt(document.getElementById('noRooms').value) > 1){
-
+	if(capacity2 != '' && capacity2 > 0){
 for(var i=0;i<roomData.length;i++){
-if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity2 || isNaN(capacity2)) &&
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity2 &&
 (park == "Any" || park == roomData[i].park) &&
 (!isWheelchair2 || roomData[i].wheelchair == 1) &&
 (!isVisualiser2 || roomData[i].visualiser == 1) &&
@@ -320,8 +320,8 @@ if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= 
 (!isWhiteboard2 || roomData[i].whiteboard == 1))
 $("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
-
-//else {}
+}
+else {}
 for(var x=1;x<4;x++){
  document.getElementById('room_list'+ (x+1)).style.display='none';
   document.getElementById('roomlabel'+ (x+1)).style.display='none';
@@ -342,21 +342,21 @@ for(var x=1;x<4;x++){
 }
 if(parseInt(document.getElementById('noRooms').value) > 2){
 for(var i=0;i<roomData.length;i++){
-
-if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity3 || isNaN(capacity3)) &&
+if(capacity3 != '' && capacity3 > 0){
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity3 &&
 (park == "Any" || park == roomData[i].park) &&
 (!isWheelchair3 || roomData[i].wheelchair == 1) &&
 (!isVisualiser3 || roomData[i].visualiser == 1) &&
 (!isProjector3 || roomData[i].projector == 1) &&
 (!isWhiteboard3 || roomData[i].whiteboard == 1))
 $("#room_list3").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-
+}
 }
 }
 if(parseInt(document.getElementById('noRooms').value) > 3){
-
+if(capacity4 != '' && capacity4 > 0){
 for(var i=0;i<roomData.length;i++){
-if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity4 || isNaN(capacity))&&
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity4 &&
 (park == "Any" || park == roomData[i].park) &&
 (!isWheelchair4 || roomData[i].wheelchair == 1) &&
 (!isVisualiser4 || roomData[i].visualiser == 1) &&
@@ -364,7 +364,7 @@ if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= 
 (!isWhiteboard4 || roomData[i].whiteboard == 1))
 $("#room_list4").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
-
+}
 }
 }
 //change number of capacity inputs based on no of rooms
@@ -424,7 +424,7 @@ function refill_codes() {
     var sel3 = document.getElementById('room_list3').children[0].value
     var sel4 = document.getElementById('room_list4').children[0].value
     
-	 activeLists.push(1); currentSelections.push(sel1); 
+	if(cap1 != null && cap1 != ''){ activeLists.push(1); currentSelections.push(sel1); }
 	if(cap2 != null && cap2 != ''){ activeLists.push(2); currentSelections.push(sel2); }
 	if(cap3 != null && cap3 != ''){ activeLists.push(3); currentSelections.push(sel3); }
 	if(cap4 != null && cap4 != ''){  activeLists.push(4); currentSelections.push(sel4); }
@@ -464,7 +464,7 @@ function refill_codes() {
     for(var x=0;x<activeLists.length;x++){
     	for(var i=0;i<roomData.length;i++){
     		if(activeLists[x]==1){
-    			if((roomData[i].capacity >= cap1 || isNaN(cap1))&&
+    			if(roomData[i].capacity >= capacity &&
     				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
 					(park == "Any" || park == roomData[i].park) &&
 					(!isWheelchair || roomData[i].wheelchair == 1) &&
@@ -474,7 +474,7 @@ function refill_codes() {
 						$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 			}
 			if(activeLists[x]==2) {
-				if((roomData[i].capacity >= cap2 || isNaN(cap2))&&
+				if(roomData[i].capacity >= cap2 &&
     				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
 					(park == "Any" || park == roomData[i].park) &&
 					(!isWheelchair2 || roomData[i].wheelchair == 1) &&
@@ -485,7 +485,7 @@ function refill_codes() {
 			
         		}
 			if(activeLists[x]==3){
-				if((roomData[i].capacity >= cap3 || isNaN(cap3)) &&
+				if(roomData[i].capacity >= cap3 &&
     				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
 					(park == "Any" || park == roomData[i].park) &&
 					(!isWheelchair3 || roomData[i].wheelchair == 1) &&
@@ -495,7 +495,7 @@ function refill_codes() {
 						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 			}
 			if(activeLists[x]==4){
-			if((roomData[i].capacity >= cap4 || isNaN(cap4))&&
+			if(roomData[i].capacity >= cap4 &&
     				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
 					(park == "Any" || park == roomData[i].park) &&
 					(!isWheelchair4 || roomData[i].wheelchair == 1) &&
@@ -741,7 +741,7 @@ function refill_codes() {
 }
 </script>
 </head>
-<body onload="insert_room_code();">
+<body>
 <div id="top_style">
 <div  align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">  
 <a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
