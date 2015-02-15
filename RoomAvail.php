@@ -419,67 +419,138 @@
 		<hr/>
 	
 	
-		<div>
+		<div id="checkOptions">
+		<div id="checkWrap">
 			<form name="options" id="options" method="POST">
 				
 				<!-- functionality selection-->
 				</br>
-				Priority
-				<input name="priorityInput" type="radio" id="priorityInputTrue" onchange="change_room_code()" value="1"/>Yes
-				<input name="priorityInput" type="radio" id="priorityInputFalse" onchange="change_room_code()" value="0"/>No
-				</br>
-				Wheelchair
-				<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code();facilityChange();hideForm();"> Yes
-				<input type="radio" name="wheelchair" id="wheelchair_no" value="0" onchange="change_room_code();facilityChange();hideForm();" checked="checked">No
-				</br>
-				Projector
-				<input type="radio" name="projector" id="projector_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
-				<input type="radio" name="projector" id="projector_no" value="0" onchange="change_room_code();facilityChange();hideForm();" > No
-				</br>
-				Visualiser
-				<input type="radio" name="visualiser" id="visualiser_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
-				<input type="radio" name="visualiser" id="visualiser_no" value="0" onchange="change_room_code();facilityChange();hideForm();"> No
-				</br>
-				Whiteboard
-				<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
-				<input type="radio" name="whiteboard" id="whiteboard_no" value="0" onchange="change_room_code();facilityChange();hideForm();" > No
-				</br>
-				Capacity
-				<input type="text" id="capacity" name="capacity1" onchange="change_room_code();hideForm();" >
-				</br>
-				
-				Park 
-				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();change_room_code()" >
-					<option value="Any">Any</option>
-					<option value="C">C</option>
-					<option value="E">E</option>
-					<option value="W">W</option>
-				</select>
-				
-				Building Name 
-				<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
+				<div id="checkFacilities">
+				<table>
+					<tr>
+						<td>
+							<label name="priorityInput">Priority: </label>
+						</td>
+						<td>
+							<input name="priorityInput" type="radio" id="priorityInputTrue" onchange="change_room_code()" value="1"/>Yes
+							<input name="priorityInput" type="radio" id="priorityInputFalse" onchange="change_room_code()" value="0" checked/>No
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="wheelchair">Wheelchair: </label>
+						</td>
+						<td>
+							<input type="radio" name="wheelchair" id="wheelchair_yes" value="1" onchange="change_room_code();facilityChange();hideForm();"> Yes
+							<input type="radio" name="wheelchair" id="wheelchair_no" value="0" onchange="change_room_code();facilityChange();hideForm();" checked="checked">No
+						</td>
+					<tr>
+						<td>
+							<label name="projector">Projector: </label>
+						</td>
+						<td>
+						<input type="radio" name="projector" id="projector_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
+						<input type="radio" name="projector" id="projector_no" value="0" onchange="change_room_code();facilityChange();hideForm();" > No
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="radio">Visualiser: </label>
+						</td>
+						<td>
+							<input type="radio" name="visualiser" id="visualiser_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
+							<input type="radio" name="visualiser" id="visualiser_no" value="0" onchange="change_room_code();facilityChange();hideForm();"> No
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="whiteboard">Whiteboard: </label>
+						</td>
+						<td>
+							<input type="radio" name="whiteboard" id="whiteboard_yes" value="1" onchange="change_room_code();facilityChange();hideForm();" checked="checked"> Yes
+							<input type="radio" name="whiteboard" id="whiteboard_no" value="0" onchange="change_room_code();facilityChange();hideForm();" > No
+						</td>
+					<tr>
+				</table>
+				</div>
+				<div id="checkCap">
+				<table>
+					<tr>
+						<td>
+							<label name="capacity1">Capacity: <label>
+						</td>
+						<td>
+							<input type="text" id="capacity" name="capacity1" onchange="change_room_code();hideForm();" >
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="weeks[]">Week: </label>
+						</td>
+						<td>
+								<select name="weeks[]" id="Weeks" onChange="WeekChange();ajaxFunction();">
+									<?php
+										for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
+											echo "<option>".$i."</option>";
+										}
+									?>
+								</select>
+						</td>
+					</tr>
+				</table>
+				</div>
+				<div id="checkLocation">
+					<table>
+					<tr>
+						<td>
+							<label name="ParkSelect">Park: </label>
+						</td>
+						<td>
+							<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();change_room_code()" >
+								<option value="Any">Any</option>
+								<option value="C">C</option>
+								<option value="E">E</option>
+								<option value="W">W</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="BuildingNameSelect">Building Name: </label> 
+						</td>
+						<td>
+							<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
+						
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="BuildingCodeSelect">Building Code: </label>
+						</td>
+						<td>
+							<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
 					
-				</select>
-				
-				Building Code 
-				<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
-					
-				</select>
-				
-				Rooms 
-				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
-				</select>
-				Week
-				<select name="weeks[]" id="Weeks" onChange="WeekChange();ajaxFunction();">
-					<?php
-						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
-							echo "<option>".$i."</option>";
-						}
-					?>
-				</select>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="RoomSelect">Rooms: </label>
+						</td>
+						<td>
+							<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
+		
+							</select>
+						<td>
+					</tr>
+					</table>
+				</div>
 			</form>
 		</div>
+		</div>
 		
+		<div id="page_wrap2">
 		<br/> <hr/  id="round_input_separator"> <br/>
 		
 		
@@ -537,20 +608,23 @@
 		
 
 		
-		
-		<div id="inputs" style="display:none;">
+		<div id="input_wrap2">
+		<div id="inputs"  style="display:none;">
 			<form id="requestForm" action="requestSubmit.php" method="post" onsubmit="return formValidation()">
+			<div id="after1">
 				<table class="inputs">
 					<tr>
 						<td>
-							<a href="ViewRequests.php">here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a><?php echo "Department: ".$username; ////////////////////////////?>
-						</td>
+							<?php echo "Department: </td><td>".$username."</td>"; ////////////////////////////?>
+						
 					</tr>
 					<tr>
 						<td id="priorityCell"> 
 							Priority: 
 						</td>
-						<input name="priority" type="hidden" id="priority" value="" />
+						<td>
+							<input name="priority" type="hidden" id="priority" value="" />
+						</td>
 					</tr>
 					<tr>
 						<td>
@@ -558,7 +632,7 @@
 								//will output the whole set of module codes from the database, module codes will change when module titles change
 								//Callan Swanson, Inthuch Therdchanakul
 								//Scott Marshall: added order by to SQL and name to the <select>. 'module_code_select' is now part of the Form Data
-								echo "Module code: <select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
+								echo "Module code: </td><td><select id='module_code_select' name='module_code_select' onchange='module_code_change()'>";
 								$sql = "SELECT module_code FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 								$res =& $db->query($sql); //getting the result from the database
 								if(PEAR::isError($res)){
@@ -580,7 +654,7 @@
 							<?php
 								//displays the module titles, titles will change when module codes change
 								//Callan Swanson, Inthuch Therdchanakul
-								echo "Module title: <select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
+								echo "Module title: </td><td><select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
 								$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 								$res =& $db->query($sql); //getting the result from the database
 								if(PEAR::isError($res)){
@@ -601,11 +675,14 @@
 						<td id="capacityCell"> 
 							
 						</td>
-						<input name="capacity" type="hidden" id="capacity1" value="" />
+						<td>
+							<input name="capacity" type="hidden" id="capacity1" value="" />
+						</td>
 					</tr>
 				
 					<tr>
-						<td> Special requirements: <br/>
+						<td> Special requirements: </td>
+						<td>
 							<textarea name="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
 					</tr>
@@ -614,14 +691,22 @@
 						<td id="RoomSubmit">
 							
 						</td>
+						<td>
 						<input type="hidden" id="RoomSubmitInput" name="roomCode0" value=""  >
+						</td>
 					</tr>
 					
 					<tr>
 						<td id="WeekSubmit">
 							
 						</td>
-						<input type="hidden" id="WeekSubmitInput" name="weeks[]" value=""  >
+						<td>
+							<input type="hidden" id="WeekSubmitInput" name="weeks[]" value=""  >
+						</td>
+					</table>
+					</div>
+					<div id="after2">
+					<table class="inputs">
 					</tr>
 					
 					<tr>
@@ -629,7 +714,9 @@
 							Day: 
 							
 						</td>
-						<input type="hidden" id="DaySubmitInput" name="day" value=""  >
+						<td>
+							<input type="hidden" id="DaySubmitInput" name="day" value=""  >
+						</td>
 					</tr>
 					
 					<tr>
@@ -637,7 +724,9 @@
 							Period/Time: 
 							
 						</td>
-						<input type="hidden" id="PeriodSubmitInput" name="time" value=""  >
+						<td>
+							<input type="hidden" id="PeriodSubmitInput" name="time" value=""  >
+						</td>
 					</tr>
 					
 					<tr>
@@ -673,16 +762,18 @@
 					
 					<tr>
 						<td>
-							<input type="submit" value="Submit" />
+							<input id="checkButton" type="submit" value="RoomAvail.php" />
 						</td>
 					</tr>
 					
 					
 				
 				</table>
-			</form>
 		</div>
-		
+		</form>
+		</div>
+		</div>
+		</div>
 
 		
 		
