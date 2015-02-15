@@ -1,5 +1,12 @@
 
 <?php
+	/*
+		Page will return the available times that have not been booked 
+		for the room that has been selected and passed to this page.
+		The data passed back includes: week, day, period, duration for the selected room.
+		
+		Created by Callan Swanson and Inthuch Therdchanakul
+	*/
 	//This makes JSON work!
 	header("Content-Type: text/javascript; charset=utf-8");
 	//Starts the session, if there is not any sessions then it will transfer to
@@ -16,8 +23,7 @@
 	$week = $val['weeks'];
 	$room = $val['RoomSelect'];
 	$results = array();
-	
-	
+
 	//connects to the database using the username and password
 	require_once "MDB2.php";
 	$host = "co-project.lboro.ac.uk"; //host name
@@ -31,7 +37,7 @@
 	//username is the uppercase dept code that was loggged in
 	$username = strtoupper($_SESSION['username']);
 	
-	//selects the values from the table, 0 week only offurs once per 
+	//selects the values from the table, 0 week only occurs once per 
 	//room if it is in the default weeks 
 	//Callan Swanson 
 	$sql = "SELECT week, day, period, duration 
