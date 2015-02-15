@@ -61,10 +61,7 @@
 			insert_room_code();
 		});
 		
-		
-		function window_position(){
-			window.scrollTo(0, 300);
-		}	
+
 		
 	</script>
 		
