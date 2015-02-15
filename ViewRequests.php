@@ -500,39 +500,63 @@ $(function() {
 				switch(id) {
 					case "request_id" : 
 						requestData.sort(request_id);
+						bookingData.sort(request_id);
+						rejectedData.sort(request_id);
 						break;
 					case "module_code" : 
 						requestData.sort(module_code);
+						bookingData.sort(module_code);
+						rejectedData.sort(module_code);
 						break;
 					case "room_code" : 
 						requestData.sort(room_code);
+						bookingData.sort(room_code);
+						rejectedData.sort(room_code);
 						break;
 					case "capacity" : 
 						requestData.sort(capacity);
+						bookingData.sort(capacity);
+						rejectedData.sort(capacity);
 						break;
 					case "wheelchair" : 
 						requestData.sort(wheelchair);
+						bookingData.sort(wheelchair);
+						rejectedData.sort(wheelchair);
 						break;
 					case "projector" : 
 						requestData.sort(projector);
+						bookingData.sort(projector);
+						rejectedData.sort(projector);
 						break;
 					case "visualiser" : 
 						requestData.sort(visualiser);
+						bookingData.sort(visualiser);
+						rejectedData.sort(visualiser);
 						break;
 					case "whiteboard" : 
 						requestData.sort(whiteboard);
+						bookingData.sort(whiteboard);
+						rejectedData.sort(whiteboard);
 						break;
 					case "priority" : 
 						requestData.sort(priority);
+						bookingData.sort(priority);
+						rejectedData.sort(priority);
 						break;
 					case "period" : 
 						requestData.sort(period);
+						bookingData.sort(period);
+						rejectedData.sort(period);
 						break;
 					case "day" : 
 						requestData.sort(day);
+						bookingData.sort(day);
+						rejectedData.sort(day);
 						break;
 					case "duration" : 
 						requestData.sort(duration);
+						bookingData.sort(duration);
+						rejectedData.sort(duration);
 						break;
 					default : 
 						break;
