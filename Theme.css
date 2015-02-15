@@ -1144,10 +1144,6 @@ margin-left: 10px;
 	width:65px;
 }
 
-#div_holding_everything{
-display:none;
-}
-
 
 .box_class {
 -moz-border-radius-topright:22px;
@@ -1201,7 +1197,7 @@ border: 3px solid #c1c1c1;
     width: 1px;
 }
 
-label {
+#week {
   margin: 10px;
   padding: 5px;
   border: 1px solid #cc0066;
@@ -1210,13 +1206,21 @@ label {
   font-weight:bold;
 }
 
-label:hover {
+#week:hover {
   background-color: #cc0066;
   color:white;
 }
 
-input:checked + label {
+input:checked + #week {
   border-color: ;
   background-color: #cc0066;
   color:white;
+}
+
+#id_change_password{
+font-size: 1em;
+font-weight: 900;
+background: none repeat scroll 0 0 transparent;
+border: medium none;
+color: #fff;
 }
