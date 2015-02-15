@@ -1189,3 +1189,34 @@ border: 3px solid #c1c1c1;
     margin-bottom: 25px;
     margin-left: 65px;
 	}
+
+.vis-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+label {
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #cc0066;
+  background-color: #white;
+  color:#cc0066;
+  font-weight:bold;
+}
+
+label:hover {
+  background-color: #cc0066;
+  color:white;
+}
+
+input:checked + label {
+  border-color: ;
+  background-color: #cc0066;
+  color:white;
+}
