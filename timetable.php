@@ -186,11 +186,26 @@
   //Tom Middleton
   		function advToggle() {
         	var e = document.getElementById('advance');
-       		if(e.style.display == 'block')
+			var f = document.getElementById('advance2');
+			var g = document.getElementById('div_holding_everything');
+       		
+			if(e.style.display == 'block')
           	e.style.display = 'none';
        	else
           	e.style.display = 'block';
-    	}	
+			
+		if(f.style.display == 'block')
+          	f.style.display = 'none';
+       	else
+          	f.style.display = 'block';
+			
+		if(g.style.display == 'block')
+          	g.style.display = 'none';
+       	else
+          	g.style.display = 'block';	
+    	}
+
+			
 		
 <?php
 //pass value array onto javascript array roomData
@@ -325,12 +340,14 @@ $("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_co
 for(var x=1;x<4;x++){
 document.getElementById('room_list'+ (x+1)).style.display='none';
 document.getElementById('roomlabel'+ (x+1)).style.display='none';
+document.getElementById('advancedinputs'+ (x+1)).style.display='none';
 }
 noOfRooms = parseInt(document.getElementById('noRooms').value);
 if(noOfRooms>1){
 for(var x=1;x<noOfRooms;x++){
 document.getElementById('room_list'+ (x+1)).style.display='block';
 document.getElementById('roomlabel'+ (x+1)).style.display='block';
+document.getElementById('advancedinputs'+ (x+1)).style.display='block';
 }
 }
 }
@@ -338,6 +355,7 @@ else {
 for(var x=1;x<4;x++){
 document.getElementById('room_list'+ (x+1)).style.display='none';
 document.getElementById('roomlabel'+ (x+1)).style.display='none';
+document.getElementById('advancedinputs'+ (x+1)).style.display='none';
 }
 }
 if(parseInt(document.getElementById('noRooms').value) > 2){
