@@ -72,6 +72,8 @@
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
 				$("#WeekSubmit").html("Week: "+document.getElementById("Weeks").value);
 				buildingInitialise();
+				$("#modDialog").dialog();
+				$("#modDialog").dialog("close");
 			});
 			
 			<?php
@@ -96,8 +98,63 @@
 				//declares the roomInfo in javascript
 				echo "var roomInfo = ".$roomInfojson.";";
 				
+				$sql = "SELECT module_code, module_title 
+				FROM MODULES 
+				WHERE dept_code='$username' 
+				ORDER BY module_code;";
+				$res =& $db->query($sql); //getting the result from the database
+				if(PEAR::isError($res)){
+					die($res->getMessage());
+				}
+				$moduleInfo = array();
+				while($row = $res->fetchRow()){
+					$moduleInfo[] = $row;
+				}
+				$moduleJson = json_encode($moduleInfo);
+				echo "var moduleData = ". $moduleJson . ";\n";
+				
 			?>
-			
+			function showModDialog(){
+				$("#modDialog").dialog("open");
+			}
+			function addMod(){
+				var code = document.getElementById("modCode").value;
+				var title = document.getElementById("modTitle").value;
+				for(var i=0;i<moduleData.length;i++){
+					if(code == moduleData[i].module_code){
+						alert("This module already exist");
+						$("#modDialog").dialog("close");
+						$("#module_code_select").val(moduleData[i].module_code);
+						$("#module_title_select").val(moduleData[i].module_title);
+						return "Module existed";
+					}
+				}
+				
+				if (confirm('Are you sure you want to add the following module: Module code - ' + code + ' Module title - ' + title)){
+					$("#module_code_select").append("<option>" + code + "</option>");
+					$("#module_title_select").append("<option>" + title + "</option>");
+					$.ajax( {
+						url : "insertMod.php",
+						type : "POST", 
+						data : $("#modForm").serialize(),
+						success : function (data){
+								data = JSON.parse(data);
+								console.log("data "+data); //quick check
+								alert(data);
+							},
+						error : function(jqXHR, textStatus, errorThrown) {
+						}
+					});
+					
+					$("#modDialog").dialog("close");
+					$("#module_code_select").val(code);
+					$("#module_title_select").val(title);
+				}else{
+				return false;
+				}
+				
+				
+			}
 			//ajax to remove the book buttons within the table 
 			//Callan Swanson, Inthuch Therdchanakul
 			function ajaxFunction() {
@@ -205,10 +262,23 @@
 				var projectorVal = document.getElementById("projector_yes").checked;
 				var visualiserVal = document.getElementById("visualiser_yes").checked;
 				
-				$("#WhiteboardSubmit").html("Whiteboard: "+ ~~whiteboardVal);
-				$("#ProjectorSubmit").html("Projector: "+ ~~projectorVal);
-				$("#VisualiserSubmit").html("Visualiser: "+ ~~visualiserVal);
-				$("#WheelchairSubmit").html("Wheelchair: "+ ~~wheelchairVal);
+				if(whiteboardVal)
+					$("#WhiteboardSubmit").html("Whiteboard: Yes");
+				else 
+					$("#WhiteboardSubmit").html("Whiteboard: No");
+				if(projectorVal)
+					$("#ProjectorSubmit").html("Projector: Yes");
+				else
+					$("#ProjectorSubmit").html("Projector: No");
+				if(visualiserVal)
+					$("#VisualiserSubmit").html("Visualiser: Yes");
+				else
+					$("#VisualiserSubmit").html("Visualiser: No");
+				if(wheelchairVal)
+					$("#WheelchairSubmit").html("Wheelchair: Yes");
+				else
+					$("#WheelchairSubmit").html("Wheelchair: No");
+				
 				
 				$("#Wheelchair").val(~~wheelchairVal);
 				$("#Projector").val(~~projectorVal);
@@ -243,8 +313,12 @@
 				//gets the period from the buttonId and finds the time, then places into teh bottom
 				$("#PeriodSubmit").html("Period/Time: "+buttonId.substr(buttonId.length-2,1)+" / "+(8+parseInt(buttonId.substr(buttonId.length-2,1)))+":00");
 				
+				if(document.getElementById("priorityInputTrue").checked) {
+					$("#priorityCell").html("Priority:		Yes");		
+				} else {
+					$("#priorityCell").html("Priority:		No");
+				}
 			
-				$("#priorityCell").html("Priority: "+document.getElementById("priorityInputTrue").checked);
 				$("#priority").val(~~document.getElementById("priorityInputTrue").checked);
 				//changes the values of the hidden input fields to correspond to the button clicked
 				var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -372,6 +446,41 @@
 					$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
 				}
 			}
+			function partChange() {
+		//looks through all of the moduleData
+		$("#module_code_select").empty();
+		$("#module_title_select").empty();
+		console.log(moduleData[0].module_code.substr(4,1));
+		console.log(document.getElementsByName("partCode").value);
+		
+		//finding out which part is checked one by one
+		var checkedVal;
+		if(document.getElementById("allPart").checked) {
+			checkedVal = document.getElementById("allPart").value;
+		}else if(document.getElementById("aPart").checked) {
+			checkedVal = document.getElementById("aPart").value;
+		}else if(document.getElementById("bPart").checked) {
+			checkedVal = document.getElementById("bPart").value;
+		}else if(document.getElementById("iPart").checked) {
+			checkedVal = document.getElementById("iPart").value;
+		}else if(document.getElementById("cPart").checked) {
+			checkedVal = document.getElementById("cPart").value;
+		}else if(document.getElementById("dPart").checked) {
+			checkedVal = document.getElementById("dPart").value;
+		}
+		
+		console.log(checkedVal);
+		
+		for(var i=0; i<moduleData.length; i++) {
+			if(moduleData[i].module_code.substr(4,1) == checkedVal) {
+				$("#module_code_select").append("<option>"+moduleData[i].module_code+"</option>");
+				$("#module_title_select").append("<option>"+moduleData[i].module_title+"</option>");
+			} else if(checkedVal == "All") {
+				$("#module_code_select").append("<option>"+moduleData[i].module_code+"</option>");
+				$("#module_title_select").append("<option>"+moduleData[i].module_title+"</option>");
+			}
+		}
+	}
 			
 					function logout_question(){
   if (confirm('Are you sure you want to logout?')){
@@ -628,6 +737,17 @@
 					</tr>
 					<tr>
 						<td>
+							<input type='radio' name='partCode' id='allPart' checked='checked' value='All' onchange='partChange()'> All 
+							<input type='radio' name='partCode' id='aPart' value='A' onchange='partChange()' > A 
+							<input type='radio' name='partCode' id='bPart' value='B' onchange='partChange()'> B 
+							<input type='radio' name='partCode' id='iPart' value='I' onchange='partChange()'> I 
+							<input type='radio' name='partCode' id='cPart' value='C' onchange='partChange()'> C 
+							<input type='radio' name='partCode' id='dPart' value='D' onchange='partChange()'> D
+						</td> 
+					</tr>
+					<tr>
+						
+						<td>
 							<?php
 								//will output the whole set of module codes from the database, module codes will change when module titles change
 								//Callan Swanson, Inthuch Therdchanakul
@@ -668,6 +788,7 @@
 								}
 								echo "</select>";
 							?>
+							<input type="button" id="enterMod" value="Enter module data manually" onclick="showModDialog()">
 						</td>
 					</tr>
 					
@@ -774,8 +895,13 @@
 		</div>
 		</div>
 		</div>
-
-		
+		<div id="modDialog" title="Enter module data" style="display:none;">
+			<form id="modForm" name="modForm">
+			Module code: <input type="text" id="modCode" name="modCode">
+			Module title: <input type="text" id="modTitle" name="modTitle">
+			<input type="button" onclick="addMod()" value="Submit">
+			</form>
+		</div>
 		
 	</body>
 
