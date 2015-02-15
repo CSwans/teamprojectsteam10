@@ -182,28 +182,6 @@
 				}
 			}
 		}
-  //show or hide advanced input that aren't compulsory
-  //Tom Middleton
-  		function advToggle() {
-        	var e = document.getElementById('advance');
-			var f = document.getElementById('advance2');
-			var g = document.getElementById('div_holding_everything');
-       		
-			if(e.style.display == 'block')
-          	e.style.display = 'none';
-       	else
-          	e.style.display = 'block';
-			
-		if(f.style.display == 'block')
-          	f.style.display = 'none';
-       	else
-          	f.style.display = 'block';
-			
-		if(g.style.display == 'block')
-          	g.style.display = 'none';
-       	else
-          	g.style.display = 'block';	
-    	}
 
 			
 		
@@ -677,7 +655,6 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 			return(alert("Please Enter a day!"));
 		}
 		
-		alert(dayChosen);
 		var roomChosen = document.getElementById("room_list");
 		
 		//checks the room capacity asked for
@@ -721,7 +698,7 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 			data : $("#requestForm").serialize(),
 			success : function (data){					
 					data = JSON.parse(data);
-					alert("Request submitted with request id " + data[data.length-1].request_id);
+					alert("Booking submitted successfully.");
 					console.log("data "+data); //quick check
 					
 				},
