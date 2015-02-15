@@ -585,6 +585,7 @@ $(function() {
 				}
 			}
 			
+			/*
 			//delete the table contents and fill the headers
 			function createHeaders(pending) {
 				$("#dataTable").empty();
@@ -611,11 +612,14 @@ $(function() {
 				//add the edit and delete button column
 				if(document.getElementById("status") == "Pending") {
 					$("#dataTable").append('<td id="edit_cell" style="cursor:default;">Edit/Delete</td></tr>');
+				} else {
+					
+					
 				}
 				
 			}
 			
-			/* function statusChange(status) {
+			function statusChange(status) {
 			
 				createHeaders();
 				
