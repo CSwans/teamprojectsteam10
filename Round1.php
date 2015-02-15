@@ -58,6 +58,7 @@
 		
 		$(function() {
 			partChange();
+			insert_room_code();
 		});
 		
 		
