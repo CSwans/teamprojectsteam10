@@ -699,7 +699,57 @@ font-weight:bold;
 	height:135px;
 }
 
-#testTable {
+.day1 {
+	border-right: 1px solid  #c1c1c1;
+	border-left: 1px solid  #c1c1c1;
+	height:80px;
+}
+
+
+.rooavail_button {
+   border-top: 1px solid #a4f598;
+   background: #64bf74;
+   background: -webkit-gradient(linear, left top, left bottom, from(#20802b), to(#64bf74));
+   background: -webkit-linear-gradient(top, #20802b, #64bf74);
+   background: -moz-linear-gradient(top, #20802b, #64bf74);
+   background: -ms-linear-gradient(top, #20802b, #64bf74);
+   background: -o-linear-gradient(top, #20802b, #64bf74);
+   padding: 20px 40px;
+   -webkit-border-radius: 22px;
+   -moz-border-radius: 22px;
+   border-radius: 22px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: #ffffff;
+   font-size: 21px;
+   font-family: Georgia, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   height: 95%;
+   width: 99%;
+   }
+.rooavail_button:hover {
+   border-top-color: #29784e;
+   background: #29784e;
+   color: #ffffff;
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#RoomAvailTable, #testTable {
 	-moz-border-radius-topright:22px;
 -webkit-border-top-right-radius:22px;
 border-top-right-radius:22px;
@@ -723,7 +773,7 @@ border-right: 1px solid  #c1c1c1;
 box-shadow: 6px 7px 5px 0px rgba(148,148,148,0.65);
 }
 
-#testTable th {
+#testTable th,  .top_table_style {
 border:1px solid  #c1c1c1;
 background:-o-linear-gradient(bottom, #600060 5%, #a801a8 100%); background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #600060), color-stop(1, #a801a8) );
 background:-moz-linear-gradient( center top, #600060 5%, #a801a8 100% );
@@ -731,7 +781,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#600060", endCo
 color:#fff;
 }
 
-#testTable td {
+.row_table_style, #testTable td {
 	width:9.01%;
 	background-color:#F8F8F8;
 	border-bottom: 1px dotted #c1c1c1;
