@@ -720,6 +720,24 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 }		
 			
 	function updateAjax(){
+				
+				//validation
+				if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+					return(alert("Please enter a suitable capacity"));
+				}
+				
+				
+				var checked = false;
+				$('#editForm  input[type="checkbox"]').each(function() {
+					if ($(this).is(":checked")) {
+						checked = true;
+					}
+				});
+		 
+				if (checked == false) {
+					return(alert("Please enter a week"));
+				} 
+	
 				$.ajax({
 				url : "updateInfo.php",
 				type : "POST", 
@@ -1044,7 +1062,6 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 					
 					<input type="button" value="Submit" onClick="updateAjax()" />
 					<input type="button" value="Delete" onClick="confirmDelete()" />
-					<input type="button" value="Cancel" onClick="closeDialog()" />
 				</fieldset>
 			</form>
 		</div>

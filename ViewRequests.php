@@ -206,6 +206,20 @@ $(function() {
 				}
 			}
 			function updateAjax(){
+			
+				//validation
+				if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+					return(alert("Please enter a suitable capacity"));
+				}
+				
+				
+				var checked = false;
+				$('#editForm  input[type="checkbox"]').each(function() {
+					if ($(this).is(":checked")) {
+						checked = true;
+					}
+				});
+			
 				$.ajax({
 				url : "updateInfo.php",
 				type : "POST", 

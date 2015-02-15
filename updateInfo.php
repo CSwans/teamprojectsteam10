@@ -26,7 +26,8 @@
 	$deptCode = strtoupper($_SESSION['username']);
 	$request_id = $_POST['requestId'];
 	$moduleCode = $_POST['module_code_select'];
-	$roomCode = $_POST['roomCode0'];
+	if(isset($_POST['roomCode0'])) $roomCode = $_POST['roomCode0'];
+	else $roomCode = "";
 	$cap1=$_POST['capacity'];
 	$wheelchair=$_POST['wheelchair'];
 	$projector=$_POST['projector'];
