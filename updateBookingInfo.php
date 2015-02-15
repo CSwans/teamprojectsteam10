@@ -2,7 +2,8 @@
 	/*
 		Page will select the information from the selected request_id and
 		then alter the information within the database to hold the new values
-		that have been passed to this page.
+		that have been passed to this page. Will also do teh dame for the 
+		BOOKING table, deleting the corresponding booking from the table.
 		
 		Created by Callan Swanson and Inthuch Therdchanakul	
 	*/
