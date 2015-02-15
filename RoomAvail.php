@@ -119,13 +119,13 @@
 								if(document.getElementById("Weeks").value == data[i].week) { 
 									for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
 										console.log(data[i].day+(parseInt(data[i].period)+j));
-										$("#"+data[i].day+(parseInt(data[i].period)+j)).html("Booked"); //removes the Book button in teh table
+										$("#"+data[i].day+(parseInt(data[i].period)+j)).html(""); //removes the Book button in the table
 									}
 								} else {  //default weeks are put in as a 0 in teh relationship table 
 									if(parseInt(document.getElementById("Weeks").value) <= 12 && data[i].week == 0) {
 										for(var j=0; j<data[i].duration; j++) {  //looping through the whole duration of the booked slot
 											console.log(data[i].day+(parseInt(data[i].period)+j));
-											$("#"+data[i].day+(parseInt(data[i].period)+j)).html("Booked"); //removes the Book button in teh table
+											$("#"+data[i].day+(parseInt(data[i].period)+j)).html(""); //removes the Book button in teh table
 										}
 									}
 								}
@@ -136,17 +136,17 @@
 				});
 			}
 			
-			//replaces all the books within teh table so no previously booked rooms are still displayed as booked
+			//replaces all the books within the table so no previously booked rooms are still displayed as booked
 			//Callan Swanson, Inthuch Therdchanakul
-			function refreshBooks() {
-				for(var i=1; i<10; i++) {
+				function refreshBooks() {
+					for(var i=1; i<10; i++) {
 					$("#Monday"+i).html("<input type='button' value='Book' id='Monday"+i+"b' onclick='bookClick(this.id)'>");
 					$("#Tuesday"+i).html("<input type='button' value='Book' id='Tuesday"+i+"b' onclick='bookClick(this.id)'>");
 					$("#Wednesday"+i).html("<input type='button' value='Book' id='Wednesday"+i+"b' onclick='bookClick(this.id)'>");
 					$("#Thursday"+i).html("<input type='button' value='Book' id='Thursday"+i+"b' onclick='bookClick(this.id)'>");
 					$("#Friday"+i).html("<input type='button' value='Book' id='Friday"+i+"b' onclick='bookClick(this.id)'>");
+					}
 				}
-			}
 			
 			//finds the park chosen Callan Swanson, March Intuch
 			function ParkChange() {
@@ -381,7 +381,9 @@
   }
 }
 	
-			
+	function goBack() {
+    window.history.back()
+}			
 			
 			
 		</script>
@@ -390,6 +392,9 @@
 	
 	   
 <div id="top_style">
+<div  align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">  
+<a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
+
 <a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
@@ -443,7 +448,7 @@
 				<input type="text" id="capacity" name="capacity1" onchange="change_room_code();hideForm();" >
 				</br>
 				
-				Park :-
+				Park 
 				<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();change_room_code()" >
 					<option value="Any">Any</option>
 					<option value="C">C</option>
@@ -451,20 +456,20 @@
 					<option value="W">W</option>
 				</select>
 				
-				Building Name :-
+				Building Name 
 				<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
 					
 				</select>
 				
-				Building Code :-
+				Building Code 
 				<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
 					
 				</select>
 				
-				Rooms :-
+				Rooms 
 				<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
 				</select>
-				Week-
+				Week
 				<select name="weeks[]" id="Weeks" onChange="WeekChange();ajaxFunction();">
 					<?php
 						for($i = 1; $i<=16; $i++) { //displaying 1-16 weeks
@@ -475,53 +480,55 @@
 			</form>
 		</div>
 		
+		<br/> <hr/  id="round_input_separator"> <br/>
 		
-		<table>
+		
+		<table style="width:85%;" align="center" frame="box" id="RoomAvailTable">
 			<tr id="time">
-				<td id="weekChosen"></td>
+				<td id="weekChosen" class='top_table_style'></td>
 				<?php
 					for($i=9;$i<18;$i++) { //stating the time for booking at the top of the table
-						echo "<td>".$i.":00</td>";
+						echo "<td class='top_table_style'>".$i.":00</td>";
 					}
 				?>
 			</tr>
-			<tr id="monday">
-				<td>Monday</td>
+			<tr id="monday" >
+				<td class='row_table_style day1'>Monday</td>
 				<?php
 					for($i=1; $i<10; $i++) { //describing the table with teh day and the time period
-						echo "<td id=Monday".$i.">Book</td>";
+						echo "<td class='row_table_style' id=Monday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="tuesday">
-				<td>Tuesday</td>
+				<td class='row_table_style day1'>Tuesday</td>
 				<?php
 					for($i=1; $i<10; $i++) {
-						echo "<td id=Tuesday".$i.">Book</td>";
+						echo "<td class='row_table_style' id=Tuesday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="wednesday">
-				<td>Wednesday</td>
+				<td class='row_table_style day1'>Wednesday</td>
 				<?php
 					for($i=1; $i<10; $i++) {
-						echo "<td id=Wednesday".$i.">Book</td>";
+						echo "<td class='row_table_style' id=Wednesday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="thursday">
-				<td>Thursday</td>
+				<td class='row_table_style day1'>Thursday</td>
 				<?php
 					for($i=1; $i<10; $i++) {
-						echo "<td id=Thursday".$i.">Book</td>";
+						echo "<td class='row_table_style' id=Thursday".$i.">Book</td>";
 					}
 				?>
 			</tr>
 			<tr id="friday">
-				<td>Friday</td>
+				<td  class='row_table_style day1' >Friday</td>
 				<?php
 					for($i=1; $i<10; $i++) {
-						echo "<td id=Friday".$i.">Book</td>";
+						echo "<td class='row_table_style' id=Friday".$i.">Book</td>";
 					}
 				?>
 			</tr>
