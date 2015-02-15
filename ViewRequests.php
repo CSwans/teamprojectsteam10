@@ -10,7 +10,7 @@
 			}
 			//connects to the database using the username and passoword
 			require_once "MDB2.php";
-			$host = "co-project.lboro.ac.uk"; //host name
+			$host = "co-project.lboro.ac.uk"; //host name<code></code>
 			$dbName = "team10"; //database name
 			$dsn = "mysql://team10:abg83rew@$host/$dbName"; //login information
 			$db =& MDB2::connect($dsn); //connecting to the server and connecting to the database
@@ -162,9 +162,20 @@ $(function() {
 								at: "top",
 								of: window}	
 				});
+				
+				$("#dialog-form2").dialog({
+					modal:true,
+					height: 500,
+					width: 700,
+					position: { my:"center",
+								at: "top",
+								of: window}	
+				});
+				
 				$(".ui-widget-overlay").attr('style','background-color: #000; opacity:1; z-index:1000;');
 				//hide dialog
 				$("#dialog-form1").dialog("close");
+				$("#dialog-form2").dialog("close");
 				populateTable();
 				findPendings();
 				buildingInitialise();
@@ -172,6 +183,8 @@ $(function() {
 				$("#changePWordForm").dialog("close");
 				 
 			});
+			
+
 	
 			//show dialog when edit button is clicked
 			//callan swanson, Inthuch Therdchanakul
@@ -198,6 +211,8 @@ $(function() {
 			//close dialog when cancel is clicked
 			function closeDialog(){
 				$("#dialog-form1").dialog("close");
+				$("#dialog-form2").dialog("close");
+				
 			}
 			///input module data into dialog div
 			function inputModule(){
@@ -206,6 +221,52 @@ $(function() {
 					$("#module_title_select").append("<option>" + moduleData[i].module_title + "</option>");
 				}
 			}
+			
+			function updateBookedAjax() {
+				//validation
+				if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+					return(alert("Please enter a suitable capacity"));
+				}
+				
+				
+				var checked = false;
+				$('#editForm  input[type="checkbox"]').each(function() {
+					if ($(this).is(":checked")) {
+						checked = true;
+					}
+				});
+			
+				$.ajax({
+				url : "updateBookingInfo.php",
+				type : "POST", 
+				data : $("#editForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request submitted with request id " + data[data.length-1].request_id);
+						currentRow.cells[1].textContent = data[0].module_code;
+						currentRow.cells[2].textContent = data[0].room_code;
+						currentRow.cells[3].textContent = data[0].capacity;
+						currentRow.cells[4].textContent = data[0].wheelchair;
+						currentRow.cells[5].textContent = data[0].projector;
+						currentRow.cells[6].textContent = data[0].visuliser;
+						currentRow.cells[7].textContent = data[0].whiteboard;
+						currentRow.cells[8].textContent = data[0].special_requirements;
+						currentRow.cells[9].textContent = data[0].priority;
+						currentRow.cells[10].textContent = data[0].period;
+						currentRow.cells[11].textContent = data[0].day;
+						currentRow.cells[12].textContent = data[0].duration;
+						currentRow.cells[13].textContent = data[0].week;
+						
+						closeDialog();
+						window.location.href = "http://co-project.lboro.ac.uk/team10/WebsiteN/ViewRequests.php";
+						//redirects to the full view once one has been deleted
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+				
+			}
+			
 			function updateAjax(){
 			
 				//validation
@@ -279,8 +340,10 @@ $(function() {
 				row = el;
 				if (confirm('Are you sure you want to delete this request?')){
 					deleteAjax();
+					
+					
 				}else{
-				return false;
+					return false;
 				}
 			}
 
@@ -297,6 +360,19 @@ $(function() {
 						data = JSON.parse(data);
 						alert("Request deleted with request id " + data + " has been deleted");
 						$(row).closest("tr").remove();
+						console.log(data);
+						
+						//cuts out the requests from both teh tables if they are within them so they are not displayed again
+						for(var i=0; i<requestData.length; i++) {
+							if(parseInt(data) == requestData[i].request_id)
+								requestData.splice(i,1);
+						}
+						
+						for(var i=0; i<bookingData.length; i++) {
+							if(parseInt(data) == bookingData[i].request_id)
+								bookingData.splice(i,1);	
+						}
+						
 					},
 				error : function(jqXHR, textStatus, errorThrown) {
 				}
@@ -604,103 +680,6 @@ $(function() {
 				}
 			}
 			
-			/*
-			//delete the table contents and fill the headers
-			function createHeaders(pending) {
-				$("#dataTable").empty();
-				
-				$("#dataTable").append('<tr style="display:none;"><select style="display:none;" id="statusList" onChange="populateTable()">');
-                $("#dataTable").append('<option>Rejected</option>');
-                $("#dataTable").append('<option>Booked</option>');
-                $("#dataTable").append('<option>Pending</option></select>');
-				$("#dataTable").append('<td id="request_id" onClick="sortHeader(this.id);">request_id</td>');
-				$("#dataTable").append('<td id="module_code" onClick="sortHeader(this.id);">module_code</td>');
-				$("#dataTable").append('<td id="room_code" onClick="sortHeader(this.id)">room_code</td>');
-				$("#dataTable").append('<td id="capacity" onClick="sortHeader(this.id)">capacity</td>');
-				$("#dataTable").append('<td id="wheelchair" onClick="sortHeader(this.id)">wheelchair</td>');
-				$("#dataTable").append('<td id="projector" onClick="sortHeader(this.id)">projector</td>');
-				$("#dataTable").append('<td id="visualiser" onClick="sortHeader(this.id)">visualiser</td>');
-				$("#dataTable").append('<td id="whiteboard" onClick="sortHeader(this.id)">whiteboard</td>');
-				$("#dataTable").append('<td id="special_requirements">Special </br>Requirements</td>');
-				$("#dataTable").append('<td id="priority" onClick="sortHeader(this.id)">priority</td>');
-				$("#dataTable").append('<td id="day" onClick="sortHeader(this.id)">day</td>');
-				$("#dataTable").append('<td id="period" onClick="sortHeader(this.id)">period</td>');
-				$("#dataTable").append('<td id="duration" onClick="sortHeader(this.id)">duration</td>');
-				$("#dataTable").append('<td id="week(s)" >week(s)</td>');
-				
-				//add the edit and delete button column
-				if(document.getElementById("status") == "Pending") {
-					$("#dataTable").append('<td id="edit_cell" style="cursor:default;">Edit/Delete</td></tr>');
-				} else {
-					
-					
-				}
-				
-			}
-			
-			function statusChange(status) {
-			
-				createHeaders();
-				
-				
-				
-				for(var i=0; i<status.length; i++) {
-
-					$("#dataTable".append("<tr>");
-				
-					$("#dataTable").append(status[i].request_id);
-					
-					if(status[i].room_code === null) console.log("NULL");
-					$("#dataTable").append(status[i].module_code);
-					
-					$("#dataTable").append(status[i].room_code);
-					$("#dataTable").append(status[i].capacity);
-					if(status[i].wheelchair == 1)
-						$("#dataTable").append("Yes");
-					else
-						$("#dataTable").append("No");
-					if(status[i].projector == 1)
-						$("#dataTable").append("Yes");
-					else
-						$("#dataTable").append("No");
-					if(status[i].visualiser == 1)
-						$("#dataTable").append("Yes");
-					else
-						$("#dataTable").append("No");
-					if(status[i].whiteboard == 1)
-						$("#dataTable").append("Yes");
-					else
-						$("#dataTable").append("No");
-					$("#dataTable").append(status[i].special_requirements);
-					if(status[i].priority == 1)
-						$("#dataTable").append("Yes");
-					else
-						$("#dataTable").append("No");
-					$("#dataTable").append(status[i].day);
-					$("#dataTable").append(parseInt(status[i].period) + 8 + ":00");
-					$("#dataTable").append(status[i].duration);
-					
-					
-					
-					if(status[i].week==0) { //default weeks
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").append("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12");
-					} else {
-						//sorting the list of numbers into lowest first order 
-						var sortedWeeks = status[i].week.split(",");
-						sortedWeeks.sort();
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").append(sortedWeeks.join());
-					}
-					
-					if(document.getElementById("status").value == "Pending"){
-						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").append("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
-					}
-					
-					$("#dataTable".append("</tr>");
-				}
-				
-			} */
-			
-			
 			//alters the table to contain the data they want to see
 			//callan swanson, Inthuch Therdchanakul
 			function statusChange(status){
@@ -757,8 +736,12 @@ $(function() {
 						sortedWeeks.sort(weekSort);
 						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join(', '));
 					}
-					if(document.getElementById("status").value == "Pending"){
+					if(document.getElementById("status").value == "Pending") {
 						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+						$('#updateButton').html('<input type="button" value="Submit" onClick="updateAjax()" />');
+					} else if (document.getElementById("status").value == "Booked") {
+						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
+						$('#updateButton').html('<input type="button" value="Submit" onClick="updateBookedAjax()" />');
 					} else {
 						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("");
 					}
@@ -893,7 +876,7 @@ $(function() {
 			
 	
 		function changePWordAjax() {
-			if(document.getElementById("#newPWord1") != document.getElementById("#newPWord2")) {
+			if(document.getElementById("") != document.getElementById("")) {
 				return(alert("New passwords do not match"));
 			}
 			
@@ -917,10 +900,10 @@ $(function() {
     
 <div id="top_style">
 <div  align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">  
-<a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
+<a onClick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
 <a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
-<input type="button" value="change password" onclick='$("#changePWordForm").dialog("open");'>
+<input class='class_change_passoword' id='id_change_password' type="button" value="change password" onclick='$("#changePWordForm").dialog("open");'>
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 	<div id = "header_style" >
   		<div id="title">
@@ -965,8 +948,8 @@ $(function() {
 					<input type="hidden" value="" id="requestId" name="requestId"/>
 
 					Priority: 
-					<input name="priorityInput" type="radio" id="priorityInput1" onchange="change_room_code()" value="1"/>Yes
-					<input name="priorityInput" type="radio" id="priorityInput2" onchange="change_room_code()" value="0"/>No
+					<input name="priorityInput" type="radio" id="priorityInput1" onChange="change_room_code()" value="1"/>Yes
+					<input name="priorityInput" type="radio" id="priorityInput2" onChange="change_room_code()" value="0"/>No
 
 					<label for="module_code_select"> Module Code: </label>
 					<select id="module_code_select" name="module_code_select" onchange='module_code_change()'>
@@ -1102,12 +1085,16 @@ $(function() {
 					Yes
 					<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
 					No
-					
-					<input type="button" value="Submit" onClick="updateAjax()" />
+					<div id="updateButton" >
+						
+                    </div>
 					<input type="button" value="Cancel" onClick="closeDialog()" />
 				</fieldset>
 			</form>
 		</div>
+        
+
+        
 	<div id="table_header">
 		<table id="scrollTable">
 			<tr>
@@ -1275,7 +1262,7 @@ $(function() {
 				Current Password: <input type="text" id="oldPWord" name="oldPWord">
 				New Password: <input type="text" id="newPWord1" name="newPWord1">
 				Confirm New Password: <input type="text" id="newPWord2" name="newPWord2">
-				<input type="button" value="Change" onclick="changePWordAjax()">
+				<input type="button" value="Change" onClick="changePWordAjax()">
 			</form>
 		</div>
 		
