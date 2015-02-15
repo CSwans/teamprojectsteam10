@@ -58,6 +58,7 @@
 		
 		$(function() {
 			partChange();
+			insert_room_code();
 		});
 		
 		
@@ -205,7 +206,7 @@
 							</select>
 						</td>
 						
-						<td> 
+						<td id="capacityCell"> 
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacity: </br>
 							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="100"/> 
 						</td>												

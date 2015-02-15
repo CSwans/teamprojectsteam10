@@ -132,7 +132,7 @@ label, input { display:block; }
 			document.getElementById('day').className="";
 			document.getElementById('duration').className="";
 			document.getElementById('edit_cell').className="";
-			document.getElementById('delete_cell').className="";
+			
 			
 			
 					
@@ -491,6 +491,10 @@ $(function() {
 				return parseInt(a["duration"]) - parseInt(b["duration"]);
 			}
 			
+			function weekSort(a, b) {
+				return parseInt(a) - parseInt(b);
+			}
+			
 			
 			//sorts the data in the table according to which id has been passed (uses sort functions above)
 			//Callan Swanson
@@ -729,12 +733,14 @@ $(function() {
 					
 					
 					if(status[i].week==0) { //default weeks
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1,2,3,4,5,6,7,8,9,10,11,12");
+						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12");
 					} else {
 						//sorting the list of numbers into lowest first order 
 						var sortedWeeks = status[i].week.split(",");
-						sortedWeeks.sort();
-						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join());
+						
+						
+						sortedWeeks.sort(weekSort);
+						$("#dataTable tr:eq("+(i+1)+") td:eq(13)").html(sortedWeeks.join(', '));
 					}
 					if(document.getElementById("status").value == "Pending"){
 						$("#dataTable tr:eq("+(i+1)+") td:eq(14)").html("<input id='edit_button' type='button' value='Edit' onclick='showDialog(this)'><input id='delete_button' type='button' value='Delete' onclick='confirmDelete(this)'>");
@@ -767,7 +773,7 @@ $(function() {
 					});
 
 
-
+					//changes teh class of all the empty cells to not be displayed
 					function hideEmpty() {
 							var row = $('#dataTable tr').length;
 							var x = $('#dataTable').children('tbody').children('tr').children('td').length;
@@ -786,6 +792,8 @@ $(function() {
 							}
 
 					}
+					
+					//removes the rooms that do not have the correct facilities
 					function change_room_code() {
 						//cache user settings
 						
@@ -818,6 +826,8 @@ $(function() {
 							
 						}
 					}
+					
+					//alters the room code according to the parks available 
 					function ParkChange() {
 						var parkChosen = "Any";
 						parkChosen = document.getElementById("park").value;
