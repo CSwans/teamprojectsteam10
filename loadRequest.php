@@ -18,15 +18,7 @@
 	$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 	
 	//the number of rows within te table, to be added in the request weeks table
-	$sql = "COUNT(request_id) as number FROM REQUEST"; 
 	
-	$res =& $db->query($sql); //query the result from the database
-	if(PEAR::isError($res)){
-		die($res->getMessage());
-	}
-	while($row = $res->fetchRow()){
-		$l = $row['number'];
-	}
 	
 	//deptCode is the uppercase dept code that was loggged in
 	$i = $_POST['form'];
@@ -38,19 +30,58 @@
 		die($res->getMessage());
 	}
 	//get id of last inserted request
-	$id1 = $db->lastInsertID('REQUEST');
-	if (PEAR::isError($id1)) {
-    	die($id->getMessage());
-	}
 	
-	$sql = "INSERT INTO REQUEST_WEEKS(request_id, week) SELECT SUM(request_id+$l), week FROM LAST_YEAR_WEEK";
+	
+	//get last year week array
+	$sql = "SELECT * FROM LAST_YEAR_WEEK WHERE request_id IN (SELECT request_id FROM LAST_YEAR_REQUEST WHERE dept_code = '$deptCode') ORDER BY request_id DESC";
 	$res =& $db->query($sql); //query the result from the database
 	if(PEAR::isError($res)){
 		die($res->getMessage());
 	}
+	$weekArr = array();
+	while($row = $res->fetchRow()){
+		$weekArr[] = $row;
+	}
+	//number of rows 
+	$sql = "SELECT COUNT(request_id) AS id FROM LAST_YEAR_REQUEST WHERE dept_code='$deptCode'";
+	$res =& $db->query($sql); //query the result from the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	while($row = $res->fetchRow()){
+		$length = $row['id'];
+	}
+	
+	//recently inserted request id
+	$sql = "SELECT request_id FROM REQUEST ORDER BY request_id DESC LIMIT $length";
+	$res =& $db->query($sql); //query the result from the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	$thisYearId = array();
+	while($row = $res->fetchRow()){
+		$thisYearId[] = $row;
+	}
+	$index = 0;
+	for($i=0;$i<sizeof($thisYearId);$i++){
+		$currentId = $weekArr[$index]['request_id'];
+		for($j=0;$j<sizeof($weekArr);$j++){
+			if($currentId == $weekArr[$j]['request_id']){
+				$sql = "INSERT INTO REQUEST_WEEKS(request_id,week) VALUES(".$thisYearId[$i]['request_id'].", ".$weekArr[$j]['week'].")";
+				$res =& $db->query($sql); //query the result from the database
+				if(PEAR::isError($res)){
+					die($res->getMessage());
+				}
+			}
+			else{
+				$index = $j;
+				
+			}
+		}
+	}
 	
 	//get the last inserted request from REQUEST table
-	$sql = "SELECT * FROM REQUEST WHERE dept_code='$deptCode' AND request_id = $id1";
+	$sql = "SELECT * FROM REQUEST WHERE dept_code='$deptCode' ORDER BY request_id DESC LIMIT $length";
 	$res =& $db->query($sql); //query the result from the database
 	if(PEAR::isError($res)){
 		die($res->getMessage());
