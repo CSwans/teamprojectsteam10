@@ -238,9 +238,9 @@ var isVisualiser2; if(noOfRooms > 1) isVisualiser2 = document.getElementById("vi
 var isVisualiser3; if(noOfRooms > 2) isVisualiser3 = document.getElementById("visualiser_yes3").checked;
 var isVisualiser4; if(noOfRooms > 3) isVisualiser4 = document.getElementById("visualiser_yes4").checked;
 var isProjector = document.getElementById("projector_yes").checked;
-var isProjector2; if(noOfRooms > 1)  isProjector2 = document.getElementById("projector_yes2").checked;
-var isProjector3; if(noOfRooms > 2)  isProjector3 = document.getElementById("projector_yes3").checked;
-var isProjector4; if(noOfRooms > 3)  isProjector4 = document.getElementById("projector_yes4").checked;
+var isProjector2; if(noOfRooms > 1) isProjector2 = document.getElementById("projector_yes2").checked;
+var isProjector3; if(noOfRooms > 2) isProjector3 = document.getElementById("projector_yes3").checked;
+var isProjector4; if(noOfRooms > 3) isProjector4 = document.getElementById("projector_yes4").checked;
 var isWhiteboard = document.getElementById("whiteboard_yes").checked;
 var isWhiteboard2; if(noOfRooms > 1) isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
 var isWhiteboard3; if(noOfRooms > 2) isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
@@ -249,20 +249,20 @@ var isWhiteboard4; if(noOfRooms > 3) isWhiteboard4 = document.getElementById("wh
 var n = parseInt(document.forms.requestForm.elements.day.value)-1;
 var day;
 if(n>-1){
-	day = document.forms.requestForm.elements.day[n].id;
-	day = day.charAt(0).toUpperCase() + day.slice(1);
+day = document.forms.requestForm.elements.day[n].id;
+day = day.charAt(0).toUpperCase() + day.slice(1);
 }
 
 var weeks=[];
 
 for(var x=0;x<16;x++){
-	if(document.forms.requestForm.elements['weeks[]'][x].checked){
-		weeks.push(x+1);
-	}
+if(document.forms.requestForm.elements['weeks[]'][x].checked){
+weeks.push(x+1);
+}
 }
 
 
-   
+
 var period = document.getElementById('time').selectedIndex+1;
 var duration = document.getElementById('duration').selectedIndex+1;
 
@@ -271,23 +271,23 @@ var bookedRooms=[];
 var flag=false;
 
 for(var x=0;x<weeks.length;x++){
-	if(weeks[x]>0 && weeks[x]<13) flag=true;
+if(weeks[x]>0 && weeks[x]<13) flag=true;
 }
 
 
 for(var x=1;x<bookingData.length;x++){
-	for(var y=0;y<weeks.length;y++){
-		if(parseInt(bookingData[x].week)==weeks[y] || (bookingData[x].week=="0" && flag==true)){
-			if( bookingData[x].day==day){
-				if((parseInt(bookingData[x].period) <= period && ((parseInt(bookingData[x].period) + parseInt(bookingData[x].duration)) > period )) || 
-				 ((period+duration)> parseInt(bookingData[x].period) && period < parseInt(bookingData[x].period)+ parseInt(bookingData[x].duration))){
-					bookedRooms.push(bookingData[x].room_code);
-				}
-			}
-		}
-	}
+for(var y=0;y<weeks.length;y++){
+if(parseInt(bookingData[x].week)==weeks[y] || (bookingData[x].week=="0" && flag==true)){
+if( bookingData[x].day==day){
+if((parseInt(bookingData[x].period) <= period && ((parseInt(bookingData[x].period) + parseInt(bookingData[x].duration)) > period )) ||
+((period+duration)> parseInt(bookingData[x].period) && period < parseInt(bookingData[x].period)+ parseInt(bookingData[x].duration))){
+bookedRooms.push(bookingData[x].room_code);
 }
-	
+}
+}
+}
+}
+
 //empty the room code list
 $("#room_list").empty();
 $("#room_list").append("<option>" + "" + "</option>");
@@ -299,20 +299,20 @@ $("#room_list4").find( "select" ).empty();
 $("#room_list4").find( "select" ).append("<option>" + "" + "</option>");
 for(var i=0;i<roomData.length;i++){
 //if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
-	if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity &&
-	(park == "Any" || park == roomData[i].park) &&
-	(!isWheelchair || roomData[i].wheelchair == 1) &&
-	(!isVisualiser || roomData[i].visualiser == 1) &&
-	(!isProjector || roomData[i].projector == 1) &&
-	(!isWhiteboard || roomData[i].whiteboard == 1))
-		$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity || isNaN(capacity)) &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair || roomData[i].wheelchair == 1) &&
+(!isVisualiser || roomData[i].visualiser == 1) &&
+(!isProjector || roomData[i].projector == 1) &&
+(!isWhiteboard || roomData[i].whiteboard == 1))
+$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
 //additional stages if more than one room pref option required
 //Tom middleton
 if(parseInt(document.getElementById('noRooms').value) > 1){
-	if(capacity2 != '' && capacity2 > 0){
+
 for(var i=0;i<roomData.length;i++){
-if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity2 &&
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity2 || isNaN(capacity2)) &&
 (park == "Any" || park == roomData[i].park) &&
 (!isWheelchair2 || roomData[i].wheelchair == 1) &&
 (!isVisualiser2 || roomData[i].visualiser == 1) &&
@@ -320,43 +320,43 @@ if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= c
 (!isWhiteboard2 || roomData[i].whiteboard == 1))
 $("#room_list2").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
-}
-else {}
+
+//else {}
 for(var x=1;x<4;x++){
- document.getElementById('room_list'+ (x+1)).style.display='none';
-  document.getElementById('roomlabel'+ (x+1)).style.display='none';
+document.getElementById('room_list'+ (x+1)).style.display='none';
+document.getElementById('roomlabel'+ (x+1)).style.display='none';
 }
 noOfRooms = parseInt(document.getElementById('noRooms').value);
 if(noOfRooms>1){
 for(var x=1;x<noOfRooms;x++){
- document.getElementById('room_list'+ (x+1)).style.display='block';
-  document.getElementById('roomlabel'+ (x+1)).style.display='block';
-} 
+document.getElementById('room_list'+ (x+1)).style.display='block';
+document.getElementById('roomlabel'+ (x+1)).style.display='block';
+}
 }
 }
 else {
 for(var x=1;x<4;x++){
- document.getElementById('room_list'+ (x+1)).style.display='none';
-  document.getElementById('roomlabel'+ (x+1)).style.display='none';
-}	
+document.getElementById('room_list'+ (x+1)).style.display='none';
+document.getElementById('roomlabel'+ (x+1)).style.display='none';
+}
 }
 if(parseInt(document.getElementById('noRooms').value) > 2){
 for(var i=0;i<roomData.length;i++){
-if(capacity3 != '' && capacity3 > 0){
-if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity3 &&
+
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity3 || isNaN(capacity3)) &&
 (park == "Any" || park == roomData[i].park) &&
 (!isWheelchair3 || roomData[i].wheelchair == 1) &&
 (!isVisualiser3 || roomData[i].visualiser == 1) &&
 (!isProjector3 || roomData[i].projector == 1) &&
 (!isWhiteboard3 || roomData[i].whiteboard == 1))
 $("#room_list3").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-}
+
 }
 }
 if(parseInt(document.getElementById('noRooms').value) > 3){
-if(capacity4 != '' && capacity4 > 0){
+
 for(var i=0;i<roomData.length;i++){
-if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= capacity4 &&
+if(bookedRooms.indexOf(roomData[i].room_code) == -1 && (roomData[i].capacity >= capacity4 || isNaN(capacity))&&
 (park == "Any" || park == roomData[i].park) &&
 (!isWheelchair4 || roomData[i].wheelchair == 1) &&
 (!isVisualiser4 || roomData[i].visualiser == 1) &&
@@ -364,7 +364,7 @@ if(bookedRooms.indexOf(roomData[i].room_code) == -1 && roomData[i].capacity >= c
 (!isWhiteboard4 || roomData[i].whiteboard == 1))
 $("#room_list4").find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
 }
-}
+
 }
 }
 //change number of capacity inputs based on no of rooms
@@ -407,123 +407,123 @@ $('#duration').append("<option value='" + i + "'>" + i + "</option>");
 // preventing choosing two room preferences that are the same
 //Tom Middleton
 function refill_codes() {
-	var noOfRooms = parseInt(document.getElementById('noRooms').value);
-	var park = document.getElementById("park").value;
-	var capacity = parseInt(document.getElementById("capacity1").value);
-		
-	var activeLists = [];
-	var currentSelections = [];
-	
-	var cap1= parseInt(document.getElementById('capacity1').value);
-	if(noOfRooms >=2)var cap2= parseInt(document.getElementById('capacity2').value); 
-	if(noOfRooms >=3) var cap3= parseInt(document.getElementById('capacity3').value); 
-	if(noOfRooms >=4) var cap4= parseInt(document.getElementById('capacity4').value); 
-	
-	var sel1 = document.getElementById('room_list').value;
-    var sel2= document.getElementById('room_list2').children[0].value;
-    var sel3 = document.getElementById('room_list3').children[0].value
-    var sel4 = document.getElementById('room_list4').children[0].value
-    
-	if(cap1 != null && cap1 != ''){ activeLists.push(1); currentSelections.push(sel1); }
-	if(cap2 != null && cap2 != ''){ activeLists.push(2); currentSelections.push(sel2); }
-	if(cap3 != null && cap3 != ''){ activeLists.push(3); currentSelections.push(sel3); }
-	if(cap4 != null && cap4 != ''){  activeLists.push(4); currentSelections.push(sel4); }
+var noOfRooms = parseInt(document.getElementById('noRooms').value);
+var park = document.getElementById("park").value;
+var capacity = parseInt(document.getElementById("capacity1").value);
 
-	var isWheelchair = document.getElementById("wheelchair_yes").checked;
-	var isWheelchair2; if(noOfRooms >=2) var isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
-	var isWheelchair3; if(noOfRooms >=3) var isWheelchair3 = document.getElementById("wheelchair_yes3").checked;
-	var isWheelchair4; if(noOfRooms >=4) var isWheelchair4 = document.getElementById("wheelchair_yes4").checked;
-	
-	var isVisualiser = document.getElementById("visualiser_yes").checked;
-	var isVisualiser2; if(noOfRooms >=2) var isVisualiser2 = document.getElementById("visualiser_yes2").checked;
-	var isVisualiser3; if(noOfRooms >=3) var isVisualiser3 = document.getElementById("visualiser_yes3").checked;
-	var isVisualiser4; if(noOfRooms >=4)  var isVisualiser4 = document.getElementById("visualiser_yes4").checked;
-	
-	var isProjector = document.getElementById("projector_yes").checked;
-	var isProjector2; if(noOfRooms >=2) var isProjector2 = document.getElementById("projector_yes2").checked;
-	var isProjector3; if(noOfRooms >=3) var isProjector3 = document.getElementById("projector_yes3").checked;
-	var isProjector4; if(noOfRooms >=4) var isProjector4 = document.getElementById("projector_yes4").checked;
-	
-	var isWhiteboard = document.getElementById("whiteboard_yes").checked;
-	var isWhiteboard2; if(noOfRooms >=2) var isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
-	var isWhiteboard3; if(noOfRooms >=3) var isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
-	var isWhiteboard4; if(noOfRooms >=4) var isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
-    
-    
-    for(var x=0;x<activeLists.length;x++){
-    	if(activeLists[x]==1){
-    		$("#room_list").empty();
-			$("#room_list").append("<option>" + "" + "</option>");
-    	}
-    	else {
-    		$("#room_list" + activeLists[x]).find( "select" ).empty();
-    		$("#room_list" + activeLists[x]).find( "select" ).append("<option>" + "" + "</option>");
-    	}
-    }
-    
-    for(var x=0;x<activeLists.length;x++){
-    	for(var i=0;i<roomData.length;i++){
-    		if(activeLists[x]==1){
-    			if(roomData[i].capacity >= capacity &&
-    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
-					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair || roomData[i].wheelchair == 1) &&
-					(!isVisualiser || roomData[i].visualiser == 1) &&
-					(!isProjector || roomData[i].projector == 1) &&
-					(!isWhiteboard || roomData[i].whiteboard == 1))
-						$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-			}
-			if(activeLists[x]==2) {
-				if(roomData[i].capacity >= cap2 &&
-    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
-					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair2 || roomData[i].wheelchair == 1) &&
-					(!isVisualiser2 || roomData[i].visualiser == 1) &&
-					(!isProjector2 || roomData[i].projector == 1) &&
-					(!isWhiteboard2 || roomData[i].whiteboard == 1))
-						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-			
-        		}
-			if(activeLists[x]==3){
-				if(roomData[i].capacity >= cap3 &&
-    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
-					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair3 || roomData[i].wheelchair == 1) &&
-					(!isVisualiser3 || roomData[i].visualiser == 1) &&
-					(!isProjector3 || roomData[i].projector == 1) &&
-					(!isWhiteboard3 || roomData[i].whiteboard == 1))
-						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-			}
-			if(activeLists[x]==4){
-			if(roomData[i].capacity >= cap4 &&
-    				(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
-					(park == "Any" || park == roomData[i].park) &&
-					(!isWheelchair4 || roomData[i].wheelchair == 1) &&
-					(!isVisualiser4 || roomData[i].visualiser == 1) &&
-					(!isProjector4 || roomData[i].projector == 1) &&
-					(!isWhiteboard4 || roomData[i].whiteboard == 1))
-						$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
-			}
+var activeLists = [];
+var currentSelections = [];
+
+var cap1= parseInt(document.getElementById('capacity1').value);
+if(noOfRooms >=2)var cap2= parseInt(document.getElementById('capacity2').value);
+if(noOfRooms >=3) var cap3= parseInt(document.getElementById('capacity3').value);
+if(noOfRooms >=4) var cap4= parseInt(document.getElementById('capacity4').value);
+
+var sel1 = document.getElementById('room_list').value;
+var sel2= document.getElementById('room_list2').children[0].value;
+var sel3 = document.getElementById('room_list3').children[0].value
+var sel4 = document.getElementById('room_list4').children[0].value
+
+activeLists.push(1); currentSelections.push(sel1);
+if(cap2 != null && cap2 != ''){ activeLists.push(2); currentSelections.push(sel2); }
+if(cap3 != null && cap3 != ''){ activeLists.push(3); currentSelections.push(sel3); }
+if(cap4 != null && cap4 != ''){ activeLists.push(4); currentSelections.push(sel4); }
+
+var isWheelchair = document.getElementById("wheelchair_yes").checked;
+var isWheelchair2; if(noOfRooms >=2) var isWheelchair2 = document.getElementById("wheelchair_yes2").checked;
+var isWheelchair3; if(noOfRooms >=3) var isWheelchair3 = document.getElementById("wheelchair_yes3").checked;
+var isWheelchair4; if(noOfRooms >=4) var isWheelchair4 = document.getElementById("wheelchair_yes4").checked;
+
+var isVisualiser = document.getElementById("visualiser_yes").checked;
+var isVisualiser2; if(noOfRooms >=2) var isVisualiser2 = document.getElementById("visualiser_yes2").checked;
+var isVisualiser3; if(noOfRooms >=3) var isVisualiser3 = document.getElementById("visualiser_yes3").checked;
+var isVisualiser4; if(noOfRooms >=4) var isVisualiser4 = document.getElementById("visualiser_yes4").checked;
+
+var isProjector = document.getElementById("projector_yes").checked;
+var isProjector2; if(noOfRooms >=2) var isProjector2 = document.getElementById("projector_yes2").checked;
+var isProjector3; if(noOfRooms >=3) var isProjector3 = document.getElementById("projector_yes3").checked;
+var isProjector4; if(noOfRooms >=4) var isProjector4 = document.getElementById("projector_yes4").checked;
+
+var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+var isWhiteboard2; if(noOfRooms >=2) var isWhiteboard2 = document.getElementById("whiteboard_yes2").checked;
+var isWhiteboard3; if(noOfRooms >=3) var isWhiteboard3 = document.getElementById("whiteboard_yes3").checked;
+var isWhiteboard4; if(noOfRooms >=4) var isWhiteboard4 = document.getElementById("whiteboard_yes4").checked;
 
 
-		}	
-	}
-   
-       for(var x=0;x<activeLists.length;x++){
-        		for(var y=0;y<document.getElementById('room_list').options.length;y++){
-        			if(activeLists[x]==1){
-        				if(document.getElementById('room_list').options[y].value == currentSelections[x]){
-        					document.getElementById('room_list').options[y].selected=true;
-        				}
-        			}
-        			else {
-        				if(document.getElementById('room_list' + activeLists[x]).children[0].options[y].value == currentSelections[x]){
-        					document.getElementById('room_list' + activeLists[x]).children[0].options[y].selected=true;
-        				}
-        			}
-        		}
-        }
-        			
+for(var x=0;x<activeLists.length;x++){
+if(activeLists[x]==1){
+$("#room_list").empty();
+$("#room_list").append("<option>" + "" + "</option>");
+}
+else {
+$("#room_list" + activeLists[x]).find( "select" ).empty();
+$("#room_list" + activeLists[x]).find( "select" ).append("<option>" + "" + "</option>");
+}
+}
+
+for(var x=0;x<activeLists.length;x++){
+for(var i=0;i<roomData.length;i++){
+if(activeLists[x]==1){
+if((roomData[i].capacity >= cap1 || isNaN(cap1))&&
+(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair || roomData[i].wheelchair == 1) &&
+(!isVisualiser || roomData[i].visualiser == 1) &&
+(!isProjector || roomData[i].projector == 1) &&
+(!isWhiteboard || roomData[i].whiteboard == 1))
+$("#room_list").append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+}
+if(activeLists[x]==2) {
+if((roomData[i].capacity >= cap2 || isNaN(cap2))&&
+(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair2 || roomData[i].wheelchair == 1) &&
+(!isVisualiser2 || roomData[i].visualiser == 1) &&
+(!isProjector2 || roomData[i].projector == 1) &&
+(!isWhiteboard2 || roomData[i].whiteboard == 1))
+$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+
+}
+if(activeLists[x]==3){
+if((roomData[i].capacity >= cap3 || isNaN(cap3)) &&
+(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair3 || roomData[i].wheelchair == 1) &&
+(!isVisualiser3 || roomData[i].visualiser == 1) &&
+(!isProjector3 || roomData[i].projector == 1) &&
+(!isWhiteboard3 || roomData[i].whiteboard == 1))
+$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+}
+if(activeLists[x]==4){
+if((roomData[i].capacity >= cap4 || isNaN(cap4))&&
+(currentSelections.indexOf(roomData[i].room_code) == -1 || currentSelections.indexOf(roomData[i].room_code) == x) &&
+(park == "Any" || park == roomData[i].park) &&
+(!isWheelchair4 || roomData[i].wheelchair == 1) &&
+(!isVisualiser4 || roomData[i].visualiser == 1) &&
+(!isProjector4 || roomData[i].projector == 1) &&
+(!isWhiteboard4 || roomData[i].whiteboard == 1))
+$("#room_list" + activeLists[x]).find( "select" ).append("<option value='" + roomData[i].room_code + "'>" + roomData[i].room_code + "</option>");
+}
+
+
+}
+}
+
+for(var x=0;x<activeLists.length;x++){
+for(var y=0;y<document.getElementById('room_list').options.length;y++){
+if(activeLists[x]==1){
+if(document.getElementById('room_list').options[y].value == currentSelections[x]){
+document.getElementById('room_list').options[y].selected=true;
+}
+}
+else {
+if(document.getElementById('room_list' + activeLists[x]).children[0].options[y].value == currentSelections[x]){
+document.getElementById('room_list' + activeLists[x]).children[0].options[y].selected=true;
+}
+}
+}
+}
+
 }
 	//changes the values within the dropdown to correspond to the part chosen
 	//Callan Swanson , Inthuch Therdhchanakul
