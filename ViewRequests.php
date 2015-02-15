@@ -168,7 +168,8 @@ $(function() {
 				populateTable();
 				findPendings();
 				buildingInitialise();
-				
+				$("#changePWordForm").dialog();
+				$("#changePWordForm").dialog("close");
 				 
 			});
 	
@@ -891,6 +892,24 @@ $(function() {
 }			
 			
 	
+		function changePWordAjax() {
+			if(document.getElementById("#newPWord1") != document.getElementById("#newPWord2")) {
+				return(alert("New passwords do not match"));
+			}
+			
+			$.ajax({
+				url : "updatePWord.php",
+				type : "POST", 
+				data : $("#changePWordForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Your password has been changed");
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+			});
+		}
+	
 		</script>
 		
 	</head>
@@ -901,6 +920,7 @@ $(function() {
 <a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
 <a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+<input type="button" value="change password" onclick='$("#changePWordForm").dialog("open");'>
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 	<div id = "header_style" >
   		<div id="title">
@@ -1250,6 +1270,14 @@ $(function() {
 
 		</div>
 
+		<div id="changePWord" style="display:none">
+			<form name="changePWordForm" id="changePWordForm">
+				Current Password: <input type="text" id="oldPWord" name="oldPWord">
+				New Password: <input type="text" id="newPWord1" name="newPWord1">
+				Confirm New Password: <input type="text" id="newPWord2" name="newPWord2">
+				<input type="button" value="Change" onclick="changePWordAjax()">
+			</form>
+		</div>
 		
 		
 

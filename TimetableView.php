@@ -160,6 +160,8 @@
 				findPendings();
 				buildingInitialise();
 				
+				$("").dialog("close");
+				
 				 
 			});
 			
