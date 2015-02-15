@@ -5,7 +5,7 @@
 		that have been passed to this page.
 		
 		Created by Callan Swanson and Inthuch Therdchanakul	
-		*/
+	*/
 	
 	session_start();
 	if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
@@ -100,7 +100,7 @@
 			AS week 
 			FROM REQUEST,REQUEST_WEEKS 
 			WHERE REQUEST.request_id = REQUEST_WEEKS.request_id 
-				AND REQUEST.request_id='$request_id' 
+				AND REQUEST.request_id=$request_id 
 			GROUP BY request_id";
 
 			

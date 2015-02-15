@@ -3,10 +3,12 @@
 	/*
 		Page will return the available times that have not been booked 
 		for the room that has been selected and passed to this page.
-		The data passed back includes: week, day, period, duration for the selected room.
+		The data passed back includes: week, day, period, duration for
+		the selected room.
 		
 		Created by Callan Swanson and Inthuch Therdchanakul
 	*/
+	
 	//This makes JSON work!
 	header("Content-Type: text/javascript; charset=utf-8");
 	//Starts the session, if there is not any sessions then it will transfer to

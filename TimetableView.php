@@ -533,8 +533,10 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 				$("#dialog-form1").dialog("open");
 				
 				var request_id=parseInt(el.id);
+				alert(request_id);
 				var module_code=el.children[2].innerHTML;
-				$("#requestId").val(request_id);			
+				$("#requestId").val(request_id);	
+				$("#requestIdDel").val(request_id);				
 				inputModule();
 				$("#module_code_select").val(module_code);
 				 module_code_change();
@@ -705,6 +707,61 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 				else $("#room_list").val(null);
 			}
 			
+	Element.prototype.remove = function() {
+		this.parentElement.removeChild(this);
+	}
+	
+	NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = 0, len = this.length; i < len; i++) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}		
+			
+	function updateAjax(){
+				$.ajax({
+				url : "updateInfo.php",
+				type : "POST", 
+				data : $("#editForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request submitted with request id " + data[data.length-1].request_id);
+						//window.location.href = "TimetableView.php";
+						document.getElementById(data[data.length-1].request_id).children[2].innerHTML=data[data.length-1].module_code;
+						document.getElementById(data[data.length-1].request_id).children[4].innerHTML=data[data.length-1].room_code;
+						closeDialog();
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
+			//delete selected request from database
+
+			function deleteAjax(){
+				$.ajax({
+				url : "deleteInfo.php",
+				type : "POST", 
+				data : $("#deleteForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request deleted with request id " + data + " has been deleted");
+						var id = data;
+						document.getElementById(data).remove();
+						//window.location.href = "TimetableView.php";
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
+			function confirmDelete(){
+				if (confirm('Are you sure you want to delete this request?')){
+					deleteAjax();
+				}else{
+				return false;
+				}
+			}
+			
 	function module_code_change(){
 				document.getElementById("module_title_select").selectedIndex = document.getElementById("module_code_select").selectedIndex ;
 			}
@@ -831,7 +888,16 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 		</div>
 	
 	<div id="page_wrap">
-	
+	<div style="display:none;">
+		<form id="deleteForm" name="deleteForm">
+			<input type="hidden" value="" id="requestIdDel" name="requestIdDel"/>
+		</form>
+
+		<form id="weekForm" name="weekForm">
+			<input type="hidden" value="" id="weekCheck" name="weekCheck"/>
+		</form>
+
+	</div>
 	<div id="dialog-form1" title="Edit information" style="display: none;" >
 			<form id="editForm" name="editForm">
 				<fieldset>
@@ -977,6 +1043,7 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 					No
 					
 					<input type="button" value="Submit" onClick="updateAjax()" />
+					<input type="button" value="Delete" onClick="confirmDelete()" />
 					<input type="button" value="Cancel" onClick="closeDialog()" />
 				</fieldset>
 			</form>
