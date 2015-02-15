@@ -577,7 +577,6 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 			return(alert("Please Enter a day!"));
 		}
 		
-		alert(dayChosen);
 		var roomChosen = document.getElementById("room_list");
 		
 		//checks the room capacity asked for
@@ -620,7 +619,7 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 			data : $("#requestForm").serialize(),
 			success : function (data){					
 					data = JSON.parse(data);
-					alert("Request submitted with request id " + data[data.length-1].request_id);
+					alert("Request submitted.");
 					console.log("data "+data); //quick check
 					
 				},
@@ -635,6 +634,27 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 	
 	function adhocAjaxFunction(){
 		
+		var noRoom = parseInt(document.getElementById("noRooms").value);
+		
+		if(document.getElementById("room_list").value=="") return(alert("Please specify a room!"));
+		
+		if(noRoom == 2) {
+				if(document.getElementById("room_list_2").value=="") {
+					 return(alert("Please specify all room choices!"));
+				}
+		}
+		
+		if(noRoom == 3) {
+				if(document.getElementById("room_list_3").value=="") {
+					 return(alert("Please specify all room choices!"));
+				}
+		}
+		
+		if(noRoom == 4) {
+				if(document.getElementById("room_list_4").value=="") {
+					 return(alert("Please specify all room choices!"));
+				}
+		}
 		
 		
 		
@@ -658,7 +678,6 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 		var roomChosen = document.getElementById("room_list");
 		
 		//checks the room capacity asked for
-		var noRoom = document.getElementById("noRooms");
 		if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
 			return(alert("Please enter a suitable capacity"));
 		}
