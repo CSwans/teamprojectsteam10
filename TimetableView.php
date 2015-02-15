@@ -151,7 +151,7 @@
 					width: 700,
 					position: { my:"center",
 								at: "top",
-								of: page}	
+								of: window}	
 				});
 			
 				//hide dialog
@@ -526,16 +526,6 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
   }
 }
 	
-	$(function() {
-				//console.log(bookingData);
-				//apply dialog to input form
-				$("#dialog-form1").dialog({
-					height: 500,
-					width: 700
-				});
-				$("#dialog-form1").dialog("close");
-				buildingInitialise();
-				});
 			
 	function showDialog(el){
 	
@@ -712,6 +702,7 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 				if(room != "null"){
 					$("#room_list").val(room);
 				}
+				else $("#room_list").val(null);
 			}
 			
 	function module_code_change(){
