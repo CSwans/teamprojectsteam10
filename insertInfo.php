@@ -10,7 +10,7 @@
 		Validation of the inputs is done just before the ajax function is
 		called with this .php page.
 		
-		Created by Callan Swanson and Inthuch Therdchanakul
+		Created by Callan Swanson, Inthuch Therdchanakul and Tom Middleton
 	*/
 
 	session_start();

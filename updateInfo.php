@@ -4,8 +4,8 @@
 		then alter the information within the database to hold the new values
 		that have been passed to this page.
 		
-		Created by 
-	*/
+		Created by Callan Swanson and Inthuch Therdchanakul	
+		*/
 	
 	session_start();
 	if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
