@@ -373,40 +373,17 @@
 				}
 			}
 			
-			
-			
-			function insertAjax(){
-			
-				if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
-					return(alert("Please enter a suitable capacity"));
-				}
-			
-				$.ajax( {
-					url : "insertInfo.php",
-					type : "POST", 
-					data : $("#requestForm").serialize(),
-					success : function (data){					
-							data = JSON.parse(data);
-							alert("Request submitted with request id " + data[data.length-1].request_id);
-							console.log("data "+data); //quick check
-							
-						},
-					error : function(jqXHR, textStatus, errorThrown) {
-					}
-				});
-			}
-			
-			function logout_question(){
-				if (confirm('Are you sure you want to logout?')){
-					return true;
-				}else{
-					return false;
-				}
-			}
+					function logout_question(){
+  if (confirm('Are you sure you want to logout?')){
+    return true;
+  }else{
+    return false;
+  }
+}
 	
-			function goBack() {
-				window.history.back()
-			}			
+	function goBack() {
+    window.history.back()
+}			
 			
 			
 		</script>
@@ -455,8 +432,8 @@
 							<label name="priorityInput">Priority: </label>
 						</td>
 						<td>
-							<input name="priorityInput" type="radio" id="priorityInputTrue" onchange="change_room_code(); hideForm();" value="1"/>Yes
-							<input name="priorityInput" type="radio" id="priorityInputFalse" onchange="change_room_code(); hideForm();" value="0" checked/>No
+							<input name="priorityInput" type="radio" id="priorityInputTrue" onchange="change_room_code()" value="1"/>Yes
+							<input name="priorityInput" type="radio" id="priorityInputFalse" onchange="change_room_code()" value="0" checked/>No
 						</td>
 					</tr>
 					<tr>
@@ -529,7 +506,7 @@
 							<label name="ParkSelect">Park: </label>
 						</td>
 						<td>
-							<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();change_room_code();hideForm();" >
+							<select name="ParkSelect" id="ParkSelect" onChange="ParkChange();change_room_code()" >
 								<option value="Any">Any</option>
 								<option value="C">C</option>
 								<option value="E">E</option>
@@ -542,7 +519,7 @@
 							<label name="BuildingNameSelect">Building Name: </label> 
 						</td>
 						<td>
-							<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code();hideForm();" >
+							<select name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
 						
 							</select>
 						</td>
@@ -552,7 +529,7 @@
 							<label name="BuildingCodeSelect">Building Code: </label>
 						</td>
 						<td>
-							<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code();hideForm();" >
+							<select name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
 					
 							</select>
 						</td>
@@ -562,7 +539,7 @@
 							<label name="RoomSelect">Rooms: </label>
 						</td>
 						<td>
-							<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange();hideForm();" >
+							<select name="RoomSelect" id="RoomSelect" onChange="ajaxFunction();RoomChange()" >
 		
 							</select>
 						<td>
@@ -646,7 +623,7 @@
 							Priority: 
 						</td>
 						<td>
-							<input name="priorityInput" type="hidden" id="priority" value="0" />
+							<input name="priority" type="hidden" id="priority" value="" />
 						</td>
 					</tr>
 					<tr>
@@ -785,7 +762,7 @@
 					
 					<tr>
 						<td>
-							<input id="checkButton" type="button" value="Send Request!" onclick="insertAjax()" />
+							<input id="checkButton" type="submit" value="RoomAvail.php" />
 						</td>
 					</tr>
 					
