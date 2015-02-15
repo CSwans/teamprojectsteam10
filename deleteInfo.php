@@ -31,6 +31,15 @@
 	if(PEAR::isError($res)){
 		die($res->getMessage());
 	}
+	
+	
+	$sql3 = "DELETE FROM BOOKING WHERE request_id = $request_id";
+	$res =& $db->query($sql3); //query the database
+	if(PEAR::isError($res)){
+		die($res->getMessage());
+	}
+	
+	
 	$results = array();
 	$results[] = $request_id;
 	echo json_encode($results);
