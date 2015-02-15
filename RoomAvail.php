@@ -483,7 +483,7 @@
 		<br/> <hr/  id="round_input_separator"> <br/>
 		
 		
-		<table style="width:85%;" align="center" frame="box" id="RoomAvailTable">
+		<table style="width:85%; max-width:1450px;" align="center" frame="box" id="RoomAvailTable">
 			<tr id="time">
 				<td id="weekChosen" class='top_table_style'></td>
 				<?php
