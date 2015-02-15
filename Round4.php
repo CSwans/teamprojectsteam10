@@ -65,7 +65,8 @@
 			
 			
 	?>
-
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script type="text/javascript">
 		<?php
 			//pass value array onto javascript array roomData
@@ -78,16 +79,52 @@
 			partChange();
 			insert_room_code();
 		});
-		
+		function showModDialog(){
+					$("#modDialog").dialog();
+			}
+			function addMod(){
+				var code = document.getElementById("modCode").value;
+				var title = document.getElementById("modTitle").value;
+				for(var i=0;i<moduleData.length;i++){
+					if(code == moduleData[i].module_code){
+						alert("This module already exist");
+						$("#modDialog").dialog("close");
+						$("#module_code_select").val(moduleData[i].module_code);
+						$("#module_title_select").val(moduleData[i].module_title);
+						return "Module existed";
+					}
+				}
+				
+				if (confirm('Are you sure you want to add the following module: Module code - ' + code + ' Module title - ' + title)){
+					$("#module_code_select").append("<option>" + code + "</option>");
+					$("#module_title_select").append("<option>" + title + "</option>");
+					$.ajax( {
+						url : "insertMod.php",
+						type : "POST", 
+						data : $("#modForm").serialize(),
+						success : function (data){
+								data = JSON.parse(data);
+								console.log("data "+data); //quick check
+								alert(data);
+							},
+						error : function(jqXHR, textStatus, errorThrown) {
+						}
+					});
+					
+					$("#modDialog").dialog("close");
+					$("#module_code_select").val(code);
+					$("#module_title_select").val(title);
+				}else{
+				return false;
+				}
+				
+				
+			}
 		
 		
 	</script>
 		
-		<link rel="stylesheet" 
-		href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
-		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-		<link rel="stylesheet" href="/resources/demos/style.css"/>
+		
 		<link rel="stylesheet" href="Theme.css"/>
 	
 	</head>
@@ -99,7 +136,7 @@
 		<div class="input_boxes" >
         <div id="buttons">
 			<div id="button_wrap1">
-				<a><button id="adv_options" type="button" onClick="advToggle(); window_position();"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;SHOW ADVANCED OPTIONS</button></a>
+				<a><button id="add_mod" type="button" onClick="showModDialog()"> &gt; &nbsp;&nbsp;&nbsp;&nbsp;ENTER NEW MODULE</button></a>
 				<a href="ViewRequests.php"><button id ="All" type="button" >&gt;&nbsp;&nbsp;&nbsp;&nbsp;VIEW ALL ENTRIES </button></a>
 				<a href="RoomAvail.php"><button type="button">&gt;&nbsp;&nbsp;&nbsp;&nbsp;CHECK AVAILABILITY</button></a>
 				<a><button id="Load_Last_Year" type="button" onClick="loadRequest()" > &gt; &nbsp;&nbsp;&nbsp;&nbsp;LOAD REQUESTS</button></a>
@@ -553,6 +590,13 @@
       <!--input wrap--> 
 	</div>
 </form>
+</div>
+<div id="modDialog" title="Enter module data" style="display:none;">
+			<form id="modForm" name="modForm">
+				Module code: <input type="text" id="modCode" name="modCode">
+				Module title: <input type="text" id="modTitle" name="modTitle">
+				<input type="button" onclick="addMod()" value="Submit">
+			</form>
 </div>
 	</body>
 	</html>
