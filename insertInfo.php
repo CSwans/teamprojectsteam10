@@ -1,15 +1,18 @@
 <?php
 	/*
 		inserting all the supplied information from the form into the database
-		using insert statements. This will deal with teh multiple room bookings
+		using insert statements. This will deal with the multiple room bookings
 		by placing a group id field variable of the value of the first
 		request_id. The weeks are handled with placing any default week values
 		(1-12) into the REQUEST_WEEK table with the value of 0, any other week
-		values will have multiple fields for the same request_id
+		values will have multiple fields for the same request_id.
+		
+		Validation of the inputs is done just before the ajax function is
+		called with this .php page.
 		
 		Created by Callan Swanson and Inthuch Therdchanakul
 	*/
-	//header("Content-Type: text/javascript; charset=utf-8");
+
 	session_start();
 	if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 		header('Location: login.html');
