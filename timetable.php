@@ -761,6 +761,7 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 <a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
 <a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="left"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+<input class='class_change_passoword' id='id_change_password' type="button" value="change password" onclick='$("#changePWordForm").dialog("open");'>
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 <div id = "header_style" >
   <div id="title">

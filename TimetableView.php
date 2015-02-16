@@ -1,1230 +1,1240 @@
-/* CSS for the main input pages of the site
-Tom Middleton */
+<!doctype html>
+<html>
+<head>
 
-body {
-background-color: #F7F7F0;
-margin: 0;
-width:99%;
-padding-bottom: 100px;
-}
-
-
-.ui-widget-header {
-background: #4c0068; /* Old browsers */
-background: -moz-linear-gradient(top, #4c0068 18%, #68006d 51%, #330066 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(18%,#4c0068), color-stop(51%,#68006d), color-stop(100%,#330066)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #4c0068 18%,#68006d 51%,#330066 100%); /* IE10+ */
-background: linear-gradient(to bottom, #4c0068 18%,#68006d 51%,#330066 100%); /* W3C */
--webkit-border-top-left-radius: 40px;
--webkit-border-top-right-radius: 40px;
--moz-border-radius-topleft: 40px;
--moz-border-radius-topright: 40px;
-border-top-left-radius: 40px;
-border-top-right-radius: 40px;
-}
-
-
-#input_wrap {
-clear: both;
-margin: 0 auto 730px;
-min-width: 1000px;
-width: 90%;
-padding-bottom:20px;
-}
-
-
-
-#input_wrap2 {
-    margin: 0 auto;
-    position: relative;
-    width: 100%;
-    width: 955px;
-}
-
-#input_wrap2 table td {
-	padding: 4px 20px 4px 4px;
-	max-width: 286px;
+		<?php
+			//Starts the session, if there is not any sessions then it will transfer to the login page and the user will ave to log in again
+			//Inthuch Therdchanakul
+			
+			session_start();
+			if(!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
+				header('Location: login.html');
+			}
+			//connects to the database using the username and passoword
+			require_once "MDB2.php";
+			$host = "co-project.lboro.ac.uk"; //host name
+			$dbName = "team10"; //database name
+			$dsn = "mysql://team10:abg83rew@$host/$dbName"; //login information
+			$db =& MDB2::connect($dsn); //connecting to the server and connecting to the database
+			if(PEAR::isError($db)){ //if we couldnt connect then end the connection
+				die($db->getMessage());
+			}
+			$db->setFetchMode(MDB2_FETCHMODE_ASSOC);
+			//username is the uppercase dept code that was loggged in
+			$username = strtoupper($_SESSION['username']);
+			
+			
+			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ', ') AS week FROM REQUEST,REQUEST_WEEKS WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."'GROUP BY request_id";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value = array();
+			$fullList=array();
+			
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value[] = $row;
+				$fullList[] = $row;
+			}
+			
+			$jsonRequests = json_encode($value);
+			$jsonFullData = json_encode($fullList);
+			
+			$sql = "SELECT REQUEST.request_id, module_code, BOOKING.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week, CASE WHEN REQUEST.room_code = BOOKING.room_code THEN 0 ELSE 1 END AS partial FROM REQUEST,REQUEST_WEEKS, BOOKING WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."' AND BOOKING.request_id = REQUEST.request_id GROUP BY request_id";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value2 = array();
+			
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value2[] = $row; //booked
+			}
+			
+			$jsonBookings = json_encode($value2);
+			
+			
+			$sql = "SELECT REQUEST.request_id, module_code, REQUEST.room_code, capacity, wheelchair, projector, visualiser, whiteboard, special_requirements, priority, period, day, duration,GROUP_CONCAT(CONVERT(REQUEST_WEEKS.week, CHAR(8)) SEPARATOR ',') AS week  FROM REQUEST,REQUEST_WEEKS, REJECTION WHERE REQUEST.request_id = REQUEST_WEEKS.request_id AND dept_code = '".$username."' AND REJECTION.request_id = REQUEST.request_id GROUP BY request_id";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$value3 = array(); //rejected
+			
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$value3[] = $row;
+			}
+			
+			$jsonRejections = json_encode($value3);
+			
+			$sql = "SELECT module_code, module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
+			$res =& $db->query($sql); 
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$moduleInfo = array();
+			while($row = $res->fetchRow()){
+				$moduleInfo[] = $row;
+			}
+			$moduleJson = json_encode($moduleInfo);
+			
+			$sql = "SELECT DISTINCT ROOMS.capacity, wheelchair, projector, visualiser, whiteboard, PARKS.park, ROOMS.room_code, ROOMS.building_code FROM ROOMS, PARKS WHERE ROOMS.building_code = PARKS.building_code";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$roomData = array();
+			
+			while($row = $res->fetchRow()){
+				$roomData[] = $row;
+			}
+			$roomDataJson = json_encode($roomData);
+		
+		$sql = "SELECT * FROM `REQUEST_WEEKS`; ";
+		$res =& $db->query($sql); //getting the result from the database
+		if(PEAR::isError($res)){
+			die($res->getMessage());
+		}
+		$value4 = array();
+		//put each rows into value array
+		while($row = $res->fetchRow()){
+			$value5[] = $row;
+		}
 	
-}
+		$weeksJson = json_encode($value5);
+		
+		$sql = "SELECT * FROM PARKS";
+			$res =& $db->query($sql); //getting the result from the database
+			if(PEAR::isError($res)){
+				die($res->getMessage());
+			}
+			$buildingData = array();
+			//put each rows into value array
+			while($row = $res->fetchRow()){
+				$buildingData[] = $row;
+			}
+			$buildingJson = json_encode($buildingData);
+			
+			
+		?>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="js/jquery.serializejson.min.js"></script>
+		<script type="text/javascript">
+		
+		
+			<?php
+				echo "var requestData = ".$jsonRequests.";\n"; //WILL CHANGE TO HOLD THE PENDING DATA WHEN PAGE LOADS
+				echo "var bookingData = ".$jsonBookings.";\n";
+				echo "var rejectedData = ".$jsonRejections.";\n";
+				echo "var fullData = ".$jsonFullData.";\n";
+				echo "var moduleData = ".$moduleJson.";\n";
+				echo "var roomData = ".$roomDataJson.";\n";
+				echo "var weeksData = ".$weeksJson.";\n";
+				echo "var buildingData = ".$buildingJson.";\n";
+			?>
+			
+			$(function() {
+				findPendings();
+			});
+			
+			$(function() {
+				//console.log(bookingData);
+				//apply dialo				
+				$("#dialog-form1").dialog({
+					modal:true,
+					height: 500,
+					width: 700,
+					position: { my:"center",
+								at: "top",
+								of: window}	
+				});
+			
+				//hide dialog
+				$("#dialog-form1").dialog("close");
+				populateTable();
+				findPendings();
+				buildingInitialise();
+				
+				 
+			});
+			
+			function moduleList() {
+				for(var x=0;x<moduleData.length;x++){
+					$('#moduleCodeList').append("<option>"+moduleData[x].module_code+"</option>");
+				}
+				for(var x=0;x<moduleData.length;x++){
+					$('#moduleTitleList').append("<option>"+moduleData[x].module_title+"</option>");
+				}
+				for(var x=0;x<moduleData.length;x++){
+					$('#roomList').append("<option>"+roomData[x].room_code+"</option>");
+				}
+			}
+			
+			function module_code_change() {
+				var index = document.getElementById("moduleCodeList").selectedIndex;
+				document.getElementById("moduleTitleList").selectedIndex = index;
+			}
 
-div#subdiv {
-    position: absolute;
-    right: 21%;
-    top: 920px;
+			function module_title_change() {
+				var index = document.getElementById("moduleTitleList").selectedIndex;
+				document.getElementById("moduleCodeList").selectedIndex = index;
+			}
+			
+			/*	function partChange() {
+		//looks through all of the moduleData
+		$("#moduleCodeList").empty();
+		$("#moduleTitleList").empty();
+		console.log(moduleData[0].module_code.substr(4,1));
+		console.log(document.getElementsByName("partCode").value);
+		
+		//finding out which part is checked one by one
+		var checkedVal;
+		if(document.getElementById("allPart").checked) {
+			checkedVal = document.getElementById("allPart").value;
+		}else if(document.getElementById("aPart").checked) {
+			checkedVal = document.getElementById("aPart").value;
+		}else if(document.getElementById("bPart").checked) {
+			checkedVal = document.getElementById("bPart").value;
+		}else if(document.getElementById("iPart").checked) {
+			checkedVal = document.getElementById("iPart").value;
+		}else if(document.getElementById("cPart").checked) {
+			checkedVal = document.getElementById("cPart").value;
+		}else if(document.getElementById("dPart").checked) {
+			checkedVal = document.getElementById("dPart").value;
+		}
+		
+		console.log(checkedVal);
+		
+		for(var i=0; i<moduleData.length; i++) {
+			if(moduleData[i].module_code.substr(4,1) == checkedVal) {
+				$("#moduleCodeList").append("<option>"+moduleData[i].module_code+"</option>");
+				$("#moduleTitleList").append("<option>"+moduleData[i].module_title+"</option>");
+			} else if(checkedVal == "All") {
+				$("#moduleCodeList").append("<option>"+moduleData[i].module_code+"</option>");
+				$("#moduleTitleList").append("<option>"+moduleData[i].module_title+"</option>");
+			}
+		}
+	}
+	*/
 	
+			function findPendings() {
+				for(var i=0; i<requestData.length; i++) {
+					for(var j=0; j<bookingData.length; j++) {
+						if(requestData[i].request_id == bookingData[j].request_id) {
+							console.log(requestData[i]);
+							requestData.splice(i,1);
+						}
+					}
+				}
+				console.log(requestData);
+				for(var i=0; i<requestData.length; i++) {
+					for(var j=0; j<rejectedData.length; j++) {
+						if(requestData[i].request_id == rejectedData[j].request_id) {
+							console.log(requestData[i]);
+							requestData.splice(i,1);
+						}
+					}
+				}
+				console.log("REJECTED");
+				console.log(rejectedData);
+				console.log('REQUEST');
+				console.log(requestData);
+			}
+			
+				
+			
+			function initialise() {
+				document.getElementById('current_week').value = 1;
+			}
+			
+			function statusChange() {
+				var stat = document.getElementById('statusList').selectedIndex;
+				
+				if(stat==0) {rejected_grid_view();}
+				if(stat==1) {booked_grid_view();}
+				if(stat==2) {pending_grid_view();}
+			}
+			
+			function booked_grid_view(){
+var sort = document.getElementById('sortList').selectedIndex;
+var part;
+var module;
+var room;
+if(sort==0) {
+var radios = document.getElementsByName('partCode');
+for(var x=0;x<radios.length;x++){
+if (radios[x].checked) {
+part=document.getElementsByName('partCode')[x].value;
+}
+}
+}
+if(sort==1) {
+module=document.getElementById('moduleCodeList').value;
+}
+if(sort==2) {
+room=document.getElementById('roomList').value;
+}
+var myNode = document.getElementById("Monday");
+myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Tuesday");
+myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Wednesday");
+myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Thursday");
+myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Friday");
+myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var n = parseInt(document.getElementById('current_week').value);
+for(var x = 0;x<bookingData.length;x++) {
+var weeks = bookingData[x].week;
+var day = bookingData[x].day;
+var period = parseInt(bookingData[x].period);
+var duration = parseInt(bookingData[x].duration);
+var weekArr = weeks.split(",");
+for(var i=0;i<weekArr.length;i++){
+weekArr[i]=parseInt(weekArr[i]);
+if(weekArr[i]==0){
+weekArr=[];
+weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
+}
+}
+if(weekArr.indexOf(n)> -1){
+if(duration>1){
+for(var n =0;n<duration;n++){
+if(part != null && bookingData[x].module_code.charAt(4)==part){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP">'+bookingData[x].room_code+'</span></p>';
+}
+if(module != null && bookingData[x].module_code==module){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP">'+bookingData[x].room_code+'</span></p>';
+}
+if(room != null && bookingData[x].room_code==room){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP">'+bookingData[x].room_code+'</span></p>';
+}
+}
+}
+else {
+if(part != null && bookingData[x].module_code.charAt(4)==part) {
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP">'+bookingData[x].room_code+'</span></p>';
+}
+if(module != null && bookingData[x].module_code==module){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP">'+bookingData[x].room_code+'</span></p>';
 }
-#subdiv > #submit {
-	background-color: #cc0066;
-	border: 2px solid #a20054;
-	color: #fff;
-	font-size: 14px;
-	font-weight: bold;
-	padding: 10px 15px 10px 10px;
-	text-shadow: 0 1px 2px #99165c;
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
+if(room != null && bookingData[x].room_code==room){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ bookingData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+bookingData[x].request_id+'</span><br/> Module code: <span id="tableP">'+bookingData[x].module_code+'</span><br/> Room code: <span id="tableP">'+bookingData[x].room_code+'</span></p>';
 }
-
-
-#result {
-clear: both;
-margin-top: 50px;
-width: 100%;
-}
-
-#top_style{
-background-color: #333;
-font-family: Helvetica,Arial,sans-serif;
-font-size: 100%;
-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
-height: 20px;
-padding: 6px 8px 8px;
-text-align: right;
-min-width:900px;
-width:100%;
-}
-
-
-#external_links{
-font-family: Franklin Gothic Medium,Helvetica,Arial,sans-serif;
-color: #666;
-display: block;
-float: left;
-padding-top: 50px ;
-padding-bottom: 50px;
-margin-right: 28px;
-}
-
-nav > a {
-margin-right: 25px;
-font-size: 23px;
-margin-right: 25px;
-font-size: 23px;
-color: #ccc;
-vertical-align: baseline;
-text-decoration:none;
-text-shadow:none;
-}
-
-a{
-color: #fff;
-font-size: 14px;
-font-weight: bold;
-text-decoration:none;
-}
-
-#button_wrap1 > a {
-font-size:14px;
-
-}
-
-#buttons {
-background-color: #333;
-height: 3.05em;
-margin-bottom: 30px;
-padding: 0.6em 3px 3px;
-width: 99.6%;
--webkit-border-bottom-right-radius: 40px;
--webkit-border-bottom-left-radius: 40px;
--moz-border-radius-bottomright: 40px;
--moz-border-radius-bottomleft: 40px;
-border-bottom-right-radius: 40px;
-border-bottom-left-radius: 40px;
-}
-
-
-#button_wrap {
-margin: 0 auto;
-width: 1010px;
-}
-
-#button_wrap2 {
-margin: 0 auto;
-width: 900px;
-}
-
-#button_wrap1 {
-margin: 0 auto;
-width: 1060px;
-}
-
-
-
-#header_style {
-margin: 0;
-min-width: 1500px;
-padding-left: 1px;
-
-width: 100%;
-}
-
-
-#title {
-float: left;
-margin-left: 10%;
-width: 50%;
-}
-
-#logo {
-float: right;
-margin-right: 50px;
-width: 20%;
-}
-
-#lboro_logo {
-display: inline-block;
-float: right;
-margin-right: 90px;
-margin-top: 20px;
-padding-left: 65px;
-width: 100%;
-}
-
-button{
-background-color: #cc0066;
-border: 2px solid #a20054;
-color: #fff;
-font-size: 14px;
-font-weight: bold;
-padding: 10px 15px 10px 10px;
-text-shadow: 0 1px 2px #99165c;
-margin-left:10px;
-margin-right:10px;
--webkit-border-radius: 15px;
--moz-border-radius: 15px;
-border-radius: 15px;
-}
-
-#edit_button {
-background-color: #cc0066;
-border: 2px solid #a20054;
-color: #fff;
-font-size: 14px;
-font-weight: bold;
-padding: 1px 15px 1px 15px;
-text-shadow: 0 1px 2px #99165c;
-margin-left:10px;
-margin-right:10px;
--webkit-border-radius: 15px;
--moz-border-radius: 15px;
-border-radius: 15px;
-margin-bottom:5px;
-margin-top:2.5px;
-}
-
-#delete_button {
-background-color: #cc0066;
-border: 2px solid #a20054;
-color: #fff;
-font-size: 14px;
-font-weight: bold;
-padding:  1px 9px 1px 9px;
-text-shadow: 0 1px 2px #99165c;
-margin-left:10px;
-margin-right:10px;
--webkit-border-radius: 15px;
--moz-border-radius: 15px;
-border-radius: 15px;
-margin-top:2.5px;
-}
-
-
-button:hover, #submit:hover {
-background-color: #B00058;
-border: 2px solid #860043;
-
-}
-
-#Ad_submit{
-position:relative;
-left: 55%;
-top: 75%;
-}
-
-table{
-font-family: Franklin Gothic Medium,Helvetica,Arial,sans-serif;
-text-align: center;
-position: relative;
-
-}
-
-
-th {
-color: #fff;
-font-size: 1.2em;
-font-weight: bold;
-text-shadow: 0 1px 2px #99165c;
-}
-
-
-select{
-font-size:20px;
-margin-left:auto;
-width:120px;
-}
-.cell2 {
-border-left: 1.5px;
-background-color: #f2f2e6;
-}
-
-
-
-
-.inputs {
-position: relative;
-left: 5%;
-top: 63%;
-text-align:left;
-font-size:1em;
-background-color: #F7F7F0;
-}
-
-
-
-#myresulttable {
-border: 2px solid #a20054;
-font-size: 0.6em;
-margin: 0 auto;
-position: relative;
-text-align: center;
-top: 100%;
-width: 95%;
-}
-
-.input_boxes {
-width:100%;
-}
-
-#inputs {
-float: left;
-margin-left: 0;
-width: 100%;
-font-size:1.2em;
-}
-
-#advancedinputs1 {
-font-size: 1.2em;
-left: 5%;
-position: relative;
-text-align: left;
-top: 63%;
-font-size: 1.2em;
-position: relative;
-text-align: left;
-width:358px;
-
-	-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-padding:10px;
-}
-
-#advancedinputs2 {
-display:none;
-font-size: 1.2em;
-left: 5%;
-position: relative;
-text-align: left;
-top: 63%;
-font-size: 1.2em;
-position: relative;
-text-align: left;
-width:358px;
-	-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-padding:10px;
-}
-
-#advancedinputs3 {
-display:none;
-font-size: 1.2em;
-left: 5%;
-position: relative;
-text-align: left;
-top: 63%;
-font-size: 1.2em;
-position: relative;
-text-align: left;
-width:358px;
-	-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-padding:10px;
-}
-
-#advancedinputs4 {
-display:none;
-font-size: 1.2em;
-left: 5%;
-position: relative;
-text-align: left;
-top: 63%;
-font-size: 1.2em;
-position: relative;
-text-align: left;
-width:358px;
-	-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-padding:10px;
-}
-
-.advance {
-	margin-bottom:20px;
-    float: left;
-    margin: 0 auto;
-    min-width: 730px;
-    width: 45%;
-	margin-bottom:20px;
-}
-
-
-#advance, #advance2 {
-margin-left: 47px;
-}
-
-
-#id_submit {
-float: right;
-margin-right: 60px;
-margin-top: 20px;
-}
-
-#newTable {
-float: right;
-margin-right: 60px;
-margin-top: 20px;
-}
-
-#save {
-float: right;
-margin-right: 60px;
-margin-top: 20px;
-z-index:99;
-}
-
-.show{
-display:block;
-}
-
-.hide{
-display:none;
-}
-
-#buttons2 {
-clear:both;
-}
-
-h1 {
-font-family: Verdana,Arial,sans-serif;
-font-size: 2em;
-text-shadow:#fff 0px 1px 0, #000 0 -1px 0;
-color:#6A6A62;
-}
-
-h2 {
-font-size:1.25em;
-font-family: Verdana,Arial,sans-serif;
-text-shadow:#fff 0px 1px 0, #000 0 -1px 0;
-color:#84847A;
-}
-
-h3 {
-font-size:1em;
-font-family: Verdana,Arial,sans-serif;
-text-shadow:#fff 0px 1px 0, #000 0 -1px 0;
-color:#84847A;
-display:inline;
-}
-
-h4 {
-font-family: Verdana,Arial,sans-serif;
-text-shadow:#fff 0px 1px 0, #000 0 -1px 0;
-color:#330066;
-display:inline;
-font-style:italic;
-}
-
-#tabs {
-background-color: #F7F7F0;
-clear: both;
-height: 1100px;
-margin-left: 0;
-min-width: 1250px;
-width: 100%;
-}
-
-
-
-#tab1 {
-margin-left:165px;
-
-}
-
-#tab1 > a {
-font-size:1em;
-}
-
-
-#tab2 > a {
-font-size:1em;
-}
-
-#tab3 > a {
-font-size:1em;
-}
-
-#tab4 > a {
-font-size:1em;
-}
-
-.ui-tabs .ui-tabs-panel {
-padding:0;
-}
-
-ul.tabs li.ui-tabs-active a, ul.tabs li.ui-tabs-selected a{ background-color:blue; }
-
-.ui-widget-content {
-background: url("images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #ffffff;
-border: 0;
-}
-
-
-#room_list2 {
-display:none;
-}
-
-#room_list3 {
-display:none;
-}
-
-#room_list4 {
-display:none;
-}
-
-#adv_block {
-float:left;
-margin-right:30px;
-margin-bottom:30px;
-}
-
-#expand {
-border-radius: 12px;
-float: right;
-font-size: 0.45em;
-padding: 0;
-margin-top: 5px;
-white-space:nowrap;
-width:auto;
-overflow:visible;
-}
-
-#expand em{
-vertical-align:middle;
-margin:0 2px;
-display:inline-block;
-width:16px;
-height:16px;
-background-image: url(Try_1.png);
-}
-
-#expand em.rightImage{
-background-position: center;
-width:2px;
-}
-
-#expand2 {
-border-radius: 12px;
-float: right;
-font-size: 0.45em;
-padding: 0;
-margin-top: 5px;
-}
-#expand3 {
-border-radius: 12px;
-float: right;
-font-size: 0.45em;
-padding: 0;
-margin-top: 5px;
-}
-#expand4 {
-border-radius: 12px;
-float: right;
-font-size: 0.45em;
-padding: 0;
-margin-top: 5px;
-}
-
-#module_code_select {
-width:80%;
-}
-
-#module_title_select {
-   width: 570px;
-}
-
-#tuesday {
-margin-left:38px;
-}
-
-#time {
-width: 135px;
-}
-
-#duration {
-width: 45px;
-}
-
-#noRooms{
-width: 45px;
-}
-
-textarea {
-width:90%;
-}
-
-#room_list {
-width:120px;
-}
-
-#room_list2 > select {
-width:120px;
-}
-
-#room_list3 {
-width:120px;
-}
-
-#room_list3 > select {
-width:120px;
-}
-
-#room_list4 {
-width:120px;
 }
-
-#room_list4 > select {
-width:120px;
-}
-
-table {
-	empty-cells: show;
-	border-spacing: 0px;
-    border-collapse: separate;
-	overflow:hidden;
-}
-
-#content_wrap {
-background-color: #F7F7F0;
-clear: both;
-height: 1100px;
-margin-left: 0;
-width: 100%;
-z-index:0;
- padding-bottom: 800px;
-}
-
-#table_header {
-clear:both;
-z-index:99;
-width:1400px;
-background-color: #F7F7F0;
-}
-
-#page_wrap {
-clear: both;
-margin: 270px auto 0;
-width: 1400px;
-}
-
-#page_wrap2 {
-clear: both;
-margin: 150px auto 0;
-width: 1400px;
-}
-
-.entries_table tr:nth-child(odd){ overflow:hidden; background-color:#f7c9ff;  }
-.entries_table tr:nth-child(even){ overflow:hidden; background-color:#ffffff;  }
-
-
-#dataTable {
-width:1400px;
-border:1px solid #f1f1f1;
-overflow:hidden;
--moz-border-radius-bottomleft:2px;
--webkit-border-bottom-left-radius:2px;
-border-bottom-left-radius:2px;
-opacity: 0.75;
--moz-border-radius-bottomright:2px;
--webkit-border-bottom-right-radius:2px;
-border-bottom-right-radius:2px;
-
-}
-
-
-
-#dataTable td {
-width:93.333px;
-max-width:93.333px;
-font-size:1em;
-border:1px solid #f1f1f1;
-overflow:hidden;
-}
-
-
-
-#scrollTable {
-border:1px solid #000000;
-background:-o-linear-gradient(bottom, #600060 5%, #a801a8 100%); background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #600060), color-stop(1, #a801a8) );
-background:-moz-linear-gradient( center top, #600060 5%, #a801a8 100% );
-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#600060", endColorstr="#a801a8"); background: -o-linear-gradient(top,#600060,a801a8);
-color:#fff;
-
--moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
 }
-
-#scrollTable td {
-width:93.333px;
-max-width:93.333px;
-font-size:1em;
-overflow:hidden;
-cursor: pointer;
 }
-
-
-hr {
-	margin-bottom: 30px;
-    margin-top: 170px;
-	border: 0;
-	height: 3px;
-	background-image:
-	-webkit-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
-	background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
-	background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
-	background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(51,0,102,1), rgba(0,0,0,0));
 }
-
-
-#round_input_separator{
-	margin-bottom: 30px;
-    margin-top: 30px;
-	border: 0;
-	height: 1.5px;
-	background-image:
-	-webkit-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
-	background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
-	background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
-	background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(217, 219, 218, 0.3), rgba(0,0,0,0));
+function pending_grid_view(){
+var sort = document.getElementById('sortList').selectedIndex;
+var part;
+var module;
+var room;
+if(sort==0) {
+var radios = document.getElementsByName('partCode');
+for(var x=0;x<radios.length;x++){
+if (radios[x].checked) {
+part=document.getElementsByName('partCode')[x].value;
 }
-
-#timetable {
-	clear:both;
 }
-
-#status_change {
-    margin: 0 auto;
-    width: 240px;
+}
+if(sort==1) {
+module=document.getElementById('moduleCodeList').value;
 }
-
-.currentSort {
-	color:black;
-	text-decoration:underline;
+if(sort==2) {
+room=document.getElementById('roomList').value;
 }
-
-#testTable  p {
-	background-image: linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,0));
-	background-color: #DDC9DD;
-    box-shadow: 0 0 0 1px #600060;
-	border:1px solid  #600060;
-	border-radius: 10px 10px 10px 10px;
--moz-border-radius: 10px 10px 10px 10px;
--webkit-border-radius: 10px 10px 10px 10px;
-color:#3a003a;
-font-weight:bold;
+var myNode = document.getElementById("Monday");
+myNode.innerHTML = '<td class="day" >Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Tuesday");
+myNode.innerHTML = '<td class="day" >Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Wednesday");
+myNode.innerHTML = '<td class="day" >Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Thursday");
+myNode.innerHTML = '<td class="day" >Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Friday");
+myNode.innerHTML = '<td class="day" >Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var n = parseInt(document.getElementById('current_week').value);
+for(var x = 0;x<requestData.length;x++) {
+var weeks = requestData[x].week;
+var day = requestData[x].day;
+var period = parseInt(requestData[x].period);
+var duration = parseInt(requestData[x].duration);
+var weekArr = weeks.split(",");
+for(var i=0;i<weekArr.length;i++){
+weekArr[i]=parseInt(weekArr[i]);
+if(weekArr[i]==0){
+weekArr=[];
+weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
 }
-
-#images_holder {
-    position: relative;
-    width: 100%;
-	top: 20px;
-	min-width: 1500px;
 }
-
-#image_wrap {
-	width: 190px;
-	margin:0 auto;
+if(weekArr.indexOf(n)> -1){
+if(duration>1){
+for(var n =0;n<duration;n++){
+if(part != null && requestData[x].module_code.charAt(4)==part){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
-
-#image_wrap a {
-	float:left;
+if(module != null && requestData[x].module_code==module){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
-
-#listLink {
-	float:left;
-	margin-right: 70px;
+if(room != null && requestData[x].room_code==room){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
-
-.sort {
-	margin-top: 20px;
 }
-
-.day {
-	border-right: 1px solid  #c1c1c1;
-	border-left: 1px solid  #c1c1c1;
-	height:135px;
 }
-
-.day1 {
-	border-right: 1px solid  #c1c1c1;
-	border-left: 1px solid  #c1c1c1;
-	height:80px;
+else {
+if(part != null && requestData[x].module_code.charAt(4)==part) {
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
-
-
-.rooavail_button {
-   border-top: 1px solid #a4f598;
-   background: #64bf74;
-   background: -webkit-gradient(linear, left top, left bottom, from(#20802b), to(#64bf74));
-   background: -webkit-linear-gradient(top, #20802b, #64bf74);
-   background: -moz-linear-gradient(top, #20802b, #64bf74);
-   background: -ms-linear-gradient(top, #20802b, #64bf74);
-   background: -o-linear-gradient(top, #20802b, #64bf74);
-   padding: 20px 40px;
-   -webkit-border-radius: 22px;
-   -moz-border-radius: 22px;
-   border-radius: 22px;
-   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-   box-shadow: rgba(0,0,0,1) 0 1px 0;
-   text-shadow: rgba(0,0,0,.4) 0 1px 0;
-   color: #ffffff;
-   font-size: 21px;
-   font-family: Georgia, Serif;
-   text-decoration: none;
-   vertical-align: middle;
-   height: 95%;
-   width: 99%;
-   }
-.rooavail_button:hover {
-   border-top-color: #29784e;
-   background: #29784e;
-   color: #ffffff;
-   }
-
-
-
-#RoomAvailTable {
-	margin-bottom:50px;
+if(module != null && requestData[x].module_code==module){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
-
-
-#RoomAvailTable, #testTable {
-	-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border-bottom: 1px solid  #c1c1c1;
-border-right: 1px solid  #c1c1c1;
-
--webkit-box-shadow: 6px 7px 5px 0px rgba(148,148,148,0.65);
--moz-box-shadow: 6px 7px 5px 0px rgba(148,148,148,0.65);
-box-shadow: 6px 7px 5px 0px rgba(148,148,148,0.65);
+if(room != null && requestData[x].room_code==room){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
-
-#testTable th,  .top_table_style {
-border:1px solid  #c1c1c1;
-background:-o-linear-gradient(bottom, #600060 5%, #a801a8 100%); background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #600060), color-stop(1, #a801a8) );
-background:-moz-linear-gradient( center top, #600060 5%, #a801a8 100% );
-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#600060", endColorstr="#a801a8"); background: -o-linear-gradient(top,#600060,a801a8);
-color:#fff;
 }
-
-.row_table_style, #testTable td {
-	width:9.01%;
-	background-color:#F8F8F8;
-	border-bottom: 1px dotted #c1c1c1;
 }
-
-#tableP {
-	color:white;
 }
-
-#hours {
-    margin: 0 auto 15px;
-    width: 270px;
 }
-
-#dialog-form1, .ui-dialog-content {
-	position: absolute;
-	overflow: scroll;
-	height: 50px;
+function rejected_grid_view(){
+var sort = document.getElementById('sortList').selectedIndex;
+var part;
+var module;
+var room;
+if(sort==0) {
+var radios = document.getElementsByName('partCode');
+for(var x=0;x<radios.length;x++){
+if (radios[x].checked) {
+part=document.getElementsByName('partCode')[x].value;
+}
+}
+}
+if(sort==1) {
+module=document.getElementById('moduleCodeList').value;
+}
+if(sort==2) {
+room=document.getElementById('roomList').value;
+}
+var myNode = document.getElementById("Monday");
+myNode.innerHTML = '<td class="day">Monday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Tuesday");
+myNode.innerHTML = '<td class="day">Tuesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Wednesday");
+myNode.innerHTML = '<td class="day">Wednesday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Thursday");
+myNode.innerHTML = '<td class="day">Thursday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var myNode = document.getElementById("Friday");
+myNode.innerHTML = '<td class="day">Friday</td> <td id="p1"> </td> <td id="p2"> </td> <td id="p3"></td> <td id="p4"></td> <td id="p5"></td> <td id="p6"></td> <td id="p7"></td> <td id="p8"></td> <td id="p9"></td> <td id="p1"></td>';
+var n = parseInt(document.getElementById('current_week').value);
+for(var x = 0;x<rejectedData.length;x++) {
+var weeks = rejectedData[x].week;
+var day = rejectedData[x].day;
+var period = parseInt(rejectedData[x].period);
+var duration = parseInt(rejectedData[x].duration);
+var weekArr = weeks.split(",");
+for(var i=0;i<weekArr.length;i++){
+weekArr[i]=parseInt(weekArr[i]);
+if(weekArr[i]==0){
+weekArr=[];
+weekArr.push(1,2,3,4,5,6,7,8,9,10,11,12);
+}
+}
+if(weekArr.indexOf(n)> -1){
+if(duration>1){
+for(var n =0;n<duration;n++){
+if(part != null && rejectedData[x].module_code.charAt(4)==part){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+}
+if(module != null && rejectedData[x].module_code==module){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+}
+if(room != null && rejectedData[x].room_code==room){
+document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+}
+}
+}
+else {
+if(part != null && rejectedData[x].module_code.charAt(4)==part) {
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+}
+if(module != null && rejectedData[x].module_code==module){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+rejectedData[x].request_id+'</span><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'</span><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'</span></p>';
+}
+if(room != null && rejectedData[x].room_code==room){
+document.getElementById(day).children['p'+period].innerHTML=document.getElementById(day).children['p'+period].innerHTML+'<p id="'+ rejectedData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+rejectedData[x].request_id+'<span id="tableP"><br/> Module code: <span id="tableP">'+rejectedData[x].module_code+'<span id="tableP"><br/> Room code: <span id="tableP">'+rejectedData[x].room_code+'<span id="tableP"></p>';
+}
+}
+}
+}
+}
+
+			
+			
+			
+			
+			function increaseWeek () {
+				var currentWeek=parseInt(document.getElementById('current_week').value);
+				if(currentWeek != 16){
+					document.getElementById('current_week').value = (currentWeek+1);
+				}
+				
+			}
+			
+			function decreaseWeek () {
+				var currentWeek=parseInt(document.getElementById('current_week').value);
+				if(currentWeek != 1){
+					document.getElementById('current_week').value = (currentWeek-1);
+				}
+			}
+			
+			function showInfo(id) {
+				$( "#info" ).empty();
+				alert("<h2>Request No: " + id + "</h2>");
+			}
+			
+			function changeSort() {
+				var n = document.getElementById('sortList').selectedIndex;
+				if(n==0) {
+				document.getElementById('partDiv').style.display="block";
+				document.getElementById('moduleDiv').style.display="none";
+				document.getElementById('roomDiv').style.display="none";
+				}
+				if(n==1) {
+				document.getElementById('partDiv').style.display="none";
+				document.getElementById('moduleDiv').style.display="block";
+				document.getElementById('roomDiv').style.display="none";
+				}
+				if(n==2) {
+				document.getElementById('partDiv').style.display="none";
+				document.getElementById('moduleDiv').style.display="none";
+				document.getElementById('roomDiv').style.display="block";
+				}
+			}
+			
+			
+					function logout_question(){
+  if (confirm('Are you sure you want to logout?')){
+    return true;
+  }else{
+    return false;
+  }
 }
-
-.ui-dialog-titlebar  > button {
-	margin-left:490px;
-	padding:5px;
-	margin-top:5px;
-	margin-bottom:5px;
 	
-}
+			
+	function showDialog(el){
+	
+			if(document.getElementById('statusList').selectedIndex==2) {
+				$("#dialog-form1").dialog("open");
+				
+				var request_id=parseInt(el.id);
+				var module_code=el.children[2].innerHTML;
+				$("#requestId").val(request_id);	
+				$("#requestIdDel").val(request_id);				
+				inputModule();
+				$("#module_code_select").val(module_code);
+				 module_code_change();
+				checkPriority(el);
+				checkDay(el);
+				checkWeek(el);
+				checkperiod(el);
+				checkDuration(el);
+				checkSpecialReq(el);
+				checkCapacity(el);
+				checkFacility(el);
+				checkRoomCode(el);
+		}			
+	}
+			
+	function inputModule(){
+				for(var i=0;i<moduleData.length;i++){
+					$("#module_code_select").append("<option>" + moduleData[i].module_code + "</option>");
+					$("#module_title_select").append("<option>" + moduleData[i].module_title + "</option>");
+				}
+			}
+			
+	function checkPriority(el){
+	
+				var request_id=parseInt(el.id);
+				var priority;
+				
+				for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) priority=fullData[x].priority;
+				}
+				
+				if(priority==0)
+				$("#priorityInput2").prop('checked',true);
+				else
+				$("#priorityInput1").prop('checked',true);
+			}
+			
+	function checkDay(el){
+				var request_id=parseInt(el.id);
+				var day; 
+				
+				for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) day=fullData[x].day;
+				}
+				
+				if(day == "Monday")
+					$("#monday").prop('checked', true);
+				if(day == "Tuesday")
+					$("#tuesday").prop('checked', true);
+				if(day == "Wednesday")
+					$("#wednesday").prop('checked', true);
+				if(day == "Thursday")
+					$("#thursday").prop('checked', true);
+				if(day == "Friday")
+					$("#friday").prop('checked', true);
+			}
+			
+	function checkWeek(el){
+				var request_id = parseInt(el.id);
+				var weeks=[];
+				
+				for(var x=0;x<weeksData.length;x++){
+					if(weeksData[x].request_id == request_id) weeks.push(weeksData[x].week);
+				}
+				
+				if(weeks[0] == 0){
+					for(var j=1;j<=12;j++){
+						$("#week" + j).prop('checked',true);
+					}
+				}
+						
+				else{
+					for(var k=0;k<weeks.length;k++){
+						$("#week" + weeks[k]).prop('checked',true);
+					}
+				}
+			}
+			
+	function checkperiod(el){
+			var request_id = parseInt(el.id);
+				var period;
+				for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) period=fullData[x].period;
+				}
+				
+				document.getElementById("time").selectedIndex = period - 1;
+			}
+			
+	function checkDuration(el){
+		var request_id = parseInt(el.id);
+		var duration;
 
-.ui-dialog{
-	border-top-left-radius: 40px;
-	border-top-right-radius: 40px;
-	margin-top: 100px;
-}
-
-.ui-dialog-title {
-	cursor:default;
-	margin-left:20px;
-	color:white;
-	font-weight: bold;
-}
-
-.ui-widget-overlay {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: #aaaaaa;
-opacity: 0.3;
-}
-
-.ui-front{
-	z-index:100;
-}
-
-#checkOptions {
-	width:70%;
-	margin:0 auto;
-	min-width: 1400px;
-}
-
-#checkWrap {
-	width: 890px;
-	margin: 0 auto;
-}
-
-#checkOptions table {
-	font-family: Franklin Gothic Medium,Helvetica,Arial,sans-serif;
-    font-size: 1.3em;
-	text-align: left;
-}
-
-#checkWrap div {
-	margin-left: 10px;
-    margin-right: 10px;
-	background-color:F9F9F6;
-}
-
-#checkFacilities {
-    border: 3px solid #c1c1c1;
-    float: left;
-    height: 138px;
-    padding: 10px;
-		-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-}
-
-#checkCap {
-    border: 3px solid #c1c1c1;
-    float: left;
-    height: 59px;
-    padding: 10px;
-		-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-}
-
-#checkLocation {
-    border: 3px solid #c1c1c1;
-    float: left;
-    height: 138px;
-    padding: 10px;
-		-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-}
-
-#after1 {
-background-color: #f9f9f6;
-	width:570px;
-		-moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-float:left;
-margin-right: 10px;
-margin-bottom:200px;
-}
-
-#after2 {
-background-color: #f9f9f6;
-float:left;
--moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-
-border: 3px solid #c1c1c1;
-padding-left: 82px;
-width: 265px;
-margin-left: 10px;
-
-  padding-bottom: 11px;
-}
-
-#checkButton {
-    background-color: #cc0066;
-    border: 2px solid #a20054;
-    border-radius: 15px;
-    color: #fff;
-    font-weight: bold;
-    padding: 10px 15px 10px 10px;
-    text-shadow: 0 1px 2px #99165c;
-	margin-top:18px;
-}
-
-#after1 table {
-	background-color: #f9f9f6;
-}
-
-#after2 table {
-	background-color: #f9f9f6;
-}
-
-
-#prefOptions {
-    float: left;
-    width: 50%;
-}
-
-#parkTable {
-	margin-bottom:20px;
-	 margin-left: 18em;
-}
-
-#park {
-	width:65px;
-}
-
-
-.box_class {
--moz-border-radius-topright:22px;
--webkit-border-top-right-radius:22px;
-border-top-right-radius:22px;
-
--moz-border-radius-topleft:22px;
--webkit-border-top-left-radius:22px;
-border-top-left-radius:22px;
-
-	-moz-border-radius-bottomright:22px;
--webkit-border-bottom-right-radius:22px;
-border-bottom-right-radius:22px;
-
--moz-border-radius-bottomleft:22px;
--webkit-border-bottom-left-radius:22px;
-border-bottom-left-radius:22px;
-border: 3px solid #c1c1c1;
-
-border: 3px solid #c1c1c1;
-	background-color: #f9f9f6;
-	padding: 10px;
-}
-
-
-.floating {
- float:left; 
- display: inline-block;
-
-}
-
-
-#everything {
- width: 1343px;
- margin:0 auto;
-}
-
-#period_duration{
-    margin-bottom: 25px;
-    margin-left: 65px;
+		for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) duration=fullData[x].duration;
+				}
+				
+				document.getElementById("duration").selectedIndex = duration - 1;
+	}
+	
+	function checkSpecialReq(el){
+		var request_id = parseInt(el.id);
+		var req;
+		
+		for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) req=fullData[x].special_requirements;
+				}
+		
+		$("#specialReq").val(req);
+	
+	}
+	
+	function checkCapacity(el){
+			var request_id = parseInt(el.id);
+			var capacity;
+			
+			for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) capacity=fullData[x].capacity;
+				}
+			
+			$("#capacity1").val(capacity);
 	}
 
-.vis-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
+		function checkFacility(el){
+			var request_id = parseInt(el.id);
+			var wheelchair;
+			var projector;
+			var visualiser;
+			var whiteboard;
+			
+			for(var x=0;x<fullData.length;x++){
+					if(fullData[x].request_id == request_id) { 
+						wheelchair=fullData[x].wheelchair;
+						projector=fullData[x].projector;
+						visualiser=fullData[x].visualiser;
+						whiteboard=fullData[x].whiteboard;
+					}
+				}
+			
+				if (wheelchair == 1)
+					$("#wheelchair_yes").prop('checked', true);
+				else 
+					$("#wheelchair_no").prop('checked', true);
+				if (projector == 1)
+					$("#projector_yes").prop('checked', true);
+				else 
+					$("#projector_no").prop('checked', true);
+				if (visualiser == 1)
+					$("#visualiser_yes").prop('checked', true);
+				else 
+					$("#visualiser_no").prop('checked', true);
+				if (whiteboard == 1)
+					$("#whiteboard_yes").prop('checked', true);
+				else 
+					$("#whiteboard_no").prop('checked', true);
+			}
+			
+	function checkRoomCode(el){
+				var room = el.children[4].innerHTML;
+				$("#room_list").empty();
+				for(var i=0;i<roomData.length;i++){
+					$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+				}
+				
+				if(room != "null"){
+					$("#room_list").val(room);
+				}
+				else $("#room_list").val(null);
+			}
+			
+	Element.prototype.remove = function() {
+		this.parentElement.removeChild(this);
+	}
+	
+	NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = 0, len = this.length; i < len; i++) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}		
+			
+	function updateAjax(){
+				
+				//validation
+				if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+					return(alert("Please enter a suitable capacity"));
+				}
+				
+				
+				var checked = false;
+				$('#editForm  input[type="checkbox"]').each(function() {
+					if ($(this).is(":checked")) {
+						checked = true;
+					}
+				});
+		 
+				if (checked == false) {
+					return(alert("Please enter a week"));
+				} 
+	
+				$.ajax({
+				url : "updateInfo.php",
+				type : "POST", 
+				data : $("#editForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request submitted with request id " + data[data.length-1].request_id);
+						//window.location.href = "TimetableView.php";
+						document.getElementById(data[data.length-1].request_id).children[2].innerHTML=data[data.length-1].module_code;
+						document.getElementById(data[data.length-1].request_id).children[4].innerHTML=data[data.length-1].room_code;
+						closeDialog();
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
+			//delete selected request from database
 
-#week {
-  margin: 10px;
-  padding: 5px;
-  border: 1px solid #cc0066;
-  background-color: #white;
-  color:#cc0066;
-  font-weight:bold;
-}
+			function deleteAjax(){
+				$.ajax({
+				url : "deleteInfo.php",
+				type : "POST", 
+				data : $("#deleteForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request deleted with request id " + data + " has been deleted");
+						var id = data;
+						document.getElementById(data).remove();
+						//window.location.href = "TimetableView.php";
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+			}
+			function confirmDelete(){
+				if (confirm('Are you sure you want to delete this request?')){
+					deleteAjax();
+				}else{
+				return false;
+				}
+			}
+			
+	function module_code_change(){
+				document.getElementById("module_title_select").selectedIndex = document.getElementById("module_code_select").selectedIndex ;
+			}
+			function module_title_change(){
+				document.getElementById("module_code_select").selectedIndex = document.getElementById("module_title_select").selectedIndex;
+			}
+			
+	function buildingCodeChange() {
+				document.getElementById("BuildingNameSelect").selectedIndex = document.getElementById("BuildingCodeSelect").selectedIndex;
+			}
+			
+			function buildingNameChange() {
+				document.getElementById("BuildingCodeSelect").selectedIndex = document.getElementById("BuildingNameSelect").selectedIndex;
+			}
+			
+			function buildingInitialise() {
+				$("#BuildingCodeSelect").html("<option>All</option>");
+				$("#BuildingNameSelect").html("<option>All</option>");				
+				for(var i=0; i<buildingData.length; i++) {
+					$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+					$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+				}
+			}
+			
+	function change_room_code() {
+						//cache user settings
+						
+						var ParkSelect = document.getElementById("park").value;
+						var capacity = document.getElementById("capacity1").value;
+						var isWheelchair = document.getElementById("wheelchair_yes").checked;
+						var isVisualiser = document.getElementById("visualiser_yes").checked;
 
-#week:hover {
-  background-color: #cc0066;
-  color:white;
-}
+						var isProjector = document.getElementById("projector_yes").checked;
 
-input:checked + #week {
-  border-color: ;
-  background-color: #cc0066;
-  color:white;
-}
+						var isWhiteboard = document.getElementById("whiteboard_yes").checked;
+						var buildingCode = document.getElementById("BuildingCodeSelect").value;
+						
+						
+						//empty the room code list
+						$("#room_list").empty();
+						
+						for(var i=0;i<roomData.length;i++){
+						//if the room has enough capacity, and has the options the user asked for - or he didn't ask for the option, then add it to the list
+							if((roomData[i].capacity >= parseInt(capacity) || capacity == "") &&
+							(ParkSelect == "Any" || ParkSelect == roomData[i].park) &&
+							(!isWheelchair || roomData[i].wheelchair == 1) &&
+							(!isVisualiser || roomData[i].visualiser == 1) &&
+							(!isProjector || roomData[i].projector == 1) &&
+							(!isWhiteboard || roomData[i].whiteboard == 1) && 
+							(buildingCode == "All" || buildingCode == roomData[i].building_code)) {
+								$("#room_list").append("<option>" + roomData[i].room_code + "</option>");
+								
+							}
+							
+						}
+					}
+					
+					function ParkChange() {
+						var parkChosen = "Any";
+						parkChosen = document.getElementById("park").value;
+						$("#room_list").empty();
+						
+						//if any parks are chosen then all the rooms are displayed
+						if(parkChosen=="Any") {
+							for(var i=0; i<roomData.length; i++) {
+								$("#room_list").append("<option> " + roomData[i].room_code + "</option>");
+							}
+						} else { //if a park is chosen teh jsut that park's rooms are displayed
+							for(var i=0; i<roomData.length; i++) {
+								if(roomData[i].park == parkChosen) {
+									$("#room_list").append("<option> " + roomData[i].room_code + "</option>");
+								}
+							}
+						}
+						$("#BuildingCodeSelect").html("<option>All</option>");
+						$("#BuildingNameSelect").html("<option>All</option>");				
+						for(var i=0; i<buildingData.length; i++) {
+							if(buildingData[i].park == document.getElementById("park").value) {
+								$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
+								$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
+							}
+						}
+					}
+			
+			function goBack() {
+				window.history.back()
+			}
+			
+			
+		</script>	
+<link rel="stylesheet" href="Theme.css"/>
+</head>
+<body onload="initialise(); statusChange(); moduleList();">
 
-#id_change_password{
-font-size: 1em;
-font-weight: 900;
-background: none repeat scroll 0 0 transparent;
-border: medium none;
-color: #fff;
-}
+<div id="top_style">
+<div align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">
+<a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div><a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+<b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
+	<div id = "header_style" >
+  		<div id="title">
+    		<h1>Loughborough University Timetabling </h1>
+    		<h2> 
+    			<?php $dept_code = strtolower($username); $sql = "SELECT dept_name FROM DEPT WHERE dept_code = '$dept_code' "; 		$res =& $db->query($sql); //getting the result from the database
+				if(PEAR::isError($res)){
+					die($res->getMessage());
+				}
+							//put each rows into value array
+				while($row = $res->fetchRow()){
+					echo $row["dept_name"];
+				}  ?>   
+				<br/> 
+			</h2> 
+  		</div>
+  	<div id="logo"> <a href="http://www.lboro.ac.uk/?external"> <img id = "lboro_logo" src="LU-mark-rgb.png" alt="Loughborough University Logo" /> </a> </div>
+	</div>
+	
+	
+		<div id="images_holder" >
+			<div id="image_wrap">
+				<a id="listLink" style="color:black;" href="ViewRequests.php"> <img style="margin-left:20%; display: block;" width="40" height="40" border="0" alt="List" src="list_picture.png" > List View </a> 
+				<a style="color:#99165c;" href="TimetableView.php"> <img style="margin-left:15%; display: block;"  width="40" height="40" border="0" alt="Timetable" src="RED_timetable_grid_view.png" > Timetable<br/>Grid View </a> 
+			</div>
+		</div>
+	
+	<div id="page_wrap">
+	<div style="display:none;">
+		<form id="deleteForm" name="deleteForm">
+			<input type="hidden" value="" id="requestIdDel" name="requestIdDel"/>
+		</form>
 
-#editForm fieldset {
-	background-color:#f9f9f6;
-}
+		<form id="weekForm" name="weekForm">
+			<input type="hidden" value="" id="weekCheck" name="weekCheck"/>
+		</form>
+
+	</div>
+	<div id="dialog-form1" title="Edit information" style="display: none;" >
+			<form id="editForm" name="editForm">
+				<fieldset>
+					<input type="hidden" value="" id="requestId" name="requestId"/>
+					<table id='priority_id'  class="inputs box_class">
+					<tr>
+						<td>
+							Priority: 
+						</td>
+						<td>
+					<input name="priorityInput" type="radio" id="priorityInput1" onchange="change_room_code()" value="1"/>Yes
+					<input name="priorityInput" type="radio" id="priorityInput2" onchange="change_room_code()" value="0"/>No
+                    	</td>
+					</tr>
+                    </table>
+					
+                    <table style='margin-bottom: 10px;' class="inputs box_class">
+					<tr>
+						<td>
+					<label for="module_code_select"> Module Code: </label>
+                    </td>
+                    	<td>				
+                        	<label id='label_module_title' for="module_title_select" onchange='module_title_change()'> Module Title: </label>
+                        </td>
+                        </tr>
+                    <tr>
+						<td>
+					<select id="module_code_select" name="module_code_select" onchange='module_code_change()'> </select>
+					 </td> <td>
+					<select id="module_title_select" name="module_title_select"> </select>
+					</td>
+					</tr>
+                    </table>
+                    
+                    
+                    <table style='margin-bottom: 10px;' class="inputs box_class floating">
+					<tr>
+						<td style='text-align:center;'>
+					Day: </td>
+					</tr> 
+                    <tr>
+						<td>
+                    
+					<input type="radio" name="day" id='monday' value="1" required/>
+					Monday
+					<input type="radio" name="day" id='tuesday' value="2" required/>
+					Tuesday<br/>
+					<input type="radio" name="day" id='wednesday' value="3" required/>
+					Wednesday
+					<input type="radio" name="day" id='thursday' value="4" required/>
+					Thursday<br/>
+					<input type="radio" name="day" id='friday' value="5" required/>
+					Friday </td>
+					</tr>
+                    </table>
+                    
+                     
+                    <table style=' margin-left:270px; height: 115px; margin-bottom: 10px;' class="inputs box_class ">
+					<tr>
+						<td>
+                    Period:  </td> <td>
+                    
+					<?php
+						//dropdown for the period, includes the time in 24hr format
+						//Callan Swanson
+						//Scott Marshall - trigger a re-evaluation of the duration when the period is changed
+						echo "<select name='time' id='time' onchange='refill_duration()'>";
+						for($i=1;$i<=9;$i++){
+							$time = $i+8;
+							echo "<option value='".$i."'>".$i." - ".$time.":00</option>";
+						}
+						echo "</select>";
+					?>
+					 </td> </tr>  <tr> <td>
+					Duration: </td> <td>
+					<?php
+						//dropdown for the duration
+						//Scott Marshall
+						echo "<select name='duration' id='duration'>";
+						for($i=1;$i<=9;$i++){
+							$duration = $i+8;
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+						echo "</select>";
+					?>
+                    </td>
+                    </tr>
+                    </table>
+                    
+                    <table style="width: 630px; margin-bottom: 10px;" class="inputs box_class">
+					<tr>
+						<td style='text-align:center' >
+					Week: </td> </tr> <tr> <td> 
+					<span class="week_label"> 1 </span>
+					<input type="checkbox" name="weeks[]" id="week1" value="1"/></input>
+					<span class="week_label"> 2 </span>
+					<input type="checkbox" name="weeks[]" id="week2" value="2"  /></input>
+					<span class="week_label"> 3 </span>
+					<input type="checkbox" name="weeks[]" id="week3" value="3"  /></input>
+					<span class="week_label"> 4 </span>
+					<input type="checkbox" name="weeks[]" id="week4" value="4"  /></input>
+					<span class="week_label"> 5 </span>
+					<input type="checkbox" name="weeks[]" id="week5" value="5" /></input>
+					<span class="week_label"> 6 </span>
+					<input type="checkbox" name="weeks[]" id="week6" value="6" /></input>
+					<span class="week_label"> 7 </span>
+					<input type="checkbox" name="weeks[]" id="week7" value="7" /></input>
+					<span class="week_label"> 8 </span>
+					<input type="checkbox" name="weeks[]" id="week8" value="8" /></input>
+					<span class="week_label"> 9 </span>
+					<input type="checkbox" name="weeks[]" id="week9" value="9" /></input>
+					<span class="week_label"> 10 </span>
+					<input type="checkbox" name="weeks[]" id="week10" value="10" /></input>
+					<span class="week_label"> 11 </span>
+					<input type="checkbox" name="weeks[]" id="week11" value="11" /></input>
+					<span class="week_label"> 12 </span>
+					<input type="checkbox" name="weeks[]" id="week12" value="12" /></input>
+					<span class="week_label"> 13 </span>
+					<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
+					<span class="week_label"> 14 </span>
+					<input type="checkbox" name="weeks[]" id="week14" value="14" /></input>
+					<span class="week_label"> 15 </span>
+					<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
+					<span class="week_label"> 16 </span>
+					<input type="checkbox" name="weeks[]" id="week16" value="16" /></input>
+					</td> </tr>
+                    </table>
+                    
+                     
+                      <table style="width: 630px; margin-bottom: 10px;" class="inputs box_class">
+					<tr> <td>  Park: </td> <td> Building Name : </td> <td> Building Code : </td> <td> Rooms </td> </tr>
+                     <tr> <td>
+					<select id="park" name="park" onChange="ParkChange();change_room_code();">
+						<option>Any</option>
+						<option>C</option>
+						<option>E</option>
+						<option>W</option>
+					</select>
+					</td><td>
+					
+					<select style='width:240px;' name="BuildingNameSelect" id="BuildingNameSelect" onChange="buildingNameChange();change_room_code()" >
+						
+					</select>
+				</td><td>
+					
+					<select style='width:90px;' name="BuildingCodeSelect" id="BuildingCodeSelect" onChange="buildingCodeChange();change_room_code()" >
+						
+					</select>
+					</td> <td>
+					
+					<select name='roomCode0' id='room_list' onchange='refill_codes();'>
+					</select>
+                    
+                    </td> </tr>
+                    
+                    <tr> <td> 	Capacity: </td><td>
+					<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>   </td></tr></table>                    
+					
+					Special Requirements:
+					<textarea name="specialReq" id="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
+					
+				
+					
+					
+					
+					Wheelchair:
+					<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
+					Yes
+					<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
+					No
+							
+					Visualiser:
+					<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
+					No
+						
+					Projector:
+					<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
+					No
+							
+					Whiteboard:
+					<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
+					Yes
+					<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
+					No
+					
+					<input type="button" value="Submit" onClick="updateAjax()" />
+					<input type="button" value="Delete" onClick="confirmDelete()" />
+	
+				</fieldset>
+			</form>
+		</div>
+	
+	
+		<hr/>
+	<table frame="box" style="width:100%;" align "center" id="testTable">
+	
+	<h3>View: </h3><select id="statusList" onChange="statusChange()">
+                	<option>Rejected</option>
+                    <option>Booked</option>
+                    <option>Pending</option>
+                </select>
+				
+	<h3>Sort By: </h3><select id="sortList" onchange="changeSort();statusChange();">
+				<option>Part</option>
+				<option>Module</option>
+				<option>Room</option>
+			</select>
+	
+	<div id="partDiv" style="display:block" class="sort">
+	<h4>Part: </h4>
+	<input type='radio' name='partCode' id='aPart' value='A' onchange='statusChange();' checked> A
+	<input type='radio' name='partCode' id='bPart' value='B' onchange='statusChange();'> B
+	<input type='radio' name='partCode' id='iPart' value='I' onchange='statusChange();'> I
+	<input type='radio' name='partCode' id='cPart' value='C' onchange='statusChange();'> C
+	<input type='radio' name='partCode' id='dPart' value='D' onchange='statusChange();'> D
+	</div>
+	
+	<div id="moduleDiv" style="display:none" class="sort">
+	<h4>Module Code: </h4><select id="moduleCodeList" onchange="module_code_change(); statusChange();">
+	</select>			
+	
+	<h4>Module Title: </h4><select id="moduleTitleList"onchange="module_title_change();statusChange();">
+	</select>
+	</div>
+	
+	<div id="roomDiv" style="display:none" class="sort">
+	<h4>Room: </h4><select id="roomList" onchange="statusChange();">
+	</select>
+	</div>			
+				
+	<br/>
+	Click on pending requests to make changes or delete your request.
+	<div id="hours">
+	
+		<button type="button" onclick="decreaseWeek(); statusChange();">-</button><input id="current_week" type="text" name="current_week"  disabled></input><button type="button" onclick="increaseWeek();statusChange(); ">+</button>
+		<tr id="headers">
+			<th>Timetable</th>
+			<th>09.00</th>
+			<th>10.00</th>
+			<th>11.00</th>
+			<th>12.00</th>
+			<th>13.00</th>
+			<th>14.00</th>
+			<th>15.00</th>
+			<th>16.00</th>
+			<th>17.00</th>
+			<th>18.00</th>
+		</tr>
+	</div>	
+
+	<div id="Days">
+		<tr id="Monday">	
+			<td class="day" style="background-color:#f1f1f1;">Monday</td>
+			<td id="p1"></td>
+			<td id="p2"></td>
+			<td id="p3"></td>
+			<td id="p4"></td>
+			<td id="p5"></td>
+			<td id="p6"></td>
+			<td id="p7"></td>
+			<td id="p8"></td>
+			<td id="p9"></td>	
+			<td id="p10"></td>
+		</tr>
+		<tr id="Tuesday">
+			<td class="day" style="background-color:#f1f1f1;">Tuesday</td>
+			<td id="p1"></td>
+			<td id="p2"></td>
+			<td id="p3"></td>
+			<td id="p4"></td>
+			<td id="p5"></td>
+			<td id="p6"></td>
+			<td id="p7"></td>
+			<td id="p8"></td>
+			<td id="p9"></td>
+			<td id="p10"></td>			
+		</tr>
+		<tr id="Wednesday">
+			<td class="day"></td>
+			<td id="p1"></td>
+			<td id="p2"></td>
+			<td id="p3"></td>
+			<td id="p4"></td>
+			<td id="p5"></td>
+			<td id="p6"></td>
+			<td id="p7"></td>
+			<td id="p8"></td>
+			<td id="p9"></td>	
+			<td id="p10"></td>
+		</tr>
+		<tr id="Thursday">
+			<td class="day" style="background-color:#f1f1f1;">Thursday</td>
+			<td id="p1"></td>
+			<td id="p2"></td>
+			<td id="p3"></td>
+			<td id="p4"></td>
+			<td id="p5"></td>
+			<td id="p6"></td>
+			<td id="p7"></td>
+			<td id="p8"></td>
+			<td id="p9"></td>
+			<td id="p10"></td>			
+		</tr>
+		<tr id="Friday">
+			<td class="day" style="background-color:#f1f1f1;">Friday</td>
+			<td id="p1"></td>
+			<td id="p2"></td>
+			<td id="p3"></td>
+			<td id="p4"></td>
+			<td id="p5"></td>
+			<td id="p6"></td>
+			<td id="p7"></td>
+			<td id="p8"></td>
+			<td id="p9"></td>
+			<td id="p10"></td>			
+		</tr>
+		</div>
+</body>
+
+</html>

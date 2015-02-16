@@ -82,7 +82,7 @@ font-size: 100%;
 box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
 height: 20px;
 padding: 6px 8px 8px;
-text-align: right;
+text-align: left;
 min-width:900px;
 width:100%;
 }
@@ -178,7 +178,7 @@ width: 20%;
 display: inline-block;
 float: right;
 margin-right: 90px;
-margin-top: 20px;
+margin-top: -27px;
 padding-left: 65px;
 width: 100%;
 }
@@ -1223,4 +1223,5 @@ font-weight: 900;
 background: none repeat scroll 0 0 transparent;
 border: medium none;
 color: #fff;
+margin-left: 50%;
 }
