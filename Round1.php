@@ -62,7 +62,16 @@
 			insert_room_code();
 		});
 		function showModDialog(){
-					$("#modDialog").dialog();
+					$("#modDialog").dialog({
+					
+					height: 150,
+					width: 850,
+					position: { my:"center",
+								at: "top",
+								of: window}	
+						});
+					
+					
 			}
 			function addMod(){
 				var code = document.getElementById("modCode").value;
@@ -580,7 +589,7 @@
 			<form id="modForm" name="modForm">
 				Module code: <input type="text" id="modCode" name="modCode">
 				Module title: <input type="text" id="modTitle" name="modTitle">
-				<input type="button" onclick="addMod()" value="Submit">
+				<input type="button" class="modButton" onClick="addMod()" value="Submit">
 			</form>
 </div>
 	</body>
