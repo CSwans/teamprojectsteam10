@@ -144,9 +144,9 @@
 				<tr> <td>&nbsp;  </td> </tr>
 					
 					<tr>
-						<td style="min-width:300px" align="center"> Part: </td>
-						<td style="min-width:200px" align="center"> Module Code: </td>
-						<td align="center"> Module Title: </td>
+						<td style="min-width:300px" align="center"> <label for="" >Part: </label></td>
+						<td style="min-width:200px" align="center"><label for="module_code_select" > Module Code: </label></td>
+						<td align="center"> <label for="module_title_select" >Module Title: </label></td>
 						</tr>
 						<tr>
 						
@@ -188,7 +188,7 @@
 									
 					<table class="inputs box_class floating" >
 						<tr>
-							<td style="height: 28px;" width="300px" align="center"> Day: </td>
+							<td style="height: 28px;" width="300px" align="center"><label for="day" > Day: </label></td>
 						</tr>
 						<tr>
 							<td style="height: 120px;">
@@ -213,7 +213,7 @@
 					
 					<table id="period_duration" class="inputs box_class floating">
 						<tr> 
-							<td width="100px" align="center"> Period: </td>
+							<td width="100px" align="center"><label for="time" > Period: </label></td>
 						</tr>
 							<td align="center" valign="top">
 								<?php
@@ -230,7 +230,7 @@
 						</tr>
 						<tr> <td>&nbsp;  </td> </tr>
 						<tr> 
-							<td width="100px" align="center"> Duration: </td> 
+							<td width="100px" align="center"><label for="duration" > Duration: </td> 
 							</tr>
 							<tr>
 							<td style="text-align:center;">
@@ -254,7 +254,7 @@
 				
 					<tr>		
 						<td align="center">
-						  Number of rooms: </br>
+						  <label for="noRooms" >Number of rooms: </label></br>
 							<select id="noRooms" name="noRooms" onChange="showCapacity(); change_room_code();" >
 								<option>1</option>
 								<option>2</option>
@@ -264,7 +264,7 @@
 						</td>
 						
 						<td id="capacityCell"> 
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacity: </br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="capacity" >Capacity: </label></br>
 							<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value=""/> 
 						</td>												
 						
@@ -281,7 +281,7 @@
 
 					<tr>
 						
-						<td align="center" style="min-width:800px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Week(s): </td>
+						<td align="center" style="min-width:800px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="weeks[]" >Week(s): </label></td>
 						<td align="center" style="min-width:270px">&nbsp;  </td>
 					</tr>
                     <tr> <td>&nbsp;  </td> </tr>
@@ -333,7 +333,7 @@
 					<tr> <td>&nbsp;  </td> </tr>
 					
 					<tr>
-						<td style="min-width:230px;"> Special requirements: &nbsp;&nbsp;&nbsp;&nbsp; </td>
+						<td style="min-width:230px;"><label for="specialReq" >Special requirements: </label>&nbsp;&nbsp;&nbsp;&nbsp; </td>
 						<td>
 							<textarea style="width:835px;" name="specialReq" cols="80" maxlength="1000" placeholder="1000 chars max..."></textarea>
 						</td>
@@ -353,7 +353,7 @@
 				
 								  <table id="parkTable" class="box_class">
 					<tr>
-					  <td> Park:
+					  <td> <label for="park" >Park: </label>
 					  </td>
 					  <td>
 						<select id="park" name="park" onChange="change_room_code()">
@@ -373,7 +373,7 @@
 					<table id="advancedinputs1" class="box_class">
 					<tr>
 					  <td id="room_col"><!--Scott Marshall: added in empty select so it is part of the form data --> 
-						Room Pref:
+						<label for="roomCode0" >Room Pref: </label>
 					  </td>
 					  <td>
 						  <select name='roomCode0' id='room_list' onchange='refill_codes();'>
@@ -386,14 +386,14 @@
 					<tr id="ad_pref1" style="display:none;">
 					  <td>
 						<span id="adv_block">  
-					    	Wheelchair <br/>
+					    	<label for="wheelchair" >Wheelchair </label><br/>
 							<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
 							Yes
 							<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
 							No
 						</span>
 						<span id="adv_block">
-							Projector <br/>
+							<label for="projector" >Projector </label> <br/>
 							<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
 							Yes
 							<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
@@ -402,14 +402,14 @@
 					  </td>
 					<td>
 					<span id="adv_block">
-						Visualiser <br/>
+						<label for="visualiser" >Visualiser </label><br/>
 						<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
-						Whiteboard <br/>
+						<label for="whiteboard" >Whiteboard </label><br/>
 						<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
@@ -423,7 +423,7 @@
 					<table id="advancedinputs2" class="box_class">
 					<tr id="add_room_col">
 						<td id="roomlabel2" style="display: none;">
-							Room Pref 2:
+							<label for="room_list2" >Room Pref 2: </label>
 						</td>
 					  <td><span id='room_list2' style="display: none;">
 						  <select name='roomCode1' onchange='refill_codes();'>
@@ -437,14 +437,14 @@
 					<tr id="ad_pref2" style="display: none;">
 					  <td>
 					<span id="adv_block">  
-					    Wheelchair <br/>
+					   <label for="wheelchair2" > Wheelchair </label><br/>
 						<input name="wheelchair2" type="radio" id="wheelchair_yes2" onChange="change_room_code()" value="1"/>
 						Yes
 						<input name="wheelchair2" type="radio" id="wheelchair_no2" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
-						Projector <br/>
+						<label for="projector2" >Projector </label><br/>
 						<input name="projector2" type="radio" id="projector_yes2" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="projector2" type="radio" id="projector_no2" onChange="change_room_code()" value="0"/>
@@ -453,14 +453,14 @@
 					</td>
 					<td>
 					<span id="adv_block">
-						Visualiser <br/>
+						<label for="visualiser2" >Visualiser </label><br/>
 						<input name="visualiser2" type="radio" id="visualiser_yes2" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="visualiser2" type="radio" id="visualiser_no2" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
-						Whiteboard <br/>
+						<label for="whiteboard2" >Whiteboard </label><br/>
 						<input name="whiteboard2" type="radio" id="whiteboard_yes2" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="whiteboard2" type="radio" id="whiteboard_no2" onChange="change_room_code()" value="0"/>
@@ -476,7 +476,7 @@
 					<table id="advancedinputs3" class="box_class">
 					<tr>
 					<td id="roomlabel3" style="display: none;">
-							Room Pref 3:
+							<label for="room_list3" >Room Pref 3: </label>
 						</td>
 					  <td><span id='room_list3' style="display: none;">
 						  <select name='roomCode2' onchange='refill_codes();'>
@@ -491,14 +491,14 @@
 					<tr id="ad_pref3" style="display: none;">
 					  <td>
 					<span id="adv_block">  
-					    Wheelchair <br/>
+					    <label for="wheelchair3" >Wheelchair </label><br/>
 						<input name="wheelchair3" type="radio" id="wheelchair_yes3" onChange="change_room_code()" value="1"/>
 						Yes
 						<input name="wheelchair3" type="radio" id="wheelchair_no3" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
-						Projector <br/>
+						<label for="projector3" >Projector </label><br/>
 						<input name="projector3" type="radio" id="projector_yes3" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="projector3" type="radio" id="projector_no3" onChange="change_room_code()" value="0"/>
@@ -507,14 +507,14 @@
 					</td>
 					<td>					
 					<span id="adv_block">
-						Visualiser <br/>
+						<label for="visualiser3" >Visualiser </label><br/>
 						<input name="visualiser3" type="radio" id="visualiser_yes3" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="visualiser3" type="radio" id="visualiser_no3" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
-						Whiteboard <br/>
+						<label for="whiteboard3" >Whiteboard </label><br/>
 						<input name="whiteboard3" type="radio" id="whiteboard_yes3" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="whiteboard3" type="radio" id="whiteboard_no3" onChange="change_room_code()" value="0"/>
@@ -529,7 +529,7 @@
 					<table id="advancedinputs4" class="box_class">
 					<tr>
 						<td id="roomlabel4" style="display: none;">
-							Room Pref 4:
+							<label for="room_list4" >Room Pref 4: </label>
 						</td>
 					  <td><span  id='room_list4' style="display: none;">
 						  <select name='roomCode3' onchange='refill_codes();'>
@@ -543,14 +543,14 @@
 					<tr id="ad_pref4" style="display: none;">
 					  <td>
 					<span id="adv_block">  
-					    Wheelchair <br/>
+					    <label for="wheelchair4" >Wheelchair </label><br/>
 						<input name="wheelchair4" type="radio" id="wheelchair_yes4" onChange="change_room_code()" value="1"/>
 						Yes
 						<input name="wheelchair4" type="radio" id="wheelchair_no4" onChange="change_room_code()" value="0" checked="checked"/>
 						No
 					</span>
 					<span id="adv_block">
-						Projector <br/>
+						<label for="projector4" >Projector </label><br/>
 						<input name="projector4" type="radio" id="projector_yes4" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="projector4" type="radio" id="projector_no4" onChange="change_room_code()" value="0"/>
@@ -559,14 +559,14 @@
 					</td>
 					<td>
 					<span id="adv_block">
-						Visualiser <br/>
+						<label for="visualiser4" >Visualiser </label><br/>
 						<input name="visualiser4" type="radio" id="visualiser_yes4" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="visualiser4" type="radio" id="visualiser_no4" onChange="change_room_code()" value="0"/>
 						No
 					</span>
 					<span id="adv_block">
-						Whiteboard <br/>
+						<label for="whiteboard4" >Whiteboard </label><br/>
 						<input name="whiteboard4" type="radio" id="whiteboard_yes4" onChange="change_room_code()" value="1" checked="checked"/>
 						Yes
 						<input name="whiteboard4" type="radio" id="whiteboard_no4" onChange="change_room_code()" value="0"/>
