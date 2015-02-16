@@ -856,7 +856,7 @@
 					
 					<tr>
 						<td>
-							<input id="checkButton" type="button" value="SEND REQUEST" onclick="insertAjax()" />
+							<input id="checkButton" type="button" value="Send Request!" onclick="insertAjax()" />
 						</td>
 					</tr>
 					
