@@ -72,8 +72,7 @@
 				$("#RoomSubmit").html("Room: "+document.getElementById("RoomSelect").value);
 				$("#WeekSubmit").html("Week: "+document.getElementById("Weeks").value);
 				buildingInitialise();
-				$("#modDialog").dialog();
-				$("#modDialog").dialog("close");
+				
 			});
 			
 			<?php
@@ -114,47 +113,7 @@
 				echo "var moduleData = ". $moduleJson . ";\n";
 				
 			?>
-			function showModDialog(){
-				$("#modDialog").dialog("open");
-			}
-			function addMod(){
-				var code = document.getElementById("modCode").value;
-				var title = document.getElementById("modTitle").value;
-				for(var i=0;i<moduleData.length;i++){
-					if(code == moduleData[i].module_code){
-						alert("This module already exist");
-						$("#modDialog").dialog("close");
-						$("#module_code_select").val(moduleData[i].module_code);
-						$("#module_title_select").val(moduleData[i].module_title);
-						return "Module existed";
-					}
-				}
-				
-				if (confirm('Are you sure you want to add the following module: Module code - ' + code + ' Module title - ' + title)){
-					$("#module_code_select").append("<option>" + code + "</option>");
-					$("#module_title_select").append("<option>" + title + "</option>");
-					$.ajax( {
-						url : "insertMod.php",
-						type : "POST", 
-						data : $("#modForm").serialize(),
-						success : function (data){
-								data = JSON.parse(data);
-								console.log("data "+data); //quick check
-								alert(data);
-							},
-						error : function(jqXHR, textStatus, errorThrown) {
-						}
-					});
-					
-					$("#modDialog").dialog("close");
-					$("#module_code_select").val(code);
-					$("#module_title_select").val(title);
-				}else{
-				return false;
-				}
-				
-				
-			}
+			
 			//ajax to remove the book buttons within the table 
 			//Callan Swanson, Inthuch Therdchanakul
 			function ajaxFunction() {
@@ -197,11 +156,11 @@
 			//Callan Swanson, Inthuch Therdchanakul
 				function refreshBooks() {
 					for(var i=1; i<10; i++) {
-					$("#Monday"+i).html("<input type='button' value='Book' id='Monday"+i+"b' onclick='bookClick(this.id)'>");
-					$("#Tuesday"+i).html("<input type='button' value='Book' id='Tuesday"+i+"b' onclick='bookClick(this.id)'>");
-					$("#Wednesday"+i).html("<input type='button' value='Book' id='Wednesday"+i+"b' onclick='bookClick(this.id)'>");
-					$("#Thursday"+i).html("<input type='button' value='Book' id='Thursday"+i+"b' onclick='bookClick(this.id)'>");
-					$("#Friday"+i).html("<input type='button' value='Book' id='Friday"+i+"b' onclick='bookClick(this.id)'>");
+					$("#Monday"+i).html("<input type='button' value='Select' id='Monday"+i+"b' onclick='bookClick(this.id)'>");
+					$("#Tuesday"+i).html("<input type='button' value='Select' id='Tuesday"+i+"b' onclick='bookClick(this.id)'>");
+					$("#Wednesday"+i).html("<input type='button' value='Select' id='Wednesday"+i+"b' onclick='bookClick(this.id)'>");
+					$("#Thursday"+i).html("<input type='button' value='Select' id='Thursday"+i+"b' onclick='bookClick(this.id)'>");
+					$("#Friday"+i).html("<input type='button' value='Select' id='Friday"+i+"b' onclick='bookClick(this.id)'>");
 					}
 				}
 			
@@ -445,6 +404,22 @@
 					$("#BuildingCodeSelect").append("<option>"+buildingData[i].building_code+"</option>");
 					$("#BuildingNameSelect").append("<option>"+buildingData[i].building_name+"</option>");
 				}
+			}
+			function insertAjax(){
+				
+				$.ajax( {
+					url : "insertInfo.php",
+					type : "POST", 
+					data : $("#requestForm").serialize(),
+					success : function (data){					
+							data = JSON.parse(data);
+							alert("Request submitted.");
+							console.log("data "+data); //quick check
+							
+						},
+					error : function(jqXHR, textStatus, errorThrown) {
+					}
+				});
 			}
 			function partChange() {
 		//looks through all of the moduleData
@@ -719,7 +694,7 @@
 		
 		<div id="input_wrap2">
 		<div id="inputs"  style="display:none;">
-			<form id="requestForm" action="requestSubmit.php" method="post" onsubmit="return formValidation()">
+			<form id="requestForm" >
 			<div id="after1">
 				<table class="inputs">
 					<tr>
@@ -732,7 +707,7 @@
 							Priority: 
 						</td>
 						<td>
-							<input name="priority" type="hidden" id="priority" value="" />
+							<input name="priorityInput" type="hidden" id="priority" value="" />
 						</td>
 					</tr>
 					<tr>
@@ -774,21 +749,19 @@
 							<?php
 								//displays the module titles, titles will change when module codes change
 								//Callan Swanson, Inthuch Therdchanakul
-								echo "Module title: </td><td><select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
 								$sql = "SELECT module_title FROM MODULES WHERE dept_code='$username' ORDER BY module_code;";
 								$res =& $db->query($sql); //getting the result from the database
 								if(PEAR::isError($res)){
 									die($res->getMessage());
 								}
-								
-								
+								echo "Module title: </td><td><select id='module_title_select' name='module_title_select' onchange='module_title_change()' >";
 								while($row = $res->fetchRow()){
 									echo "<option>".$row["module_title"]."</option>";
 									
 								}
 								echo "</select>";
 							?>
-							<input type="button" id="enterMod" value="Enter module data manually" onclick="showModDialog()">
+							
 						</td>
 					</tr>
 					
@@ -883,7 +856,7 @@
 					
 					<tr>
 						<td>
-							<input id="checkButton" type="submit" value="RoomAvail.php" />
+							<input id="checkButton" type="button" value="SEND REQUEST" onclick="insertAjax()" />
 						</td>
 					</tr>
 					
@@ -895,13 +868,7 @@
 		</div>
 		</div>
 		</div>
-		<div id="modDialog" title="Enter module data" style="display:none;">
-			<form id="modForm" name="modForm">
-			Module code: <input type="text" id="modCode" name="modCode">
-			Module title: <input type="text" id="modTitle" name="modTitle">
-			<input type="button" onclick="addMod()" value="Submit">
-			</form>
-		</div>
+	
 		
 	</body>
 
