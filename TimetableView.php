@@ -875,6 +875,23 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 							
 						}
 					}
+					function changePWordAjax() {
+						if(document.getElementById("") != document.getElementById("")) {
+							return(alert("New passwords do not match"));
+						}
+						
+						$.ajax({
+							url : "updatePWord.php",
+							type : "POST", 
+							data : $("#changePWordForm").serialize(),
+							success : function (data){					
+									data = JSON.parse(data);
+									alert("Your password has been changed");
+								},
+							error : function(jqXHR, textStatus, errorThrown) {
+							}
+						});
+					}
 					
 					function ParkChange() {
 						var parkChosen = "Any";
@@ -916,6 +933,7 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 <div id="top_style">
 <div align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">
 <a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div><a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+<input class='class_change_passoword' id='id_change_password' type="button" value="change password" onclick='$("#changePWordForm").dialog();'>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 	<div id = "header_style" >
@@ -1311,6 +1329,14 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 			<td id="p10"></td>			
 		</tr>
 		</div>
+		<div id="changePWord" style="display:none">
+			<form name="changePWordForm" id="changePWordForm">
+				Current Password: <input type="text" id="oldPWord" name="oldPWord">
+				New Password: <input type="text" id="newPWord1" name="newPWord1">
+				Confirm New Password: <input type="text" id="newPWord2" name="newPWord2">
+				<input type="button" value="Change" onClick="changePWordAjax()">
+			</form>
+</div>
 </body>
 
 </html>
