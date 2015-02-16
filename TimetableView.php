@@ -164,6 +164,37 @@
 				 
 			});
 			
+			function updateBookedAjax() {
+				//validation
+				if(document.getElementById("capacity1").value > 1000 || document.getElementById("capacity1").value < 1) {
+					return(alert("Please enter a suitable capacity"));
+				}
+				
+				
+				var checked = false;
+				$('#editForm  input[type="checkbox"]').each(function() {
+					if ($(this).is(":checked")) {
+						checked = true;
+					}
+				});
+			
+				$.ajax({
+				url : "updateBookingInfo.php",
+				type : "POST", 
+				data : $("#editForm").serialize(),
+				success : function (data){					
+						data = JSON.parse(data);
+						alert("Request submitted with request id " + data[data.length-1].request_id);
+						closeDialog();
+						window.location.href = "http://co-project.lboro.ac.uk/team10/Deliverable2/ViewRequests.php";
+						//redirects to the full view once one has been deleted
+					},
+				error : function(jqXHR, textStatus, errorThrown) {
+				}
+				});
+				
+			}
+			
 			function moduleList() {
 				for(var x=0;x<moduleData.length;x++){
 					$('#moduleCodeList').append("<option>"+moduleData[x].module_code+"</option>");
@@ -532,9 +563,16 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 			
 	function showDialog(el){
 	
-			if(document.getElementById('statusList').selectedIndex==2) {
+			if(document.getElementById('statusList').selectedIndex==1){ 
 				$("#dialog-form1").dialog("open");
-				
+				$('#updateButton').html('<input type="button" value="Submit" onClick="updateBookedAjax()" />');
+				$('#deleteButton').html('<input type="button" value="Delete" onClick="deleteAjax()" />');
+			}	
+			if(document.getElementById('statusList').selectedIndex==2){ 
+				$("#dialog-form1").dialog("open");
+				$('#updateButton').html('<input type="button" value="Submit" onClick="updateAjax()" />');
+				$('#deleteButton').html('<input type="button" value="Delete" onClick="deleteAjax()" />');
+			}	
 				var request_id=parseInt(el.id);
 				var module_code=el.children[2].innerHTML;
 				$("#requestId").val(request_id);	
@@ -551,7 +589,7 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 				checkCapacity(el);
 				checkFacility(el);
 				checkRoomCode(el);
-		}			
+					
 	}
 			
 	function inputModule(){
@@ -940,14 +978,14 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 					<label for="module_code_select"> Module Code: </label>
                     </td>
                     	<td>				
-                        	<label id='label_module_title' for="module_title_select" onchange='module_title_change()'> Module Title: </label>
+                        	<label id='label_module_title' for="module_title_select"> Module Title: </label>
                         </td>
                         </tr>
                     <tr>
 						<td>
 					<select id="module_code_select" name="module_code_select" onchange='module_code_change()'> </select>
 					 </td> <td>
-					<select id="module_title_select" name="module_title_select"> </select>
+					<select id="module_title_select" name="module_title_select"  onchange='module_title_change()'> </select>
 					</td>
 					</tr>
                     </table>
@@ -1016,40 +1054,42 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 						<td style='text-align:center' >
 					Week: </td> </tr> <tr> <td> 
 					<span class="week_label"> 1 </span>
-					<input type="checkbox" name="weeks[]" id="week1" value="1"/></input>
-					<span class="week_label"> 2 </span>
-					<input type="checkbox" name="weeks[]" id="week2" value="2"  /></input>
-					<span class="week_label"> 3 </span>
-					<input type="checkbox" name="weeks[]" id="week3" value="3"  /></input>
-					<span class="week_label"> 4 </span>
-					<input type="checkbox" name="weeks[]" id="week4" value="4"  /></input>
-					<span class="week_label"> 5 </span>
-					<input type="checkbox" name="weeks[]" id="week5" value="5" /></input>
-					<span class="week_label"> 6 </span>
-					<input type="checkbox" name="weeks[]" id="week6" value="6" /></input>
-					<span class="week_label"> 7 </span>
-					<input type="checkbox" name="weeks[]" id="week7" value="7" /></input>
-					<span class="week_label"> 8 </span>
-					<input type="checkbox" name="weeks[]" id="week8" value="8" /></input>
-					<span class="week_label"> 9 </span>
-					<input type="checkbox" name="weeks[]" id="week9" value="9" /></input>
-					<span class="week_label"> 10 </span>
-					<input type="checkbox" name="weeks[]" id="week10" value="10" /></input>
-					<span class="week_label"> 11 </span>
-					<input type="checkbox" name="weeks[]" id="week11" value="11" /></input>
-					<span class="week_label"> 12 </span>
-					<input type="checkbox" name="weeks[]" id="week12" value="12" /></input>
-					<span class="week_label"> 13 </span>
-					<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
-					<span class="week_label"> 14 </span>
-
-					<input type="checkbox" name="weeks[]" id="week14" value="14" /></input> <br/>
-
-					<span class="week_label"> 15 </span>
-					<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
-					<span class="week_label"> 16 </span>
-					<input type="checkbox" name="weeks[]" id="week16" value="16" /></input>
+<input type="checkbox" name="weeks[]" id="week1" value="1"/></input>
+<span class="week_label"> 2 </span>
+<input type="checkbox" name="weeks[]" id="week2" value="2" /></input>
+<span class="week_label"> 3 </span>
+<input type="checkbox" name="weeks[]" id="week3" value="3" /></input>
+<span class="week_label"> 4 </span>
+<input type="checkbox" name="weeks[]" id="week4" value="4" /></input>
+<span class="week_label"> 5 </span>
+<input type="checkbox" name="weeks[]" id="week5" value="5" /></input>
+<span class="week_label"> 6 </span>
+<input type="checkbox" name="weeks[]" id="week6" value="6" /></input>
+<span class="week_label"> 7 </span>
+<input type="checkbox" name="weeks[]" id="week7" value="7" /></input>
+<span class="week_label"> 8 </span>
+<input type="checkbox" name="weeks[]" id="week8" value="8" /></input>
+<br/>
+<br/>
+<span class="week_label"> 9 </span>
+<input type="checkbox" name="weeks[]" id="week9" value="9" /></input>
+<span class="week_label"> 10 </span>
+<input type="checkbox" name="weeks[]" id="week10" value="10" /></input>
+<span class="week_label"> 11 </span>
+<input type="checkbox" name="weeks[]" id="week11" value="11" /></input>
+<span class="week_label"> 12 </span>
+<input type="checkbox" name="weeks[]" id="week12" value="12" /></input>
+<span class="week_label"> 13 </span>
+<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
+<span class="week_label"> 14 </span>
+<input type="checkbox" name="weeks[]" id="week14" value="14" /></input>
+<span class="week_label"> 15 </span>
+<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
+<span class="week_label"> 16 </span>
+<input type="checkbox" name="weeks[]" id="week16" value="16" /></input>
 					</td> </tr>
+					
+					
                     </table>
                     
                      
@@ -1128,8 +1168,12 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 					<textarea style='width:413px;' name="specialReq" id="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea> </td> </tr> <tr> <td>&nbsp;  </td> </tr> </table>
                     
                     
-					<input id='bottom_button' type="button" value="Submit" onClick="updateAjax()" />
-					<input id='bottom_button' type="button" value="Delete" onClick="confirmDelete()" />
+					<div id="updateButton" >
+						
+                    </div>
+					<div id="deleteButton" >
+						
+                    </div>
                     
 						
 

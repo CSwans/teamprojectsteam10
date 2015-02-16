@@ -258,7 +258,7 @@ $(function() {
 						currentRow.cells[13].textContent = data[0].week;
 						
 						closeDialog();
-						window.location.href = "http://co-project.lboro.ac.uk/team10/WebsiteN/ViewRequests.php";
+						window.location.href = "http://co-project.lboro.ac.uk/team10/Deliverable2/ViewRequests.php";
 						//redirects to the full view once one has been deleted
 					},
 				error : function(jqXHR, textStatus, errorThrown) {
@@ -956,8 +956,8 @@ $(function() {
 					
 					</select>
 					
-					<label for="module_title_select" onchange='module_title_change()'> Module Title: </label>
-					<select id="module_title_select" name="module_title_select">
+					<label for="module_title_select" > Module Title: </label>
+					<select id="module_title_select" name="module_title_select" onchange='module_title_change()'>
 					
 					</select>
 					
@@ -975,39 +975,39 @@ $(function() {
 					
 					Week: 
 					<span class="week_label"> 1 </span>
-					<input type="checkbox" name="weeks[]" id="week1" value="1"/></input>
-					<span class="week_label"> 2 </span>
-					<input type="checkbox" name="weeks[]" id="week2" value="2"  /></input>
-					<span class="week_label"> 3 </span>
-					<input type="checkbox" name="weeks[]" id="week3" value="3"  /></input>
-					<span class="week_label"> 4 </span>
-					<input type="checkbox" name="weeks[]" id="week4" value="4"  /></input>
-					<span class="week_label"> 5 </span>
-					<input type="checkbox" name="weeks[]" id="week5" value="5" /></input>
-					<span class="week_label"> 6 </span>
-					<input type="checkbox" name="weeks[]" id="week6" value="6" /></input>
-					<span class="week_label"> 7 </span>
-					<input type="checkbox" name="weeks[]" id="week7" value="7" /></input>
-					<span class="week_label"> 8 </span>
-					<input type="checkbox" name="weeks[]" id="week8" value="8" /></input>
-					<br/>
-					<br/>
-					<span class="week_label"> 9 </span>
-					<input type="checkbox" name="weeks[]" id="week9" value="9" /></input>
-					<span class="week_label"> 10 </span>
-					<input type="checkbox" name="weeks[]" id="week10" value="10" /></input>
-					<span class="week_label"> 11 </span>
-					<input type="checkbox" name="weeks[]" id="week11" value="11" /></input>
-					<span class="week_label"> 12 </span>
-					<input type="checkbox" name="weeks[]" id="week12" value="12" /></input>
-					<span class="week_label"> 13 </span>
-					<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
-					<span class="week_label"> 14 </span>
-					<input type="checkbox" name="weeks[]" id="week14" value="14" /></input>
-					<span class="week_label"> 15 </span>
-					<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
-					<span class="week_label"> 16 </span>
-					<input type="checkbox" name="weeks[]" id="week16" value="16" /></input>
+<input type="checkbox" name="weeks[]" id="week1" value="1"/></input>
+<span class="week_label"> 2 </span>
+<input type="checkbox" name="weeks[]" id="week2" value="2" /></input>
+<span class="week_label"> 3 </span>
+<input type="checkbox" name="weeks[]" id="week3" value="3" /></input>
+<span class="week_label"> 4 </span>
+<input type="checkbox" name="weeks[]" id="week4" value="4" /></input>
+<span class="week_label"> 5 </span>
+<input type="checkbox" name="weeks[]" id="week5" value="5" /></input>
+<span class="week_label"> 6 </span>
+<input type="checkbox" name="weeks[]" id="week6" value="6" /></input>
+<span class="week_label"> 7 </span>
+<input type="checkbox" name="weeks[]" id="week7" value="7" /></input>
+<span class="week_label"> 8 </span>
+<input type="checkbox" name="weeks[]" id="week8" value="8" /></input>
+<br/>
+<br/>
+<span class="week_label"> 9 </span>
+<input type="checkbox" name="weeks[]" id="week9" value="9" /></input>
+<span class="week_label"> 10 </span>
+<input type="checkbox" name="weeks[]" id="week10" value="10" /></input>
+<span class="week_label"> 11 </span>
+<input type="checkbox" name="weeks[]" id="week11" value="11" /></input>
+<span class="week_label"> 12 </span>
+<input type="checkbox" name="weeks[]" id="week12" value="12" /></input>
+<span class="week_label"> 13 </span>
+<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
+<span class="week_label"> 14 </span>
+<input type="checkbox" name="weeks[]" id="week14" value="14" /></input>
+<span class="week_label"> 15 </span>
+<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
+<span class="week_label"> 16 </span>
+<input type="checkbox" name="weeks[]" id="week16" value="16" /></input>
 					
 					Period:
 					<?php
