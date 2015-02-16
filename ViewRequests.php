@@ -901,7 +901,7 @@ $(function() {
 <div id="top_style">
 <div  align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">  
 <a onClick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
-<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="left"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 <input class='class_change_passoword' id='id_change_password' type="button" value="change password" onclick='$("#changePWordForm").dialog("open");'>
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>

@@ -759,7 +759,7 @@ document.getElementById('room_list' + activeLists[x]).children[0].options[y].sel
 <div id="top_style">
 <div  align="middle" style="top:0; width: 50px; float: left; margin-left: 165px;">  
 <a onclick="goBack();"> <img width="30" height="20" border="0" alt="Back" src="Back_Arrow.png" align="middle" style=" cursor: pointer;"> </a> </div>
-<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="middle"> </a> 
+<a href="timetable.php"> <img width="40" height="40" border="0" alt="Home!" src="Home_Button.png" align="left"> </a> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 <b> <a href="login.html" style="margin-right: 140px; font-weight: 900; font-size: 1em;" onclick='return logout_question();'>Logout</a></b>  </div>
 <div id = "header_style" >
