@@ -148,6 +148,7 @@
 				$("#dialog-form1").dialog({
 					modal:true,
 					height: 500,
+
 					width: 700,
 					position: { my:"center",
 								at: "top",
@@ -387,6 +388,7 @@ if(room != null && requestData[x].room_code==room){
 document.getElementById(day).children['p'+(period+n)].innerHTML=document.getElementById(day).children['p'+(period+n)].innerHTML+'<p id="'+ requestData[x].request_id +'" onclick="showDialog(this);"> Request ID: <span id="tableP">&nbsp;'+requestData[x].request_id+'</span><br/> Module code: <span id="tableP">'+requestData[x].module_code+'</span><br/> Room code: <span id="tableP">'+requestData[x].room_code+'</span></p>';
 }
 }
+
 }
 else {
 if(part != null && requestData[x].module_code.charAt(4)==part) {
@@ -525,6 +527,7 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
     return false;
   }
 }
+
 	
 			
 	function showDialog(el){
@@ -918,7 +921,8 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 			<form id="editForm" name="editForm">
 				<fieldset>
 					<input type="hidden" value="" id="requestId" name="requestId"/>
-					<table id='priority_id'  class="inputs box_class">
+
+					<table style='margin-left: 227px;' id='priority_id'  class="inputs box_class">
 					<tr>
 						<td>
 							Priority: 
@@ -949,7 +953,9 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
                     </table>
                     
                     
-                    <table style='margin-bottom: 10px;' class="inputs box_class floating">
+
+                    <table style='margin-bottom: 10px; margin-left:65px; ' class="inputs box_class floating">
+
 					<tr>
 						<td style='text-align:center;'>
 					Day: </td>
@@ -971,7 +977,9 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
                     </table>
                     
                      
-                    <table style=' margin-left:270px; height: 115px; margin-bottom: 10px;' class="inputs box_class ">
+
+                    <table style=' margin-left:320px; height: 115px; margin-bottom: 10px;' class="inputs box_class ">
+
 					<tr>
 						<td>
                     Period:  </td> <td>
@@ -1034,7 +1042,9 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 					<span class="week_label"> 13 </span>
 					<input type="checkbox" name="weeks[]" id="week13" value="13" /></input>
 					<span class="week_label"> 14 </span>
-					<input type="checkbox" name="weeks[]" id="week14" value="14" /></input>
+
+					<input type="checkbox" name="weeks[]" id="week14" value="14" /></input> <br/>
+
 					<span class="week_label"> 15 </span>
 					<input type="checkbox" name="weeks[]" id="week15" value="15" /></input>
 					<span class="week_label"> 16 </span>
@@ -1068,51 +1078,70 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 					</select>
                     
                     </td> </tr>
+
+
+                    <tr> <td>&nbsp;  </td> </tr>
+                    <tr> <td>&nbsp;  </td> <td colspan="2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Capacity: &nbsp;&nbsp;
+					<input style='width:52px;' name="capacity" type="text" id="capacity1" onChange="change_room_code()" value=""/>   </td></tr></table>                    
+					
                     
-                    <tr> <td> 	Capacity: </td><td>
-					<input name="capacity" type="text" id="capacity1" onChange="change_room_code()" value="1"/>   </td></tr></table>                    
-					
-					Special Requirements:
-					<textarea name="specialReq" id="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea>
-					
-				
-					
-					
-					
-					Wheelchair:
+                    <table style="width: 636px; margin-bottom: 10px;" class="inputs box_class">
+                    <tr> <td> Wheelchair: </td>  <td> Visualiser:</td> <td> Projector:</td> <td> Whiteboard: </td> </tr> 
+                    	<tr>
+					<td>
+
 					<input name="wheelchair" type="radio" id="wheelchair_yes" onChange="change_room_code()" value="1"/>
 					Yes
 					<input name="wheelchair" type="radio" id="wheelchair_no" onChange="change_room_code()" value="0" checked="checked"/>
 					No
-							
-					Visualiser:
+
+						</td> <td>	
+					
+
 					<input name="visualiser" type="radio" id="visualiser_yes" onChange="change_room_code()" value="1" checked="checked"/>
 					Yes
 					<input name="visualiser" type="radio" id="visualiser_no" onChange="change_room_code()" value="0"/>
 					No
-						
-					Projector:
+
+						</td> <td>
+					
+
 					<input name="projector" type="radio" id="projector_yes" onChange="change_room_code()" value="1" checked="checked"/>
 					Yes
 					<input name="projector" type="radio" id="projector_no" onChange="change_room_code()" value="0"/>
 					No
-							
-					Whiteboard:
+
+						</td> <td>	
+					
+
 					<input name="whiteboard" type="radio" id="whiteboard_yes" onChange="change_room_code()" value="1" checked="checked"/>
 					Yes
 					<input name="whiteboard" type="radio" id="whiteboard_no" onChange="change_room_code()" value="0"/>
 					No
-					
-					<input type="button" value="Submit" onClick="updateAjax()" />
-					<input type="button" value="Delete" onClick="confirmDelete()" />
-	
+
+					</td></tr></table>
+                    
+                    
+                     <table style="width: 636px; margin-bottom: 10px;" class="inputs box_class">
+                     <tr> <td>
+					Special Requirements: &nbsp;&nbsp;</td><td>
+					<textarea style='width:413px;' name="specialReq" id="specialReq" maxlength="1000" placeholder="1000 chars max..."></textarea> </td> </tr> <tr> <td>&nbsp;  </td> </tr> </table>
+                    
+                    
+					<input id='bottom_button' type="button" value="Submit" onClick="updateAjax()" />
+					<input id='bottom_button' type="button" value="Delete" onClick="confirmDelete()" />
+                    
+						
+
 				</fieldset>
 			</form>
 		</div>
 	
 	
 		<hr/>
-	<table frame="box" style="width:100%;" align "center" id="testTable">
+
+	<table class="box_class">
+
 	
 	<h3>View: </h3><select id="statusList" onChange="statusChange()">
                 	<option>Rejected</option>
@@ -1146,8 +1175,11 @@ document.getElementById(day).children['p'+period].innerHTML=document.getElementB
 	<div id="roomDiv" style="display:none" class="sort">
 	<h4>Room: </h4><select id="roomList" onchange="statusChange();">
 	</select>
-	</div>			
-				
+
+	</div>
+    </table>			
+	<table frame="box" style="width:100%;" align "center" id="testTable">			
+
 	<br/>
 	Click on pending requests to make changes or delete your request.
 	<div id="hours">

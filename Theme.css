@@ -611,13 +611,24 @@ padding: 0;
 margin-top: 5px;
 }
 
+
+#priority_id{
+margin-bottom: 10px;
+}
+
 #module_code_select {
-width:80%;
+width:130px;
 }
 
 #module_title_select {
-   width: 570px;
+   width: 450px;
+   margin-left: 22px;
 }
+
+#label_module_title{
+   margin-left: 22px;
+}
+
 
 #tuesday {
 margin-left:38px;
@@ -931,16 +942,40 @@ color:#fff;
 #dialog-form1, .ui-dialog-content {
 	position: absolute;
 	overflow: scroll;
-	height: 50px;
+	min-width: 752px;
 }
 
-.ui-dialog-titlebar  > button {
+.ui-dialog-titlebar  > button  {
 	margin-left:490px;
 	padding:5px;
 	margin-top:5px;
 	margin-bottom:5px;
 	
 }
+
+
+
+#bottom_button {
+  	margin-left:490px;
+	padding:5px;
+	  background-color: #cc0066;
+    border: 2px solid #a20054;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+	margin: 5px 10px 5px 173px;
+    padding: 10px 15px 10px 10px;
+    text-shadow: 0 1px 2px #99165c;
+}
+
+
+
+.ui-dialog-titlebar {
+min-width: 752px;
+}
+
+
 
 .ui-dialog{
 	border-top-left-radius: 40px;
@@ -1224,4 +1259,24 @@ background: none repeat scroll 0 0 transparent;
 border: medium none;
 color: #fff;
 margin-left: 50%;
+}
+
+#editForm fieldset {
+	background-color:#f9f9f6;
+}
+
+#updateButton {
+    float: left;
+    width: 270px;
+}
+
+.modButton{
+	 background-color: #cc0066;
+    border: 2px solid #a20054;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px 10px 10px;
+    text-shadow: 0 1px 2px #99165c;
+	margin-top:18px;
 }
